@@ -40,6 +40,7 @@ public:
     void setLogin(QString login);
     void setPassword(QString password);
     void tweet(const QString& message);
+    void tweetGeo(const QString& message, double longitude, double latitude);
 signals:
     void finished(QString url);
     void failed(QString errorString);

@@ -12,3 +12,9 @@ Usage:
     twitter->setPassword(password);
 
     twitter->tweet("I feel really good today!");
+
+Geotagging support:
+
+    twitter->tweetGeo("Guess where I am right now?",
+        45.93481948,    // longitude
+        -79.28399284);  // latitude

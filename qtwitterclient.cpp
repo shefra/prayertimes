@@ -53,13 +53,27 @@ void QTwitterClient::tweet(const QString &message) {
     m_nam->post(request, data);
 }
 
+void QTwitterClient::tweetGeo(const QString& message, double longitude, double latitude) {
+    QNetworkRequest request;
+    request.setUrl(QUrl("http://twitter.com/statuses/update.json"));
+    QString credentials = login() + ":" + password();
+    credentials = "Basic " + credentials.toAscii().toBase64();
+    request.setRawHeader("Authorization", credentials.toAscii());
+    QByteArray data = "status=" + QUrl::toPercentEncoding(message) +
+                      "&lat=" + QUrl::toPercentEncoding(QString::number(latitude, 'f', 8)) +
+                      "&long=" + QUrl::toPercentEncoding(QString::number(longitude, 'f', 8));
+    m_nam->post(request, data);
+}
+
+
 void QTwitterClient::replyFinished(QNetworkReply *reply) {
     qDebug() << "Error code:" << reply->error();
+    finished("Network result code: " + QString::number(reply->error()));
     reply->deleteLater();
 }
 
 void QTwitterClient::replyError(QNetworkReply::NetworkError code) {
-    QString errorString = ((QNetworkReply *)sender())->errorString();
+    QString errorString(((QNetworkReply *)sender())->errorString());
     qDebug() << "Premature Error:" << code << errorString;
     failed(errorString);
 }
