@@ -1,0 +1,14 @@
+Twitter Client Library for Qt C++
+(C) 2010 Soluvas <http://www.Soluvas.com>
+Project Home: http://github.com/ceefour/qtwitterclient
+Licensed under LGPL version 2.1
+
+Client library for Twitter.
+
+Usage:
+
+    QTwitterClient *twitter = new QTwitterClient(this);
+    twitter->setLogin(login);
+    twitter->setPassword(password);
+
+    twitter->tweet("I feel really good today!");
