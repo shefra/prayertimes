@@ -1,6 +1,7 @@
 Twitter Client Library for Qt C++
 (C) 2010 Soluvas <http://www.Soluvas.com>
-Project Home: http://github.com/ceefour/qtwitterclient
+Project Home: http://gitorious.org/qtwitterclient
+Blog: http://qt-mobility.blogspot.com/search/label/QTwitterClient
 Licensed under LGPL version 2.1
 
 Client library for Twitter.
