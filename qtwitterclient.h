@@ -42,8 +42,9 @@ public:
     void tweet(const QString& message);
     void tweetGeo(const QString& message, double longitude, double latitude);
 signals:
-    void finished(QString url);
-    void failed(QString errorString);
+    void finishedSuccess();
+    void finishedError(QNetworkReply::NetworkError, QString errorString);
+    void failed(QNetworkReply::NetworkError, QString errorString);
 };
 
 #endif // TWITTERCLIENT_H
