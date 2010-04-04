@@ -22,9 +22,10 @@ License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 QTwitterClient::QTwitterClient(QObject *parent)
     : QObject(parent)
 {
+    qRegisterMetaType<QNetworkReply::NetworkError>("QNetworkReply::NetworkError");
     m_nam = new QNetworkAccessManager(this);
-    m_nam->connect(m_nam, SIGNAL( finished(QNetworkReply*) ),
-                   this, SLOT( replyFinished(QNetworkReply*)) );
+    connect(m_nam, SIGNAL( finished(QNetworkReply*) ),
+            SLOT( replyFinished(QNetworkReply*)) );
 }
 
 QString QTwitterClient::login() const {
@@ -50,7 +51,9 @@ void QTwitterClient::tweet(const QString &message) {
     credentials = "Basic " + credentials.toAscii().toBase64();
     request.setRawHeader("Authorization", credentials.toAscii());
     QByteArray data = "status=" + QUrl::toPercentEncoding(message);
-    m_nam->post(request, data);
+    QNetworkReply *reply = m_nam->post(request, data);
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
+        SLOT(replyError(QNetworkReply::NetworkError)));
 }
 
 void QTwitterClient::tweetGeo(const QString& message, double longitude, double latitude) {
@@ -62,18 +65,25 @@ void QTwitterClient::tweetGeo(const QString& message, double longitude, double l
     QByteArray data = "status=" + QUrl::toPercentEncoding(message) +
                       "&lat=" + QUrl::toPercentEncoding(QString::number(latitude, 'f', 8)) +
                       "&long=" + QUrl::toPercentEncoding(QString::number(longitude, 'f', 8));
-    m_nam->post(request, data);
+    QNetworkReply *reply = m_nam->post(request, data);
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
+        SLOT(replyError(QNetworkReply::NetworkError)));
 }
 
-
 void QTwitterClient::replyFinished(QNetworkReply *reply) {
-    qDebug() << "Error code:" << reply->error();
-    finished("Network result code: " + QString::number(reply->error()));
+    if (reply->error() == QNetworkReply::NoError) {
+        qDebug() << "Finished successfully";
+        finishedSuccess();
+    } else {
+        qDebug() << "Finished with Error:" << reply->error() << reply->errorString();
+        finishedError(reply->error(), reply->errorString());
+    }
     reply->deleteLater();
 }
 
 void QTwitterClient::replyError(QNetworkReply::NetworkError code) {
-    QString errorString(((QNetworkReply *)sender())->errorString());
+    QNetworkReply *reply = static_cast<QNetworkReply *>(sender());
+    QString errorString(reply->errorString());
     qDebug() << "Premature Error:" << code << errorString;
-    failed(errorString);
+    failed(code, errorString);
 }
