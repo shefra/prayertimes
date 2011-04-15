@@ -7,7 +7,7 @@
   android:stretchColumns="1"
   >
   <TableRow>
-  	    <TextView android:layout_width="wrap_content" android:id="@+id/textView2" android:layout_height="wrap_content" android:textSize="20sp" android:padding="4px" android:text="Time remaining until next prayer:"></TextView>
+  	    <TextView android:layout_width="wrap_content" android:id="@+id/textView2" android:layout_height="wrap_content" android:textSize="20sp" android:padding="4px" android:text="The remaining time until next prayer:"></TextView>
 
 
 
