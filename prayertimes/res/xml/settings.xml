@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="General Settings">
+    	<CheckBoxPreference android:key="enabled"  android:title="Application Status" android:summary="Enable or disable the application" />
+    	 <ListPreference 
+    	 android:key="country" 
+    	 android:title="Country"
+    	 android:dialogTitle="Select Your Country" 
+    	 android:summary="Select Your Country"
+    	 />
+    	 <ListPreference 
+    	 android:key="city" 
+    	 android:title="City"
+    	 android:dialogTitle="Select Your City" 
+    	 android:summary="Select Your City"
+    	 />
+    	<ListPreference 
+    	android:key="doctrine‏" 
+    	android:title="Doctrine‏"
+    	 android:dialogTitle="Prayer Time Calculation Doctrine‏" 
+    	 android:entries="@array/doctrine" 
+    	 android:defaultValue="2"
+    	 android:summary="Define the Doctrine that will be used to calculate the Asr Player time"
+    	 android:entryValues="@array/doctrineValues"/>
+    	 <ListPreference 
+    	 android:key="language" 
+    	 android:title="Language"
+    	 android:dialogTitle="Application language" 
+    	 android:summary="Select the favorite the Application language"
+    	 />
+    </PreferenceCategory>
+</PreferenceScreen>

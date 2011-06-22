@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Hello World, PreferenceActivityActivity!</string>
+	<string name="app_name">Khoshooa</string>
+	<string-array name="doctrine">
+		<item name="1">Hanafi</item>
+		<item name="2">Hanbali...</item>
+	</string-array>
+	<string-array name="doctrineValues">
+		<item name="1">1</item>
+		<item name="2">2</item>
+	</string-array>
+
+	<string-array name="language">
+		<item name="1">English</item>
+		<item name="2">Arabic</item>
+	</string-array>
+	<string-array name="languageValues">
+		<item name="1">1</item>
+		<item name="2">2</item>
+	</string-array>
+</resources>
