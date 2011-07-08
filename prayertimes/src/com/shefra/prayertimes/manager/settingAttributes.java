@@ -2,7 +2,7 @@ package com.shefra.prayertimes.manager;
 
 public class settingAttributes {
 	public String mazhab,calender;
-	City city ;
+	public City city ;
 	Country country ;
 	public settingAttributes() {
 		city = new City();

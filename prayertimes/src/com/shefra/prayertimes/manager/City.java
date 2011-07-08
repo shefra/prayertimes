@@ -1,8 +1,8 @@
 package com.shefra.prayertimes.manager;
 
 public class City {
-	String cityName,latitude,longitude,timeZone ;
-	int cityNo ;
+	public String cityName,latitude,longitude,timeZone ;
+	public int cityNo ;
 	public City(){
 		
 	}

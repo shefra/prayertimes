@@ -1,8 +1,8 @@
 package com.shefra.prayertimes.manager;
 
 public class Country {
-	String countryName ;
-	int countryNo ;
+	public String countryName ;
+	public int countryNo ;
 	public Country(){
 		
 	}

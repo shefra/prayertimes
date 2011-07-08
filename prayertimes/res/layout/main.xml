@@ -1,13 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    >
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    android:text="Main Activity"
-    android:gravity="center"
-    />
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="@drawable/bbg">
+	<TableLayout android:layout_width="fill_parent" android:layout_marginLeft="30px" android:layout_marginRight="10px" android:layout_marginTop="40px"
+		android:layout_height="fill_parent" android:shrinkColumns="*"
+		android:stretchColumns="*">
+		<TableRow android:layout_height="wrap_content" android:layout_marginBottom="20px"
+			android:layout_width="fill_parent">
+			<TextView android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:text="Time Remaining Until Next Prayer"
+				android:gravity="center" android:id="@+id/remainingText" />
+			<TextView android:layout_width="fill_parent"
+				android:layout_height="wrap_content" android:text="" android:textColor = "#fff"
+				android:gravity="center" android:id="@+id/remainingTime" />
+		</TableRow>
+		<TableRow android:layout_height="wrap_content" android:layout_marginBottom="20px"
+			android:layout_width="fill_parent">
+			<TextView android:id="@+id/fajrText" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Fajr"
+				android:layout_marginRight="30px" android:textColor="#fff" />
+			<TextView android:id="@+id/fajrTime" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text=""
+				android:layout_toRightOf="@+id/fajrText" android:textColor="#fff" />
+		</TableRow>
+		<TableRow android:layout_height="wrap_content" android:layout_marginBottom="20px"
+			android:layout_width="fill_parent">
+
+			<TextView android:id="@+id/duhrText" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Dhuhr"
+				android:layout_marginRight="30px" android:textColor="#fff" />
+			<TextView android:id="@+id/duhrTime" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text=""
+				android:layout_toRightOf="@+id/duhrText" android:textColor="#fff" />
+		</TableRow>
+		<TableRow android:layout_height="wrap_content" android:layout_marginBottom="20px"
+			android:layout_width="fill_parent">
+
+			<TextView android:id="@+id/asrText" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Asr"
+				android:layout_marginRight="30px" android:textColor="#fff" />
+			<TextView android:id="@+id/asrTime" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text=""
+				android:layout_toRightOf="@+id/asrText" android:textColor="#fff" />
+		</TableRow>
+		<TableRow android:layout_height="wrap_content" android:layout_marginBottom="20px"
+			android:layout_width="fill_parent">
+
+			<TextView android:id="@+id/magribText" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Maghrib"
+				android:layout_marginRight="30px" android:textColor="#fff" />
+			<TextView android:id="@+id/magribTime" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text=""
+				android:layout_toRightOf="@+id/magribText" android:textColor="#fff" />
+		</TableRow>
+		<TableRow android:layout_height="wrap_content" android:layout_marginBottom="20px"
+			android:layout_width="fill_parent">
+
+			<TextView android:id="@+id/ishaText" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text="Isha"
+				android:layout_marginRight="30px" android:textColor="#fff" />
+			<TextView android:id="@+id/ishaTime" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:text=""
+				android:layout_toRightOf="@+id/ishaText" android:textColor="#fff" />
+		</TableRow>
+
+	</TableLayout>
 </LinearLayout>
