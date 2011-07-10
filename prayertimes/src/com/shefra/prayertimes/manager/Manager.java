@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 
 import com.shefra.prayertimes.moazen.PrayerTime;
@@ -41,11 +42,12 @@ public class Manager extends SQLiteOpenHelper {
 		String[] t = time.split(":");
 		return Integer.parseInt(t[1]);
 	}
-	public int diffrent(int current , int prayer){
-		if(current <= prayer)
-			return prayer - current ;
-		
-		return (prayer+(24*3600)) - current;
+
+	public int diffrent(int current, int prayer) {
+		if (current <= prayer)
+			return prayer - current;
+
+		return (prayer + (24 * 3600)) - current;
 	}
 
 	public int getSecond(String time) {
@@ -63,46 +65,83 @@ public class Manager extends SQLiteOpenHelper {
 		sec += Integer.parseInt(temp[0]);
 		return sec;
 	}
-	
+
 	public static String secondsToTime(double time) {
-		int second = (int) time ;
-		int hours = (int) (time/3600 );
-		time = time-(hours*3600) ;
-		int minutes = (int) (time/60) ;
-		time = time-minutes*60 ;
-		int seconds = (int) time ;
-		String remTime = hours%12 + ":" +  minutes + ":" + seconds;
+		int second = (int) time;
+		int hours = (int) (time / 3600);
+		time = time - (hours * 3600);
+		int minutes = (int) (time / 60);
+		time = time - minutes * 60;
+		int seconds = (int) time;
+		String remTime = hours % 12 + ":" + minutes + ":" + seconds;
 		return remTime;
 	}
+
 	public int getSec(int hh, int mm, int ss) {
 		return ((hh * 3600) + (mm * 60) + ss);
 	}
 
-	public int nearestPrayerTime(int hour, int min, int sec, int dd,
-			int mm, int yy) throws IOException {
-		int count = 0, test = 0;
-		int[] temp = new int[5];
-		ArrayList<String> prayerTimes = getPrayerTimes(dd,mm,yy);
-		while (prayerTimes.size() > count) {
-			test = this.to24(prayerTimes.get(count));
+	public int nearestPrayerTime(int hour, int min, int sec, int year,
+			int month, int day) throws IOException {
+		ArrayList<String> prayerTimes = new ArrayList<String>();
+		prayerTimes.add("3:35:59 AM"); // FAJR
+		prayerTimes.add("11:57:40 AM"); // DUHR
+		prayerTimes.add("3:19:25 PM"); // ASR
+		prayerTimes.add("6:45:51 PM"); // MAGRIB
+		prayerTimes.add("08:15:51 PM"); // ISHA
+		int[] prayerTimeInSeconds = new int[5];
 
-			test = this.getMinute(prayerTimes.get(count));
-			test = this.getSecond(prayerTimes.get(count));
-			temp[count] = this.getSec(this.to24(prayerTimes.get(count)),
-					this.getMinute(prayerTimes.get(count)),
-					this.getSecond(prayerTimes.get(count)));
+		// Convert prayer times to seconds
+		prayerTimeInSeconds[0] = this.getSec(this.to24(prayerTimes.get(0)),this.getMinute(prayerTimes.get(0)),this.getSecond(prayerTimes.get(0)));
+		prayerTimeInSeconds[1] = this.getSec(this.to24(prayerTimes.get(1)),this.getMinute(prayerTimes.get(1)),this.getSecond(prayerTimes.get(1)));
+		prayerTimeInSeconds[2] = this.getSec(this.to24(prayerTimes.get(2)),this.getMinute(prayerTimes.get(2)),this.getSecond(prayerTimes.get(2)));
+		prayerTimeInSeconds[3] = this.getSec(this.to24(prayerTimes.get(3)),this.getMinute(prayerTimes.get(3)),this.getSecond(prayerTimes.get(3)));
+		prayerTimeInSeconds[4] = this.getSec(this.to24(prayerTimes.get(4)),this.getMinute(prayerTimes.get(4)),this.getSecond(prayerTimes.get(4)));
 
-			if (count > 0 && temp[count] > this.getSec(hour, min, sec)
-					&& temp[count - 1] < this.getSec(hour, min, sec)) {
-				// count++;
-				// return this.getSec(prayerTimes.get(count));
-				return temp[count];
-			}
-			count++;
+		// sort ascending
+		Arrays.sort(prayerTimeInSeconds);
+
+		// default value is the first prayer in the day
+		int nearestMin = prayerTimeInSeconds[0];
+
+		// convert current time to seconds
+		int currentTime = hour * 3600 + min * 60 + sec;
+
+		for (Integer prayertime : prayerTimeInSeconds) {
+			int pt = prayertime;
+
+			// return first prayer after this time ( nearest prayer)
+			if (pt > currentTime)
+				return pt;
 		}
-		// return this.getSec(prayerTimes.get(0));
-		return temp[0];
+		return nearestMin;
 	}
+
+	// public int nearestPrayerTime(int hour, int min, int sec, int dd,
+	// int mm, int yy) throws IOException {
+	// int count = 0, test = 0;
+	// int[] temp = new int[5];
+	// ArrayList<String> prayerTimes = getPrayerTimes(dd,mm,yy);
+	// while (prayerTimes.size() > count) {
+	// test = this.to24(prayerTimes.get(count));
+	//
+	// test = this.getMinute(prayerTimes.get(count));
+	// test = this.getSecond(prayerTimes.get(count));
+	// temp[count] = this.getSec(this.to24(prayerTimes.get(count)),
+	// this.getMinute(prayerTimes.get(count)),
+	// this.getSecond(prayerTimes.get(count)));
+	//
+	// if (count > 0 && temp[count] > this.getSec(hour, min, sec)
+	// && temp[count - 1] < this.getSec(hour, min, sec)) {
+	// // count++;
+	// // return this.getSec(prayerTimes.get(count));
+	// return temp[count];
+	// }
+	// count++;
+	// }
+	// // return this.getSec(prayerTimes.get(0));
+	// return temp[0];
+	// }
 
 	// -----------DataBase methods-----------//
 	public String getDatabasePath() {
