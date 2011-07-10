@@ -25,12 +25,15 @@ public class SettingsActivity extends PreferenceActivity {
 
 
         ListPreference cityPreference = (ListPreference)findPreference("city");
-        fillCityPreference(cityPreference,countryPreference.getValue());
+        fillCityPreference(cityPreference,"1");
 
         settingAttributes sa = new settingAttributes();
+        String cityId = cityPreference.getValue();
         sa.city.cityNo = -1;
-        if(cityPreference != null)
-        	sa.city.cityNo = Integer.parseInt(cityPreference.getValue());
+        if(cityId != null)
+        {
+        	sa.city.cityNo = Integer.parseInt(cityId);
+        }
         if(sa.city.cityNo == -1)
         	sa.city.cityNo = 1;
         m.setSetting(sa);

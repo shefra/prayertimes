@@ -102,7 +102,7 @@ public class Manager extends SQLiteOpenHelper {
 		Arrays.sort(prayerTimeInSeconds);
 
 		// default value is the first prayer in the day
-		int nearestMin = prayerTimeInSeconds[0];
+		int nearestPrayer = prayerTimeInSeconds[0];
 
 		// convert current time to seconds
 		int currentTime = hour * 3600 + min * 60 + sec;
@@ -114,7 +114,7 @@ public class Manager extends SQLiteOpenHelper {
 			if (pt > currentTime)
 				return pt;
 		}
-		return nearestMin;
+		return nearestPrayer;
 	}
 
 	// public int nearestPrayerTime(int hour, int min, int sec, int dd,
