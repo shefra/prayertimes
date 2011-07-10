@@ -78,17 +78,11 @@ public class Manager extends SQLiteOpenHelper {
 		return ((hh * 3600) + (mm * 60) + ss);
 	}
 
-	public int nearestPrayerTime(int hour, int min, int sec, int year,
-			int month, int day) throws IOException {
+	public int nearestPrayerTime(int hour, int min, int sec, int dd,
+			int mm, int yy) throws IOException {
 		int count = 0, test = 0;
 		int[] temp = new int[5];
-		ArrayList<String> prayerTimes = new ArrayList();
-		prayerTimes.add("3:35:59 AM");
-		prayerTimes.add("11:57:40 AM");
-		prayerTimes.add("3:19:25 PM");
-		prayerTimes.add("6:45:51 PM");
-		prayerTimes.add("8:15:51 PM");
-
+		ArrayList<String> prayerTimes = getPrayerTimes(dd,mm,yy);
 		while (prayerTimes.size() > count) {
 			test = this.to24(prayerTimes.get(count));
 

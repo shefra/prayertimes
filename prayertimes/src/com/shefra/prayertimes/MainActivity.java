@@ -60,8 +60,8 @@ public class MainActivity extends Activity {
 			ishaTime.setText(prayersList.get(4));
 
 			TextView remainingTime = (TextView) findViewById(R.id.remainingTime);
-			int time = manager.nearestPrayerTime(1, 0,0, yy, mm, dd);
-			int def =  manager.diffrent((22*3600+0*60+0),time);
+			int time = manager.nearestPrayerTime(h, m,s, yy, mm, dd);
+			int def =  manager.diffrent((h*3600+m*60+s),time);
 			remainingTime.setText(Manager.secondsToTime(def));			/*
 			 * TimerTask task = new RemainingTime(remainingTime); new
 			 * Timer().schedule(task, 1,1000);
