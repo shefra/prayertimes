@@ -39,12 +39,13 @@ public class MainActivity extends Activity {
 
 		Manager manager = new Manager(getApplicationContext());
 		Calendar calendar = Calendar.getInstance();
-		int dd = calendar.get(Calendar.DAY_OF_MONTH);
-		int mm = calendar.get(Calendar.MONTH);
-		int yy = calendar.get(Calendar.YEAR);
-		int h = calendar.get(Calendar.HOUR_OF_DAY);
-		int m = calendar.get(Calendar.MINUTE);
-		int s = calendar.get(Calendar.SECOND);
+		Date date = new Date();
+		int dd = date.getDate();//calendar.get(Calendar.DAY_OF_MONTH);
+		int mm = date.getMonth()+1;//7;//calendar.get(Calendar.MONTH+1);
+		int yy = date.getYear()+1900;//calendar.get(Calendar.YEAR);
+		int h = date.getHours();//calendar.get(Calendar.HOUR_OF_DAY);
+		int m = date.getMinutes();//calendar.get(Calendar.MINUTE);
+		int s = date.getSeconds();//calendar.get(Calendar.SECOND);
 
 		try {
 			List<String> prayersList = manager.getPrayerTimes(dd, mm, yy);

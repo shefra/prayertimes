@@ -83,12 +83,7 @@ public class Manager extends SQLiteOpenHelper {
 
 	public int nearestPrayerTime(int hour, int min, int sec, int year,
 			int month, int day) throws IOException {
-		ArrayList<String> prayerTimes = new ArrayList<String>();
-		prayerTimes.add("3:35:59 AM"); // FAJR
-		prayerTimes.add("11:57:40 AM"); // DUHR
-		prayerTimes.add("3:19:25 PM"); // ASR
-		prayerTimes.add("6:45:51 PM"); // MAGRIB
-		prayerTimes.add("08:15:51 PM"); // ISHA
+		ArrayList<String> prayerTimes = getPrayerTimes(day,month,year);
 		int[] prayerTimeInSeconds = new int[5];
 
 		// Convert prayer times to seconds
