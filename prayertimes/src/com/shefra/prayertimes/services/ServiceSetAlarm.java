@@ -45,50 +45,64 @@ public class ServiceSetAlarm extends Service{
 		return ((hh*3600)+(mm*60)+ss);
 	}   
 	public void setAlarm() throws IOException{
-		Manager m = new Manager(getApplicationContext());
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-		String key = pref.getString("moode","setNot");
+		String key = pref.getString("moode","notfication");
 		Editor editor = pref.edit();
-		if(key.equals("setNot"))
+		//notfication();
+		if(key.equals("notfication"))
 		{
-			int current,nextPrayer;
-			editor.putString("moode","notfication"); 
-			editor.commit();
-			 Intent myIntent = new Intent(ServiceSetAlarm.this, ServiceNot.class);
-			PendingIntent pendingIntent = PendingIntent.getService(ServiceSetAlarm.this, 0, myIntent, 0);
-	
-	                 AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-	                 Calendar calendar = Calendar.getInstance();
-	                 calendar.setTimeInMillis(System.currentTimeMillis());
-	                 Date date = new Date();
-	                 current = this.getSec(date.getHours(),date.getMinutes(), date.getSeconds());
-	                 
-	                 nextPrayer=m.nearestPrayerTime(date.getHours(),date.getMinutes(), date.getSeconds()
-	                		 , date.getYear()+1900, date.getMonth()+1, date.getDay());
-	                 calendar.add(Calendar.SECOND, nextPrayer-current);
-	                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
+			notfication();
 		}
 		else if (key.equals("silent")){
-			 Intent myIntent = new Intent(ServiceSetAlarm.this, ServiceNot.class);
-			PendingIntent pendingIntent = PendingIntent.getService(ServiceSetAlarm.this, 0, myIntent, 0);
-	
-	                 AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-	
-	                 Calendar calendar = Calendar.getInstance();
-	                 calendar.setTimeInMillis(System.currentTimeMillis());
-	                 calendar.add(Calendar.SECOND, 10);
-	                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
+			silent();
 		}
-		else if (key.equals("Gunral")){
-			Intent myIntent = new Intent(ServiceSetAlarm.this, ServiceNot.class);
-			PendingIntent pendingIntent = PendingIntent.getService(ServiceSetAlarm.this, 0, myIntent, 0);
-	        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-	        Calendar calendar = Calendar.getInstance();
-	        calendar.setTimeInMillis(System.currentTimeMillis());
-	                 calendar.add(Calendar.SECOND, 10);
-	                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
-	                 this.stopSelf();
+		else if (key.equals("general")){
+			general();
 		}
 	}
+	private void notfication() throws IOException{
+		Manager m = new Manager(getApplicationContext());
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+		Editor editor = pref.edit();
+		int current,nextPrayer;
+		editor.putString("moode","notfication"); 
+		editor.commit();
+		 Intent myIntent = new Intent(ServiceSetAlarm.this, ServiceNot.class);
+		PendingIntent pendingIntent = PendingIntent.getService(ServiceSetAlarm.this, 0, myIntent, 0);
 
+                 AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                 Calendar calendar = Calendar.getInstance();
+                 calendar.setTimeInMillis(System.currentTimeMillis());
+                 Date date = new Date();
+                 current = this.getSec(date.getHours(),date.getMinutes(), date.getSeconds());
+                 
+                 nextPrayer=m.nearestPrayerTime(date.getHours(),date.getMinutes(), date.getSeconds()
+                		 , date.getYear()+1900, date.getMonth()+1, date.getDay());
+                 calendar.add(Calendar.SECOND, 10);
+                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
+		
+	}
+	private void silent(){
+		Intent myIntent = new Intent(ServiceSetAlarm.this, ServiceNot.class);
+		PendingIntent pendingIntent = PendingIntent.getService(ServiceSetAlarm.this, 0, myIntent, 0);
+
+                 AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+
+                 Calendar calendar = Calendar.getInstance();
+                 calendar.setTimeInMillis(System.currentTimeMillis());
+                 calendar.add(Calendar.SECOND, 10);
+                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
+		
+	}
+	
+	private void general(){
+		Intent myIntent = new Intent(ServiceSetAlarm.this, ServiceNot.class);
+		PendingIntent pendingIntent = PendingIntent.getService(ServiceSetAlarm.this, 0, myIntent, 0);
+        AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.add(Calendar.SECOND, 10);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
+        this.stopSelf();
+	}
 }

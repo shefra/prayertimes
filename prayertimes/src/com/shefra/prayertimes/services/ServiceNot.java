@@ -18,49 +18,28 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 public class ServiceNot extends Service {
 public void onCreate(){
-	SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-	String key = pref.getString("moode","notfication");
-	if(key.equals("notfication"))
-		this.notification();
-	else if(key.equals("silent"))
-		this.toSilent();
-	else if(key.equals("Gunral"))
-		this.toGunral();
+	this.activMode();
 }
 	@Override
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	public void test(){
-		
+	@Override
+	public void onStart(Intent intent, int startId) {
+		this.activMode();
 	}
-	public int getSec(String time){
-		int sec = 0;
-		String []temp = time.split(":");
-		sec = Integer.parseInt(temp[0]) * 3600;
-		sec += Integer.parseInt(temp[1]) * 60;
-		temp = temp[2].split(" ");
-		sec += Integer.parseInt(temp[0]);
-		return sec;
+	public void activMode(){
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+		String key = pref.getString("moode","notfication");
+		if(key.equals("notfication"))
+			this.notification();
+		else if(key.equals("silent"))
+			this.toSilent();
+		else if(key.equals("general"))
+			this.toGunral();
 	}
-	public void setAlarm(){
-		//SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        //Editor editor = pref.edit();
-        //editor.putString("moode","notfication"); 
-        //editor.commit();
-		Intent myIntent = new Intent(ServiceNot.this, ServiceNot.class);
-		PendingIntent pendingIntent = PendingIntent.getService(ServiceNot.this, 0, myIntent, 0);
-
-                 AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-
-                 Calendar calendar = Calendar.getInstance();
-                 calendar.setTimeInMillis(System.currentTimeMillis());
-                 calendar.add(Calendar.SECOND, 10);
-                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
-                 
-		
-	}
+	
 	public void notification(){
 		String ns = Context.NOTIFICATION_SERVICE;
 		NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
@@ -89,7 +68,7 @@ public void onCreate(){
 		manager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor editor = pref.edit();
-		editor.putString("moode","Gunral"); 
+		editor.putString("moode","general"); 
 		editor.commit();
 		Intent intent = new Intent(this, ServiceSetAlarm.class);
         startService(intent);
@@ -101,7 +80,7 @@ public void onCreate(){
 		manager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor editor = pref.edit();
-		editor.putString("moode","setNot"); 
+		editor.putString("moode","notfication"); 
 		editor.commit();
 		
 	}
