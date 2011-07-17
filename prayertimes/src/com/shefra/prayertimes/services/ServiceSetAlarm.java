@@ -78,7 +78,7 @@ public class ServiceSetAlarm extends Service{
                  
                  nextPrayer=m.nearestPrayerTime(date.getHours(),date.getMinutes(), date.getSeconds()
                 		 , date.getYear()+1900, date.getMonth()+1, date.getDay());
-                 calendar.add(Calendar.SECOND, 10);
+                 calendar.add(Calendar.SECOND, m.diffrent(current,nextPrayer));
                  alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
 		
 	}
@@ -90,7 +90,9 @@ public class ServiceSetAlarm extends Service{
 
                  Calendar calendar = Calendar.getInstance();
                  calendar.setTimeInMillis(System.currentTimeMillis());
-                 calendar.add(Calendar.SECOND, 10);
+                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+         		 int sec = pref.getInt("silentStart", 20);
+                 calendar.add(Calendar.SECOND, sec);
                  alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
 		
 	}
@@ -101,7 +103,9 @@ public class ServiceSetAlarm extends Service{
         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.add(Calendar.SECOND, 10);
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+		 int sec = pref.getInt("silentDuration", 20);
+        calendar.add(Calendar.SECOND, sec);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
         this.stopSelf();
 	}
