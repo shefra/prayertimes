@@ -2,7 +2,7 @@ package com.shefra.prayertimes.services;
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
-
+ 
 import com.shefra.prayertimes.manager.Manager;
 
 import android.app.AlarmManager;
