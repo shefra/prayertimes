@@ -23,29 +23,42 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		this.setContentView(R.layout.main);
+		Manager m = new Manager(getApplicationContext());
+		try {
+			m.createDatabase();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		// run service
+
 		Intent intent = new Intent(this, ServiceSetAlarm.class);
 		startService(intent);
 
-		this.setContentView(R.layout.main);
 		// setContentView(R.layout.main);
 
+		updateMainScreen();
+
+	}
+
+	private void updateMainScreen() {
 		Manager manager = new Manager(getApplicationContext());
 		Calendar calendar = Calendar.getInstance();
 		Date date = new Date();
-		int dd = date.getDate();//calendar.get(Calendar.DAY_OF_MONTH);
-		int mm = date.getMonth()+1;//7;//calendar.get(Calendar.MONTH+1);
-		int yy = date.getYear()+1900;//calendar.get(Calendar.YEAR);
-		int h = date.getHours();//calendar.get(Calendar.HOUR_OF_DAY);
-		int m = date.getMinutes();//calendar.get(Calendar.MINUTE);
-		int s = date.getSeconds();//calendar.get(Calendar.SECOND);
+		int dd = date.getDate();// calendar.get(Calendar.DAY_OF_MONTH);
+		int mm = date.getMonth() + 1;// 7;//calendar.get(Calendar.MONTH+1);
+		int yy = date.getYear() + 1900;// calendar.get(Calendar.YEAR);
+		int h = date.getHours();// calendar.get(Calendar.HOUR_OF_DAY);
+		int m = date.getMinutes();// calendar.get(Calendar.MINUTE);
+		int s = date.getSeconds();// calendar.get(Calendar.SECOND);
 
 		try {
 			List<String> prayersList = manager.getPrayerTimes(dd, mm, yy);
@@ -61,12 +74,9 @@ public class MainActivity extends Activity {
 			ishaTime.setText(prayersList.get(4));
 
 			TextView remainingTime = (TextView) findViewById(R.id.remainingTime);
-			int time = manager.nearestPrayerTime(h, m,s, yy, mm, dd);
-			int def =  manager.diffrent((h*3600+m*60+s),time);
-			remainingTime.setText(Manager.secondsToTime(def));			/*
-			 * TimerTask task = new RemainingTime(remainingTime); new
-			 * Timer().schedule(task, 1,1000);
-			 */
+			int time = manager.nearestPrayerTime(h, m, s, yy, mm, dd);
+			int def = manager.diffrent((h * 3600 + m * 60 + s), time);
+			remainingTime.setText(Manager.secondsToTime(def));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,7 +114,10 @@ public class MainActivity extends Activity {
 
 	}
 
-	public void updateRemainingTime() {
-
+	 @Override
+	protected void onResume() {
+		 super.onResume();
+		// Toast.makeText(this, "hi",Toast.LENGTH_SHORT);
+		 this.updateMainScreen();
 	}
 }
