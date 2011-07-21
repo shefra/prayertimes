@@ -20,11 +20,11 @@
 		<item name="2">2</item>
 	</string-array>
 
-	<string-array name="session">
+	<string-array name="season">
 		<item name="1">Summer</item>
 		<item name="2">Winter</item>
 	</string-array>
-	<string-array name="sessionValues">
+	<string-array name="seasonValues">
 		<item name="1">1</item>
 		<item name="2">2</item>
 	</string-array>

@@ -13,8 +13,8 @@ public final class R {
         public static final int languageValues=0x7f060003;
         public static final int mazhab=0x7f060000;
         public static final int mazhabValues=0x7f060001;
-        public static final int session=0x7f060004;
-        public static final int sessionValues=0x7f060005;
+        public static final int season=0x7f060004;
+        public static final int seasonValues=0x7f060005;
     }
     public static final class attr {
     }

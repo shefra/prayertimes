@@ -23,9 +23,9 @@
 			android:summary="Define the Mazhab(Doctrine) that will be used to calculate the Asr Player time"
 			android:entryValues="@array/mazhabValues" />
 			
-		<ListPreference android:key="session" android:title="Session"
-			android:dialogTitle="Session" android:entries="@array/session"
-			android:defaultValue="2" android:summary="" android:entryValues="@array/sessionValues" />
+		<ListPreference android:key="season" android:title="Season"
+			android:dialogTitle="Season" android:entries="@array/season"
+			android:defaultValue="2" android:summary="" android:entryValues="@array/seasonValues" />
 			
 		<ListPreference android:key="language" android:title="Language"
 			android:dialogTitle="Application language" android:summary="Select the favorite the Application language"
