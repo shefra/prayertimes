@@ -9,10 +9,12 @@ package com.shefra.prayertimes;
 
 public final class R {
     public static final class array {
-        public static final int doctrine=0x7f060000;
-        public static final int doctrineValues=0x7f060001;
         public static final int language=0x7f060002;
         public static final int languageValues=0x7f060003;
+        public static final int mazhab=0x7f060000;
+        public static final int mazhabValues=0x7f060001;
+        public static final int session=0x7f060004;
+        public static final int sessionValues=0x7f060005;
     }
     public static final class attr {
     }

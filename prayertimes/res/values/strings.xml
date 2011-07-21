@@ -2,11 +2,11 @@
 <resources>
 	<string name="hello">Hello World, PreferenceActivityActivity!</string>
 	<string name="app_name">Khoshooa</string>
-	<string-array name="doctrine">
+	<string-array name="mazhab">
 		<item name="1">Hanafi</item>
 		<item name="2">Hanbali...</item>
 	</string-array>
-	<string-array name="doctrineValues">
+	<string-array name="mazhabValues">
 		<item name="1">1</item>
 		<item name="2">2</item>
 	</string-array>
@@ -19,4 +19,14 @@
 		<item name="1">1</item>
 		<item name="2">2</item>
 	</string-array>
+
+	<string-array name="session">
+		<item name="1">Summer</item>
+		<item name="2">Winter</item>
+	</string-array>
+	<string-array name="sessionValues">
+		<item name="1">1</item>
+		<item name="2">2</item>
+	</string-array>
+
 </resources>
