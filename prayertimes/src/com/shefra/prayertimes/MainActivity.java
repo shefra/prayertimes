@@ -14,7 +14,9 @@ import com.shefra.prayertimes.manager.*;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -50,6 +52,8 @@ public class MainActivity extends Activity {
 		
 		Manager manager = new Manager(getApplicationContext());
 		Calendar calendar = Calendar.getInstance();
+		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+		
 		Date date = new Date();
 		int dd = date.getDate();//calendar.get(Calendar.DAY_OF_MONTH);
 		int mm = date.getMonth()+1;//7;//calendar.get(Calendar.MONTH+1);
@@ -59,6 +63,7 @@ public class MainActivity extends Activity {
 		int s = date.getSeconds();//calendar.get(Calendar.SECOND);
 
 		try {
+				
 			List<String> prayersList = manager.getPrayerTimes(dd, mm, yy);
 			TextView fajrTime = (TextView) findViewById(R.id.fajrTime);
 			TextView duhrTime = (TextView) findViewById(R.id.duhrTime);

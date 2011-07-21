@@ -262,16 +262,13 @@ public class Manager extends SQLiteOpenHelper {
 		settingAttributes sa = new settingAttributes();
 		SharedPreferences pref = PreferenceManager
 				.getDefaultSharedPreferences(this.context);
-		sa.city.timeZone = pref.getString("timeZone", "300");
-		sa.city.latitude = pref.getString("latitude", "214309");// TODO put
+		sa.city.timeZone = pref.getString("timeZone", "3");
+		sa.city.latitude = pref.getString("latitude", "21.43");// TODO put
 																// makkah as
 																// default
-		sa.city.longitude = pref.getString("longitude", "398409");
+		sa.city.longitude = pref.getString("longitude", "39.82");
 		sa.calender = pref.getString("calender", "UmmAlQuraUniv");
-		sa.mazhab = pref.getString("mazhab", "default");// TODO name it mazhab
-														// in the setting
-														// acivity
-
+		sa.mazhab = pref.getString("mazhab", "2");
 		return sa;
 	}
 
