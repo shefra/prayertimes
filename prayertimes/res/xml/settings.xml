@@ -19,7 +19,5 @@
 			android:entryValues="@array/doctrineValues" />
 		<ListPreference android:key="language" android:title="Language"
 			android:dialogTitle="Application language" android:summary="Select the favorite the Application language" />
-		<ListPreference android:key="session" android:title="Session"
-			android:dialogTitle="Application language" android:summary="Winter Or Summer!" />
 	</PreferenceCategory>
 </PreferenceScreen>

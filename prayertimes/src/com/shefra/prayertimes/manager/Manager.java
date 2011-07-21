@@ -211,8 +211,6 @@ public class Manager extends SQLiteOpenHelper {
 		while ((length = myInput.read(buffer)) > 0) {
 			myOutput.write(buffer, 0, length);
 		}
-		//myOutput.write(buffer, 0, length);
-
 
 		// Close the streams
 		myOutput.flush();
@@ -286,7 +284,7 @@ public class Manager extends SQLiteOpenHelper {
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
 		Cursor cur = db.query("citiesTable", new String[] { "cityNO",
-				"cityName" }, "country_id=" + id, null, null, null, null);
+				"cityName" }, "countryNO=" + id, null, null, null, null);
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
 			City c = new City();
@@ -308,7 +306,7 @@ public class Manager extends SQLiteOpenHelper {
 		db.setVersion(1);
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
-		Cursor cur = db.query("country", null, null, null, null, null,
+		Cursor cur = db.query("countriesTable", null, null, null, null, null,
 				null);
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
@@ -347,10 +345,10 @@ public class Manager extends SQLiteOpenHelper {
 		ArrayList<String> prayerList = new ArrayList<String>();
 		settingAttributes sa = this.xmlReader();
 		PrayerTime prayerTime = new PrayerTime(
-				Double.parseDouble(sa.city.longitude) /*/ 10000*/,
-				Double.parseDouble(sa.city.latitude) /*/ 10000*/,
-				Integer.parseInt(sa.city.timeZone) /*/ 100*/, dd, mm, yy);
-		//prayerTime.setSeason("summer");
+				Double.parseDouble(sa.city.longitude) / 10000,
+				Double.parseDouble(sa.city.latitude) / 10000,
+				Integer.parseInt(sa.city.timeZone) / 100, dd, mm, yy);
+
 		prayerTime.calculate();
 		prayerList.add(prayerTime.fajrTime().text());
 		prayerList.add(prayerTime.zuhrTime().text());
