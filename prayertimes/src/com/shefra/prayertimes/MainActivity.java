@@ -29,14 +29,25 @@ public class MainActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		this.setContentView(R.layout.main);
+		
+		Manager m = new Manager(getApplicationContext());
+		try {
+			m.createDatabase();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		// run service
 		Intent intent = new Intent(this, ServiceSetAlarm.class);
 		startService(intent);
+		this.init();
+		
+	}
 
-		this.setContentView(R.layout.main);
-		// setContentView(R.layout.main);
-
+	private void init() {
+		
 		Manager manager = new Manager(getApplicationContext());
 		Calendar calendar = Calendar.getInstance();
 		Date date = new Date();
@@ -63,15 +74,13 @@ public class MainActivity extends Activity {
 			TextView remainingTime = (TextView) findViewById(R.id.remainingTime);
 			int time = manager.nearestPrayerTime(h, m,s, yy, mm, dd);
 			int def =  manager.diffrent((h*3600+m*60+s),time);
-			remainingTime.setText(Manager.secondsToTime(def));			/*
-			 * TimerTask task = new RemainingTime(remainingTime); new
-			 * Timer().schedule(task, 1,1000);
-			 */
+			remainingTime.setText(Manager.secondsToTime(def));		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
+		
 	}
 
 	@Override
@@ -103,8 +112,9 @@ public class MainActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 
 	}
-
-	public void updateRemainingTime() {
-
+	
+	public void onResume(){
+		super.onResume();
+		this.init();
 	}
 }
