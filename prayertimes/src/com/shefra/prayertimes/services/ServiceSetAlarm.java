@@ -16,10 +16,19 @@ import android.preference.PreferenceManager;
 
 
 public class ServiceSetAlarm extends Service{
+	SharedPreferences pref ;
+	Editor editor ;
 		public void onCreate(){
 		
 			try {
-				this.setAlarm();
+				pref = PreferenceManager.getDefaultSharedPreferences(this);
+				editor = pref.edit();
+				editor.putString("moode","notfication"); 
+				editor.commit();
+				if(pref.getBoolean("enabled", false))
+					this.setAlarm();
+				else
+					this.stopSelf();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -34,6 +43,10 @@ public class ServiceSetAlarm extends Service{
 	@Override
 	public void onStart(Intent intent, int startId) {
 		try {
+			if(pref.getBoolean("enabled", false))
+				this.setAlarm();
+			else
+				this.stopSelf();
 			this.setAlarm();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -45,10 +58,9 @@ public class ServiceSetAlarm extends Service{
 		return ((hh*3600)+(mm*60)+ss);
 	}   
 	public void setAlarm() throws IOException{
-		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+		pref = PreferenceManager.getDefaultSharedPreferences(this);
 		String key = pref.getString("moode","notfication");
-		Editor editor = pref.edit();
-		//notfication();
+		editor = pref.edit();
 		if(key.equals("notfication"))
 		{
 			notfication();
@@ -61,39 +73,39 @@ public class ServiceSetAlarm extends Service{
 		}
 	}
 	private void notfication() throws IOException{
-		Manager m = new Manager(getApplicationContext());
-		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-		Editor editor = pref.edit();
-		int current,nextPrayer;
+		Date date = new Date();
+		int dd = date.getDate();
+		int mm = date.getMonth()+1;
+		int yy = date.getYear()+1900;
+		int h = date.getHours();
+		int m = date.getMinutes();
+		int s = date.getSeconds();
+		Manager manager = new Manager(getApplicationContext());
+	    pref = PreferenceManager.getDefaultSharedPreferences(this);
+		editor = pref.edit();
 		editor.putString("moode","notfication"); 
 		editor.commit();
 		 Intent myIntent = new Intent(ServiceSetAlarm.this, ServiceNot.class);
 		PendingIntent pendingIntent = PendingIntent.getService(ServiceSetAlarm.this, 0, myIntent, 0);
-
                  AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
                  Calendar calendar = Calendar.getInstance();
                  calendar.setTimeInMillis(System.currentTimeMillis());
-                 Date date = new Date();
-                 current = this.getSec(date.getHours(),date.getMinutes(), date.getSeconds());
-                 
-                 nextPrayer=m.nearestPrayerTime(date.getHours(),date.getMinutes(), date.getSeconds()
-                		 , date.getYear()+1900, date.getMonth()+1, date.getDay());
-                 calendar.add(Calendar.SECOND, m.diffrent(current,nextPrayer));
+                 int nextPrayer = manager.nearestPrayerTime(h, m,s, yy, mm, dd);
+     			int def =  manager.diffrent((h*3600+m*60+s),nextPrayer);             
+                 calendar.add(Calendar.SECOND, def);
                  alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
 		
 	}
 	private void silent(){
 		Intent myIntent = new Intent(ServiceSetAlarm.this, ServiceNot.class);
 		PendingIntent pendingIntent = PendingIntent.getService(ServiceSetAlarm.this, 0, myIntent, 0);
-
-                 AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-
-                 Calendar calendar = Calendar.getInstance();
-                 calendar.setTimeInMillis(System.currentTimeMillis());
-                 SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-         		 int sec = pref.getInt("silentStart", 20);
-                 calendar.add(Calendar.SECOND, sec*60);
-                 alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
+		AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+		Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        int sec = Integer.parseInt(pref.getString("silentStart", "20"));
+        calendar.add(Calendar.SECOND, sec*60);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
 		
 	}
 	
@@ -103,9 +115,9 @@ public class ServiceSetAlarm extends Service{
         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-		 int sec = pref.getInt("silentDuration", 20);
-        calendar.add(Calendar.SECOND, sec*60);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+		 int sec = Integer.parseInt(pref.getString("silentDuration", "20"));
+        calendar.add(Calendar.SECOND, 5/*sec*60*/);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
         this.stopSelf();
 	}

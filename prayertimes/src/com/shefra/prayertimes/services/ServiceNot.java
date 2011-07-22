@@ -27,7 +27,7 @@ public void onCreate(){
 	}
 	@Override
 	public void onStart(Intent intent, int startId) {
-		this.activMode();
+		//this.activMode();
 	}
 	public void activMode(){
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -43,16 +43,17 @@ public void onCreate(){
 	public void notification(){
 		String ns = Context.NOTIFICATION_SERVICE;
 		NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
-		CharSequence tickerText = "حان وقت الصلاة";
+		CharSequence tickerText = "pray";
 		long when = System.currentTimeMillis();
 		//int icon = R.drawable.notification_icon;
 		Notification notification = new Notification(com.shefra.prayertimes.R.drawable.icon, tickerText, when);
 		Context context = getApplicationContext();
-		CharSequence contentTitle = "الصلاة";
-		CharSequence contentText = "Hello Worlsilentd!";
+		CharSequence contentTitle = "salat";
+		CharSequence contentText = "go to the mosque now ";
 		Intent notificationIntent = new Intent(this, ServiceNot.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 		//notification.sound |= notification.sound.D;
+		notification.defaults = Notification.DEFAULT_SOUND;
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
 		mNotificationManager.notify(1, notification);
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -82,6 +83,10 @@ public void onCreate(){
 		Editor editor = pref.edit();
 		editor.putString("moode","notfication"); 
 		editor.commit();
+		Intent intent = new Intent(this, ServiceSetAlarm.class);
+        startService(intent);
+        this.stopSelf();
+		
 		
 	}
 
