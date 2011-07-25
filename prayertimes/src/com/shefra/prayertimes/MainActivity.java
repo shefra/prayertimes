@@ -1,6 +1,7 @@
 package com.shefra.prayertimes;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -14,7 +15,6 @@ import com.shefra.prayertimes.manager.*;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Gravity;
@@ -42,17 +42,19 @@ public class MainActivity extends Activity {
 		}
 		
 		// run service
+		this.init();
 		Intent intent = new Intent(this, ServiceSetAlarm.class);
 		startService(intent);
-		this.init();
+		
 		
 	}
 
 	private void init() {
 		
 		Manager manager = new Manager(getApplicationContext());
-		//Calendar calendar = Calendar.getInstance();
-		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+		Calendar calendar = Calendar.getInstance();
+		
+		
 		Date date = new Date();
 		int dd = date.getDate();//calendar.get(Calendar.DAY_OF_MONTH);
 		int mm = date.getMonth()+1;//7;//calendar.get(Calendar.MONTH+1);
