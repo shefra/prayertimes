@@ -87,7 +87,6 @@ public void onCreate(){
         startService(intent);
         this.stopSelf();
 		
-		
 	}
 
 
