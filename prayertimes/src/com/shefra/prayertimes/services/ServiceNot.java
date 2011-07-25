@@ -39,10 +39,10 @@ public void onCreate(){
            
             this.notification();
         else if(key.equals("silent")){
-                if(audioManagerState().equalsIgnoreCase("general"))
-                    edit.putString("nextState", "general");
-                else
+                if(audioManagerState().equalsIgnoreCase("silent"))
                     edit.putString("nextState", "silent");
+                else
+                    edit.putString("nextState", "general");
                 edit.commit();
                 this.toSilent();
             }
@@ -65,7 +65,7 @@ public void onCreate(){
             case AudioManager.RINGER_MODE_VIBRATE:
                 return "silent";
             case AudioManager.RINGER_MODE_NORMAL:
-                return "normal";
+                return "general";
         }
         return "";
     }

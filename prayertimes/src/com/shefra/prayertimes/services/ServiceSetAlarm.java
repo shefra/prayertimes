@@ -120,7 +120,7 @@ public class ServiceSetAlarm extends Service{
         calendar.setTimeInMillis(System.currentTimeMillis());
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         int sec = Integer.parseInt(pref.getString("silentStart", "20"));
-        calendar.add(Calendar.SECOND, 60);
+        calendar.add(Calendar.SECOND, 6);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
 		
 	}
@@ -130,7 +130,7 @@ public class ServiceSetAlarm extends Service{
         calendar.setTimeInMillis(System.currentTimeMillis());
         pref = PreferenceManager.getDefaultSharedPreferences(this);
 		 int sec = Integer.parseInt(pref.getString("silentDuration", "20"));
-        calendar.add(Calendar.SECOND, 60);
+        calendar.add(Calendar.SECOND, 6);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
 
 	}
