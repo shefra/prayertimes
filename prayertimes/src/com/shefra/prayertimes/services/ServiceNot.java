@@ -30,15 +30,45 @@ public void onCreate(){
 		//this.activMode();
 	}
 	public void activMode(){
-		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-		String key = pref.getString("moode","notfication");
-		if(key.equals("notfication"))
-			this.notification();
-		else if(key.equals("silent"))
-			this.toSilent();
-		else if(key.equals("general"))
-			this.toGunral();
-	}
+	       
+	       
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        String key = pref.getString("moode","notfication");
+        Editor edit = pref.edit();
+        if(key.equals("notfication"))
+           
+            this.notification();
+        else if(key.equals("silent")){
+                if(audioManagerState().equalsIgnoreCase("general"))
+                    edit.putString("nextState", "general");
+                else
+                    edit.putString("nextState", "silent");
+                edit.commit();
+                this.toSilent();
+            }
+        else if(key.equals("general")){
+                String nextState = pref.getString("nextState", "general");
+                if(nextState.equalsIgnoreCase("general"))
+                    this.toGunral();
+                else{
+                    edit.putString("moode","notfication");
+                    edit.commit();
+                }
+            }
+    }
+    public String audioManagerState(){
+        AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+
+        switch (am.getRingerMode()) {
+            case AudioManager.RINGER_MODE_SILENT:
+                return "silent";
+            case AudioManager.RINGER_MODE_VIBRATE:
+                return "silent";
+            case AudioManager.RINGER_MODE_NORMAL:
+                return "normal";
+        }
+        return "";
+    }
 	
 	public void notification(){
 		String ns = Context.NOTIFICATION_SERVICE;

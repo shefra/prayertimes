@@ -1,8 +1,9 @@
 package com.shefra.prayertimes.services;
+
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
- 
+
 import com.shefra.prayertimes.manager.Manager;
 
 import android.app.AlarmManager;
@@ -41,6 +42,7 @@ public class ServiceSetAlarm extends Service{
 			}
 		
 	}
+
 	public IBinder onBind(Intent intent) {
 		// TODO Auto-generated method stub
 		return null;
@@ -49,6 +51,14 @@ public class ServiceSetAlarm extends Service{
 	@Override
 	public void onStart(Intent intent, int startId) {
 		try {
+			pref = PreferenceManager.getDefaultSharedPreferences(this);
+			if(pref.getString("isCityChanged", "false").equals("true"))
+			{
+				editor = pref.edit();
+				editor.putString("moode","notfication"); 
+				editor.putString("isCityChanged", "false");
+				editor.commit();
+			}
 			alarmManager.cancel(pendingIntent);
 			//if(!pref.getBoolean("enabled", false))
 				this.setAlarm();
@@ -66,36 +76,36 @@ public class ServiceSetAlarm extends Service{
 		alarmManager.cancel(pendingIntent);
 		
 	}
-	public int getSec(int hh,int mm,int ss){
-		return ((hh*3600)+(mm*60)+ss);
-	}   
-	public void setAlarm() throws IOException{
+
+	public int getSec(int hh, int mm, int ss) {
+		return ((hh * 3600) + (mm * 60) + ss);
+	}
+
+	public void setAlarm() throws IOException {
 		pref = PreferenceManager.getDefaultSharedPreferences(this);
-		String key = pref.getString("moode","notfication");
+		String key = pref.getString("moode", "notfication");
 		editor = pref.edit();
-		if(key.equals("notfication"))
-		{
+		if (key.equals("notfication")) {
 			notfication();
-		}
-		else if (key.equals("silent")){
+		} else if (key.equals("silent")) {
 			silent();
-		}
-		else if (key.equals("general")){
+		} else if (key.equals("general")) {
 			general();
 		}
 	}
-	private void notfication() throws IOException{
+
+	private void notfication() throws IOException {
 		Date date = new Date();
 		int dd = date.getDate();
-		int mm = date.getMonth()+1;
-		int yy = date.getYear()+1900;
+		int mm = date.getMonth() + 1;
+		int yy = date.getYear() + 1900;
 		int h = date.getHours();
 		int m = date.getMinutes();
 		int s = date.getSeconds();
 		Manager manager = new Manager(getApplicationContext());
-	    pref = PreferenceManager.getDefaultSharedPreferences(this);
+		pref = PreferenceManager.getDefaultSharedPreferences(this);
 		editor = pref.edit();
-		editor.putString("moode","notfication"); 
+		editor.putString("moode", "notfication");
 		editor.commit();
                  Calendar calendar = Calendar.getInstance();
                  calendar.setTimeInMillis(System.currentTimeMillis());
@@ -122,6 +132,8 @@ public class ServiceSetAlarm extends Service{
 		 int sec = Integer.parseInt(pref.getString("silentDuration", "20"));
         calendar.add(Calendar.SECOND, 60);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
-        this.stopSelf();
+
 	}
+
+
 }

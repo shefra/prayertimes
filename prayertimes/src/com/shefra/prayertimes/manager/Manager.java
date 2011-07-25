@@ -83,15 +83,25 @@ public class Manager extends SQLiteOpenHelper {
 
 	public int nearestPrayerTime(int hour, int min, int sec, int year,
 			int month, int day) throws IOException {
-		ArrayList<String> prayerTimes = getPrayerTimes(day,month,year);
+		ArrayList<String> prayerTimes = getPrayerTimes(day, month, year);
 		int[] prayerTimeInSeconds = new int[5];
 
 		// Convert prayer times to seconds
-		prayerTimeInSeconds[0] = this.getSec(this.to24(prayerTimes.get(0)),this.getMinute(prayerTimes.get(0)),this.getSecond(prayerTimes.get(0)));
-		prayerTimeInSeconds[1] = this.getSec(this.to24(prayerTimes.get(1)),this.getMinute(prayerTimes.get(1)),this.getSecond(prayerTimes.get(1)));
-		prayerTimeInSeconds[2] = this.getSec(this.to24(prayerTimes.get(2)),this.getMinute(prayerTimes.get(2)),this.getSecond(prayerTimes.get(2)));
-		prayerTimeInSeconds[3] = this.getSec(this.to24(prayerTimes.get(3)),this.getMinute(prayerTimes.get(3)),this.getSecond(prayerTimes.get(3)));
-		prayerTimeInSeconds[4] = this.getSec(this.to24(prayerTimes.get(4)),this.getMinute(prayerTimes.get(4)),this.getSecond(prayerTimes.get(4)));
+		prayerTimeInSeconds[0] = this.getSec(this.to24(prayerTimes.get(0)),
+				this.getMinute(prayerTimes.get(0)),
+				this.getSecond(prayerTimes.get(0)));
+		prayerTimeInSeconds[1] = this.getSec(this.to24(prayerTimes.get(1)),
+				this.getMinute(prayerTimes.get(1)),
+				this.getSecond(prayerTimes.get(1)));
+		prayerTimeInSeconds[2] = this.getSec(this.to24(prayerTimes.get(2)),
+				this.getMinute(prayerTimes.get(2)),
+				this.getSecond(prayerTimes.get(2)));
+		prayerTimeInSeconds[3] = this.getSec(this.to24(prayerTimes.get(3)),
+				this.getMinute(prayerTimes.get(3)),
+				this.getSecond(prayerTimes.get(3)));
+		prayerTimeInSeconds[4] = this.getSec(this.to24(prayerTimes.get(4)),
+				this.getMinute(prayerTimes.get(4)),
+				this.getSecond(prayerTimes.get(4)));
 
 		// sort ascending
 		Arrays.sort(prayerTimeInSeconds);
@@ -255,6 +265,7 @@ public class Manager extends SQLiteOpenHelper {
 		editor.putString("latitude", sa.city.latitude);
 		editor.putString("longitude", sa.city.longitude);
 		editor.putString("timeZone", sa.city.timeZone);
+		editor.putString("isCityChanged", "true");
 		editor.commit();
 	}
 
@@ -303,8 +314,7 @@ public class Manager extends SQLiteOpenHelper {
 		db.setVersion(1);
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
-		Cursor cur = db.query("country", null, null, null, null, null,
-				null);
+		Cursor cur = db.query("country", null, null, null, null, null, null);
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
 			Country c = new Country();
@@ -339,16 +349,16 @@ public class Manager extends SQLiteOpenHelper {
 
 	public ArrayList<String> getPrayerTimes(int dd, int mm, int yy)
 			throws IOException {
-		
+
 		// No need to divide by 10000 or 100 since we use the new database
 		// edited by : al-shammeri
-		
+
 		ArrayList<String> prayerList = new ArrayList<String>();
 		settingAttributes sa = this.xmlReader();
 		PrayerTime prayerTime = new PrayerTime(
-				Double.parseDouble(sa.city.longitude)/* / 10000*/,
-				Double.parseDouble(sa.city.latitude)/* / 10000*/,
-				Integer.parseInt(sa.city.timeZone) /*/ 100*/, dd, mm, yy);
+				Double.parseDouble(sa.city.longitude)/* / 10000 */,
+				Double.parseDouble(sa.city.latitude)/* / 10000 */,
+				Integer.parseInt(sa.city.timeZone) /* / 100 */, dd, mm, yy);
 
 		prayerTime.calculate();
 		prayerList.add(prayerTime.fajrTime().text());
@@ -357,6 +367,10 @@ public class Manager extends SQLiteOpenHelper {
 		prayerList.add(prayerTime.maghribTime().text());
 		prayerList.add(prayerTime.ishaTime().text());
 		return prayerList;
+	}
+
+	public Context getContext() {
+		return context;
 	}
 
 }
