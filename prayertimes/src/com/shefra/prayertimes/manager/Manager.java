@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.*;
+import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 
 public class Manager extends SQLiteOpenHelper {
@@ -291,13 +292,25 @@ public class Manager extends SQLiteOpenHelper {
 		db.setVersion(1);
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
+		
+		//TODO : use better way to detect the selected language.
+		SharedPreferences pref = PreferenceManager
+		.getDefaultSharedPreferences(this.context);
+		String lang = pref.getString("language","english");
+		
+		
 		Cursor cur = db.query("citiesTable", new String[] { "cityNO",
-				"cityName" }, "country_id=" + id, null, null, null, null);
+				"cityName","cityNameAr" }, "country_id=" + id, null, null, null, null);
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
 			City c = new City();
 			c.cityNo = cur.getInt(0);
-			c.cityName = cur.getString(1);
+			if(lang.equals("1")){
+				c.cityName = cur.getString(1);
+			}
+			else{
+				c.cityName = cur.getString(2);
+			}
 			city.add(c);
 			cur.moveToNext();
 		}
@@ -314,12 +327,24 @@ public class Manager extends SQLiteOpenHelper {
 		db.setVersion(1);
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
+		
+		//TODO : use better way to detect the selected language.
+		SharedPreferences pref = PreferenceManager
+		.getDefaultSharedPreferences(this.context);
+		String lang = pref.getString("language","english");
+		
+		
 		Cursor cur = db.query("country", null, null, null, null, null, null);
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
 			Country c = new Country();
 			c.countryNo = cur.getInt(0);
-			c.countryName = cur.getString(1);
+			if(lang.equals("1")){
+				c.countryName = cur.getString(1);
+			}
+			else{
+				c.countryName = cur.getString(2);
+			}
 			country.add(c);
 			cur.moveToNext();
 		}
@@ -381,12 +406,25 @@ public class Manager extends SQLiteOpenHelper {
 		db.setVersion(1);
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
+		
+		//TODO : use better way to detect the selected language.
+		SharedPreferences pref = PreferenceManager
+		.getDefaultSharedPreferences(this.context);
+		String lang = pref.getString("language","english");
+		
 		Cursor cur = db.query("country", null, "id=" + countrId, null, null, null, null);
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
 			
 			country.countryNo = cur.getInt(0);
-			country.countryName = cur.getString(1);
+			if(lang.equals("1")){
+				country.countryName = cur.getString(1);
+			}
+			else{
+				country.countryName = cur.getString(2);
+			}
+		
+			
 			
 			cur.moveToNext();
 		}
@@ -402,14 +440,26 @@ public class Manager extends SQLiteOpenHelper {
 		db.setVersion(1);
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
+		
+		//TODO : use better way to detect the selected language.
+		SharedPreferences pref = PreferenceManager
+		.getDefaultSharedPreferences(this.context);
+		String lang = pref.getString("language","english");
+		
 		Cursor cur = db.query("citiesTable", new String[] { "cityNO",
-				"cityName" }, "cityNO=" + cityId, null, null, null, null);
+				"cityName","cityNameAr" }, "cityNO=" + cityId, null, null, null, null);
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
 			
 			city.cityNo = cur.getInt(0);
-			city.cityName = cur.getString(1);
 			
+			if(lang.equals("1")){
+				city.cityName = cur.getString(1);
+			}
+			else{
+				city.cityName = cur.getString(2);
+			}
+		
 			cur.moveToNext();
 		}
 		cur.close();
