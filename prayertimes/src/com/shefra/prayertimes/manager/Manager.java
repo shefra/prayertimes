@@ -372,5 +372,49 @@ public class Manager extends SQLiteOpenHelper {
 	public Context getContext() {
 		return context;
 	}
+	
+	public Country getCountry(int countrId){
+		SQLiteDatabase db;
+		Country country = new Country();
+
+		db = SQLiteDatabase.openOrCreateDatabase(DB_PATH + DB_NAME, null);
+		db.setVersion(1);
+		db.setLocale(Locale.getDefault());
+		db.setLockingEnabled(true);
+		Cursor cur = db.query("country", null, "id=" + countrId, null, null, null, null);
+		cur.moveToFirst();
+		while (cur.isAfterLast() == false) {
+			
+			country.countryNo = cur.getInt(0);
+			country.countryName = cur.getString(1);
+			
+			cur.moveToNext();
+		}
+		cur.close();
+		db.close();
+		return country;
+	}
+	
+	public City getCity(int cityId) {
+		City city = new City();
+
+		db = SQLiteDatabase.openOrCreateDatabase(DB_PATH + DB_NAME, null);
+		db.setVersion(1);
+		db.setLocale(Locale.getDefault());
+		db.setLockingEnabled(true);
+		Cursor cur = db.query("citiesTable", new String[] { "cityNO",
+				"cityName" }, "cityNO=" + cityId, null, null, null, null);
+		cur.moveToFirst();
+		while (cur.isAfterLast() == false) {
+			
+			city.cityNo = cur.getInt(0);
+			city.cityName = cur.getString(1);
+			
+			cur.moveToNext();
+		}
+		cur.close();
+		db.close();
+		return city;
+	}
 
 }

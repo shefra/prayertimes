@@ -6,16 +6,23 @@ import java.util.List;
 import com.shefra.prayertimes.*;
 import com.shefra.prayertimes.manager.*;
 
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.*;
+import android.preference.Preference.OnPreferenceChangeListener;
 
-public class SettingsActivity extends PreferenceActivity {
+public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener  {
 	Manager m;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
+		this.init();
+
+	}
+	public void init(){
 		m = new Manager(getApplicationContext());
 
 
@@ -34,6 +41,9 @@ public class SettingsActivity extends PreferenceActivity {
 			if(v == null)
 				v = "1";//TODO 
 			CityListener.fillCityPreference(cityPreference,v ,m);
+			
+			
+			
 
 			ListPreference ls = (ListPreference) findPreference("language");
 			CharSequence[] entries = { "English", "Arabic" };
@@ -60,15 +70,38 @@ public class SettingsActivity extends PreferenceActivity {
 			sdLP.setDefaultValue("1");
 			sdLP.setEntryValues(sdEntryValues);
 
+			// ok , now let us set summary sections for each preference
+			
+			String countryId = countryPreference.getValue(); 			
+			//countryPreference.setSummary(m.getCountry(Integer.parseInt(countryId)).countryName);
+			countryPreference.setSummary(m.getCountry(Integer.parseInt(countryId)).countryName);
+			
+			String cityId = cityPreference.getValue(); 
+			cityPreference.setSummary(m.getCity(Integer.parseInt(cityId)).cityName);
 
+			String language = ls.getEntry().toString(); 
+			ls.setSummary(language);
+			
+			String silentStart = ssLP.getEntry().toString(); 
+			ssLP.setSummary(silentStart);
+			
+			String silentDuration = sdLP.getEntry().toString();
+			sdLP.setSummary(silentDuration);			
+
+			ListPreference mazhabP = (ListPreference) findPreference("mazhab");
+			String mazhabSummary = mazhabP.getEntry().toString();
+			mazhabP.setSummary(mazhabSummary);	
+			
+			ListPreference seasonP = (ListPreference) findPreference("season");
+			String seasonSummary = seasonP.getEntry().toString();
+			seasonP.setSummary(seasonSummary);		
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
-
+	
 	protected void on(android.widget.ListView l, android.view.View v,
 			int position, long id) {
 
@@ -89,6 +122,21 @@ public class SettingsActivity extends PreferenceActivity {
 		countryPref.setEntryValues(countryEntryValues);
 
 	}
+	
+	protected void onResume() {
+	    super.onResume();
+	    getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener( this );
+	}
+
+	protected void onPause() {
+	    super.onPause();
+	    getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener( this );
+	}
+
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+	    this.init();
+	}
+
 
 
 }
