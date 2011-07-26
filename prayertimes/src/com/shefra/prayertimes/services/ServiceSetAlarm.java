@@ -51,6 +51,7 @@ public class ServiceSetAlarm extends Service{
 	@Override
 	public void onStart(Intent intent, int startId) {
 		try {
+			alarmManager.cancel(pendingIntent);
 			pref = PreferenceManager.getDefaultSharedPreferences(this);
 			if(pref.getString("isCityChanged", "false").equals("true"))
 			{
@@ -59,7 +60,6 @@ public class ServiceSetAlarm extends Service{
 				editor.putString("isCityChanged", "false");
 				editor.commit();
 			}
-			alarmManager.cancel(pendingIntent);
 			//if(!pref.getBoolean("enabled", false))
 				this.setAlarm();
 			//else
@@ -73,7 +73,7 @@ public class ServiceSetAlarm extends Service{
 	
 	@Override
 	public void onDestroy() {
-		alarmManager.cancel(pendingIntent);
+		//alarmManager.cancel(pendingIntent);
 		
 	}
 
