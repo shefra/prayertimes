@@ -5,7 +5,7 @@
 			android:title="Auto Silent Status" android:enabled="true"
 			android:summary="Enable or disable the process of converting mobile mode to silent automatically" />
 		<ListPreference android:key="silentStart"
-			android:title="When Silent Start" android:defaultValue="0"
+			android:title="When Silent Starts After the Azan?" android:defaultValue="0"
 			android:dialogTitle="Select Your Country"
 			android:summary="After how many minutes the silent mode will be start after the Azan" />
 		<ListPreference android:key="silentDuration"
