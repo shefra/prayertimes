@@ -15,7 +15,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.*;
-import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 
 public class Manager extends SQLiteOpenHelper {
@@ -68,7 +67,7 @@ public class Manager extends SQLiteOpenHelper {
 	}
 
 	public static String secondsToTime(double time) {
-		int second = (int) time;
+		//int second = (int) time;
 		int hours = (int) (time / 3600);
 		time = time - (hours * 3600);
 		int minutes = (int) (time / 60);

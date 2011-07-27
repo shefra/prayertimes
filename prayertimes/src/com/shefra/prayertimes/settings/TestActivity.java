@@ -26,7 +26,7 @@ public class TestActivity extends Activity {
 					.getDefaultSharedPreferences(this);
 
 			if (pref != null) {
-				String city = pref.getString("city", "1"); // 1 is default value
+				//String city = pref.getString("city", "1"); // 1 is default value
 															// .. ignore it
 				Manager ma = new Manager(getApplicationContext());				
 				ma.createDatabase();				

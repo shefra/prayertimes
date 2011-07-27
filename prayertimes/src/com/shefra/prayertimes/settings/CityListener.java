@@ -1,12 +1,10 @@
 package com.shefra.prayertimes.settings;
 import java.util.List;
 
-import android.app.AlarmManager;
 import android.content.Intent;
 import android.preference.ListPreference;
 import android.preference.Preference;
 
-import com.shefra.prayertimes.MainActivity;
 import com.shefra.prayertimes.manager.City;
 import com.shefra.prayertimes.manager.Manager;
 import com.shefra.prayertimes.manager.settingAttributes;
@@ -15,14 +13,14 @@ import com.shefra.prayertimes.services.ServiceSetAlarm;
 public class CityListener implements
 		android.preference.Preference.OnPreferenceChangeListener {
 	private Manager manager;
-	private ListPreference cityList;
+	//private ListPreference cityList;
 	public CityListener(ListPreference cityList,Manager manager){
 		this.manager = manager;
-		this.cityList = cityList;
+		//this.cityList = cityList;
 	}
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
-		ListPreference lp = (ListPreference) preference;
-		String value = (String)newValue;
+		//ListPreference lp = (ListPreference) preference;
+		//String value = (String)newValue;
 		settingAttributes sa = new settingAttributes();
 		String cityId = (String)newValue;
 		sa.city.cityNo = -1;

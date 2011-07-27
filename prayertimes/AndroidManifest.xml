@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml  version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.shefra.prayertimes" android:versionCode="1"
 	android:versionName="1.0">
@@ -16,8 +16,13 @@
 
 		<service android:name=".services.ServiceNot"></service>
 		<service android:name=".services.ServiceSetAlarm"></service>
+		<receiver android:name=".services.OnBootService" android:enabled="true" android:exported="false" android:label="OnBootService">
+	    	<intent-filter>
+	        	<action android:name="android.intent.action.BOOT_COMPLETED" />
+	    	</intent-filter>
+		</receiver>
+	</application>
 		<uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 		<uses-permission android:name="android.permission.MODIFY_PHONE_STATE" />
-		
-	</application>
+		<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 </manifest>

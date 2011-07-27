@@ -1,10 +1,7 @@
 package com.shefra.prayertimes.settings;
-import java.util.List;
-
 import android.preference.ListPreference;
 import android.preference.Preference;
 
-import com.shefra.prayertimes.manager.City;
 import com.shefra.prayertimes.manager.Manager;
 
 public class CountryListener implements

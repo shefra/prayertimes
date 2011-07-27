@@ -1,9 +1,5 @@
 package com.shefra.prayertimes.services;
 
-import java.util.Calendar;
-
-import android.R;
-import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
-import android.net.Uri;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 public class ServiceNot extends Service {

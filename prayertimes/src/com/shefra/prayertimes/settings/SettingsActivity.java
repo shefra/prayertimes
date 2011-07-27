@@ -1,6 +1,5 @@
 package com.shefra.prayertimes.settings;
 
-import java.io.IOException;
 import java.util.List;
 
 import com.shefra.prayertimes.*;
@@ -10,7 +9,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.preference.*;
-import android.preference.Preference.OnPreferenceChangeListener;
 
 public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener  {
 	Manager m;
