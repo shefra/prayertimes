@@ -6,19 +6,26 @@ import com.shefra.prayertimes.manager.azanAttribute;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class TestActivity extends Activity {
 
-
+	private MediaPlayer mPlayer ;
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		this.setContentView(R.layout.test);
+       
+        
+
 		TextView tv = (TextView) findViewById(R.id.city);
 		try {
 
@@ -39,7 +46,32 @@ public class TestActivity extends Activity {
 
 			tv.setText(e.toString() + ",");
 		}
+		
+		Button b1 = (Button) findViewById(R.id.button1);
+		b1.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				mPlayer = MediaPlayer.create(TestActivity.this, R.raw.yassir);
+				mPlayer.start();
+				
+			}
+		});
+		
+		Button b2 = (Button) findViewById(R.id.button2);
+		b2.setOnClickListener(new OnClickListener() {
+			
+			public void onClick(View v) {
+				mPlayer.stop();
+				
+			}
+		});
 
+	}
+	
+	@Override
+	public void onDestroy(){
+		this.mPlayer.stop();
+		super.onDestroy();
 	}
 	
 	
