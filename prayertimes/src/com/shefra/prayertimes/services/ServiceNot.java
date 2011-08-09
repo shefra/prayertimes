@@ -1,5 +1,7 @@
 package com.shefra.prayertimes.services;
 
+import com.shefra.prayertimes.R;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 public class ServiceNot extends Service {
@@ -77,8 +80,9 @@ public void onCreate(){
 		CharSequence contentText = "go to the mosque now ";
 		Intent notificationIntent = new Intent(this, ServiceNot.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-		//notification.sound |= notification.sound.D;
-		notification.defaults = Notification.DEFAULT_SOUND;
+		notification.sound = Uri.parse("android.resource://com.shefra.prayertimes/raw/yassir");
+		//notification.defaults = Notification.DEFAULT_SOUND;
+		notification.flags |= notification.FLAG_AUTO_CANCEL ;
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
 		mNotificationManager.notify(1, notification);
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
