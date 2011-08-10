@@ -5,10 +5,13 @@ import java.util.List;
 import com.shefra.prayertimes.*;
 import com.shefra.prayertimes.manager.*;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.*;
+import android.widget.Toast;
 
 public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener  {
 	Manager m;
@@ -34,6 +37,11 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			CityListener cityListener = new CityListener(cityPreference,m);
 			cityPreference.setOnPreferenceChangeListener(cityListener);
 			
+			final CheckBoxPreference autoCityPreference = (CheckBoxPreference) findPreference("autocity");
+			AutoCityListener autoCityListener = new AutoCityListener(cityPreference,m,(LocationManager)getSystemService(Context.LOCATION_SERVICE));
+			autoCityPreference.setOnPreferenceChangeListener(autoCityListener);
+
+
 			fillCountryPreference(countryPreference);
 			String v = countryPreference.getValue();
 			if(v == null)

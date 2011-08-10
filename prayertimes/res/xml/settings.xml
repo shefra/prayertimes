@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-	<PreferenceCategory android:title="General Settings">
-		<CheckBoxPreference android:key="enabled"
-			android:title="Auto Silent Status" android:enabled="true"
-			android:summary="Enable or disable the process of converting mobile mode to silent automatically" />
-		<ListPreference android:key="silentStart"
-			android:title="When Silent Starts After the Azan?" android:defaultValue="0"
-			android:dialogTitle="Select Your Country"
-			android:summary="After how many minutes the silent mode will be start after the Azan" />
-		<ListPreference android:key="silentDuration"
-			android:title="Silent Duration" android:defaultValue="10"
-			android:dialogTitle="Select Your Country" android:summary="How long does silent state will be applied" />
+
+	<PreferenceCategory android:title="Location Settings">
+		<CheckBoxPreference android:key="autocity"
+			android:title="Find My City" android:enabled="true"
+			android:summary="Locate city automatically using the GPS,If the result is not correct use the manual option" />
 		<ListPreference android:key="country" android:title="Country"
 			android:defaultValue="1" android:dialogTitle="Select Your Country"
 			android:summary="Select Your Country" />
 		<ListPreference android:key="city" android:title="City"
 			android:defaultValue="10" android:dialogTitle="Select Your City"
 			android:summary="Select Your City" />
+	</PreferenceCategory>
+	
+	<PreferenceCategory android:title="Silent Settings">
+		<CheckBoxPreference android:key="enabled"
+			android:title="Auto Silent Status" android:enabled="true" 
+			android:summary="Enable or disable the process of converting mobile mode to silent automatically" />
+		<ListPreference android:key="silentStart"
+			android:title="When Silent Starts After the Azan?"
+			android:defaultValue="0" android:dialogTitle="Select Your Country"
+			android:summary="After how many minutes the silent mode will be start after the Azan" />
+		<ListPreference android:key="silentDuration"
+			android:title="Silent Duration" android:defaultValue="10"
+			android:dialogTitle="Select Your Country" android:summary="How long does silent state will be applied" />
+	</PreferenceCategory>
+	
+	<PreferenceCategory android:title="General Settings">
 		<ListPreference android:key="mazhab" android:title="Mazhab"
 			android:dialogTitle="Prayer Time Calculation Mazhab" android:entries="@array/mazhab"
 			android:defaultValue="2"
 			android:summary="Define the Mazhab(Doctrine) that will be used to calculate the Asr Player time"
 			android:entryValues="@array/mazhabValues" />
-			
+
 		<ListPreference android:key="season" android:title="Season"
 			android:dialogTitle="Season" android:entries="@array/season"
 			android:defaultValue="2" android:summary="" android:entryValues="@array/seasonValues" />
-			
 		<ListPreference android:key="language" android:title="Language"
 			android:dialogTitle="Application language" android:summary="Select the favorite the Application language"
 			android:defaultValue="1" />
-
 	</PreferenceCategory>
+
 </PreferenceScreen>

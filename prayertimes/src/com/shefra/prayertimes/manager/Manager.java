@@ -299,7 +299,7 @@ public class Manager extends SQLiteOpenHelper {
 		
 		
 		Cursor cur = db.query("citiesTable", new String[] { "cityNO",
-				"cityName","cityNameAr" }, "country_id=" + id, null, null, null, null);
+				"cityName","cityNameAr","latitude","longitude" }, "country_id=" + id, null, null, null, null);
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
 			City c = new City();
@@ -310,6 +310,8 @@ public class Manager extends SQLiteOpenHelper {
 			else{
 				c.cityName = cur.getString(2);
 			}
+			c.latitude  = cur.getString(3);
+			c.longitude = cur.getString(4);
 			city.add(c);
 			cur.moveToNext();
 		}
