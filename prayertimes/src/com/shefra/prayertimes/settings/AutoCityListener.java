@@ -46,9 +46,10 @@ public class AutoCityListener implements
 			longitude  = location.getLongitude();
 			latitude = location.getLatitude();
 			}else{
-			lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, this);
+			//lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, this);
 			}
-
+			latitude = 24;
+			longitude = 40;
 	        double min=0;
 	        int i =0,pos =0;
 	        for(City city :cityList){

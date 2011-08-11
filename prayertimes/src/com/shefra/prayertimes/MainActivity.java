@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	/** Called when the activity is first created. */
@@ -80,6 +81,7 @@ public class MainActivity extends Activity {
 		menu.add(0, 1, 1, "Settings");
 		menu.add(0, 2, 2, "Test");
 		menu.add(0, 3, 3, "About");
+		menu.add(0, 4, 4, "Find Current City");
 		return true;
 	}
 
@@ -99,7 +101,9 @@ public class MainActivity extends Activity {
 		case 3:
 
 			return true;
-
+		case 4:
+			Toast.makeText(this, "Under construction", Toast.LENGTH_LONG);
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 
