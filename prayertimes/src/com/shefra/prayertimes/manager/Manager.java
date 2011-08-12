@@ -284,6 +284,7 @@ public class Manager extends SQLiteOpenHelper {
 	}
 
 	// -----------get methods-----------//
+	// id = -1 => means all citys
 	public ArrayList<City> getCityList(int id) {
 		ArrayList<City> city = new ArrayList<City>();
 
@@ -297,9 +298,13 @@ public class Manager extends SQLiteOpenHelper {
 		.getDefaultSharedPreferences(this.context);
 		String lang = pref.getString("language","english");
 		
-		
+		String whereClause = null;
+		if(id != -1)
+		{
+			whereClause = "country_id=" + id;
+		}
 		Cursor cur = db.query("citiesTable", new String[] { "cityNO",
-				"cityName","cityNameAr","latitude","longitude" }, "country_id=" + id, null, null, null, null);
+				"cityName","cityNameAr","latitude","longitude" }, whereClause, null, null, null, null);
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
 			City c = new City();

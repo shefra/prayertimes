@@ -36,9 +36,9 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			countryPreference.setOnPreferenceChangeListener(countryListener);
 			CityListener cityListener = new CityListener(cityPreference,m);
 			cityPreference.setOnPreferenceChangeListener(cityListener);
-			final CheckBoxPreference autoCityPreference = (CheckBoxPreference) findPreference("autocity");
+			/*final CheckBoxPreference autoCityPreference = (CheckBoxPreference) findPreference("autocity");
 			AutoCityListener autoCityListener = new AutoCityListener(cityPreference,m,(LocationManager)getSystemService(Context.LOCATION_SERVICE));
-			autoCityPreference.setOnPreferenceChangeListener(autoCityListener);
+			autoCityPreference.setOnPreferenceChangeListener(autoCityListener);*/
 
 
 			fillCountryPreference(countryPreference);

@@ -2,8 +2,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<PreferenceCategory android:title="Location Settings">
-		<CheckBoxPreference android:key="autocity"
-			android:title="Find My City" android:enabled="true"
+		<com.shefra.prayertimes.settings.MyDialogPreference android:key="autocity"
+			android:title="Find My City" 
 			android:summary="Locate city automatically using the GPS,If the result is not correct use the manual option" />
 		<ListPreference android:key="country" android:title="Country"
 			android:defaultValue="1" android:dialogTitle="Select Your Country"
