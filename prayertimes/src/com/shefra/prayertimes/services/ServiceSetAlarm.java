@@ -32,7 +32,7 @@ public class ServiceSetAlarm extends Service{
 				editor = pref.edit();
 				editor.putString("moode","notfication"); 
 				editor.commit();
-				//if(!pref.getBoolean("enabled", false))
+				//if(!pref.getBoolean("disable", false))
 					this.setAlarm();
 				//else
 					//this.stopSelf();

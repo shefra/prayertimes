@@ -87,7 +87,10 @@ public void onCreate(){
 		mNotificationManager.notify(1, notification);
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor editor = pref.edit();
-		editor.putString("moode","silent"); 
+		if(pref.getBoolean("disable", false))
+			editor.putString("moode","notfication");
+		else
+			editor.putString("moode","silent");
 		editor.commit();
 		Intent intent = new Intent(this, ServiceSetAlarm.class);
         startService(intent);
