@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:background="@drawable/bbg">
+	android:layout_height="fill_parent" android:background="@drawable/background1">
 	<TableLayout android:layout_width="fill_parent" android:layout_marginLeft="30px" android:layout_marginRight="10px" android:layout_marginTop="40px"
 		android:layout_height="fill_parent" android:shrinkColumns="*"
 		android:stretchColumns="*">
