@@ -76,12 +76,13 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			sdLP.setEntryValues(sdEntryValues);
 
 			// ok , now let us set summary sections for each preference
+			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 			
-			String countryId = countryPreference.getValue(); 			
-			//countryPreference.setSummary(m.getCountry(Integer.parseInt(countryId)).countryName);
+			String countryId = pref.getString("country", "1"); //TODO: check default value/ the second parameter		
 			countryPreference.setSummary(m.getCountry(Integer.parseInt(countryId)).countryName);
 			
-			String cityId = cityPreference.getValue(); 
+			
+			String cityId = pref.getString("city", "1"); // TODO : check default value/ second parameter			
 			cityPreference.setSummary(m.getCity(Integer.parseInt(cityId)).cityName);
 
 			String language = ls.getEntry().toString(); 

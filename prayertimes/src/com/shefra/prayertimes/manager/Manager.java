@@ -254,6 +254,7 @@ public class Manager extends SQLiteOpenHelper {
 		sa.city.latitude = aA.latitude;
 		sa.city.longitude = aA.longitude;
 		sa.city.timeZone = aA.timeZone;
+		sa.country.countryNo = Integer.parseInt(aA.countryNo);
 		this.xmlWriter(sa);
 	}
 
@@ -262,6 +263,8 @@ public class Manager extends SQLiteOpenHelper {
 		SharedPreferences pref = PreferenceManager
 				.getDefaultSharedPreferences(this.context);
 		Editor editor = pref.edit();
+		editor.putString("country", Integer.toString(sa.country.countryNo));
+		editor.putString("city", Integer.toString(sa.city.cityNo));
 		editor.putString("latitude", sa.city.latitude);
 		editor.putString("longitude", sa.city.longitude);
 		editor.putString("timeZone", sa.city.timeZone);
@@ -365,7 +368,7 @@ public class Manager extends SQLiteOpenHelper {
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
 		azanAttribute aA = new azanAttribute();
-		String select = "select cityName,latitude,longitude,timeZone from citiesTable where cityNO ="
+		String select = "select cityName,latitude,longitude,timeZone,country_id from citiesTable where cityNO ="
 				+ id;
 		Cursor cur = db.rawQuery(select, null);
 		cur.moveToFirst();
@@ -373,6 +376,7 @@ public class Manager extends SQLiteOpenHelper {
 		aA.latitude = cur.getString(1);
 		aA.longitude = cur.getString(2);
 		aA.timeZone = cur.getString(3);
+		aA.countryNo = cur.getString(4);
 		cur.close();
 		db.close();
 		return aA;
