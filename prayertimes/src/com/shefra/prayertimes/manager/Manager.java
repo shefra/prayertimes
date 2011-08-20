@@ -477,4 +477,13 @@ public class Manager extends SQLiteOpenHelper {
 		return city;
 	}
 
+	public City getCurrentCity() {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		String cityId = pref.getString("city", "1");
+		City city = this.getCity(Integer.parseInt(cityId));
+		return city;
+		
+		
+	}
+
 }

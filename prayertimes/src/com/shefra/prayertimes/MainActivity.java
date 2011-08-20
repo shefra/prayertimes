@@ -42,6 +42,10 @@ public class MainActivity extends Activity {
 	private void init() {
 		
 		Manager manager = new Manager(getApplicationContext());
+		
+		String cityName = manager.getCurrentCity().cityName;
+		TextView cityTextView = (TextView) findViewById(R.id.cityName);
+		cityTextView.setText(cityName);
 		Date date = new Date();
 		int dd = date.getDate();//calendar.get(Calendar.DAY_OF_MONTH);
 		int mm = date.getMonth()+1;//7;//calendar.get(Calendar.MONTH+1);
