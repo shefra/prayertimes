@@ -422,7 +422,7 @@ public class Manager extends SQLiteOpenHelper {
 		.getDefaultSharedPreferences(this.context);
 		String lang = pref.getString("language","english");
 		
-		Cursor cur = db.query("country", null, "id=" + countrId, null, null, null, null);
+		Cursor cur = db.query("country", null, "country_id=" + countrId, null, null, null, null);
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
 			

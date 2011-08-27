@@ -85,6 +85,9 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			String cityId = pref.getString("city", "1"); // TODO : check default value/ second parameter			
 			cityPreference.setSummary(m.getCity(Integer.parseInt(cityId)).cityName);
 
+			PreferenceScreen ps = (PreferenceScreen) findPreference("first_preferencescreen");			
+			ps.setSummary(m.getCountry(Integer.parseInt(countryId)).countryName + "/" + m.getCity(Integer.parseInt(cityId)).cityName);
+			
 			String language = ls.getEntry().toString(); 
 			ls.setSummary(language);
 			
