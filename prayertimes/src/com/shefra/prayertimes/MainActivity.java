@@ -50,9 +50,6 @@ public class MainActivity extends Activity {
         boolean firstStart = pref.getBoolean("firstStart",true);
         if(firstStart)
         {
-        	AlertDialog alertDialog = new AlertDialog.Builder(this).create(); 
-        	alertDialog.setMessage("first time indeed");
-        	alertDialog.show();
         	this.onFirstStart();
         	Editor edit = pref.edit();
         	edit.putBoolean("firstStart", false);
