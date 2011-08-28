@@ -15,8 +15,11 @@ import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,6 +46,19 @@ public class MainActivity extends Activity {
 		this.init();
 		Intent intent = new Intent(this, ServiceSetAlarm.class);
 		startService(intent);
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean firstStart = pref.getBoolean("firstStart",true);
+        if(firstStart)
+        {
+        	AlertDialog alertDialog = new AlertDialog.Builder(this).create(); 
+        	alertDialog.setMessage("first time indeed");
+        	alertDialog.show();
+        	this.onFirstStart();
+        	Editor edit = pref.edit();
+        	edit.putBoolean("firstStart", false);
+        	edit.commit();
+        }
+       
 		
 		
 	}
