@@ -485,5 +485,54 @@ public class Manager extends SQLiteOpenHelper {
 		
 		
 	}
+	public void findCurrentCity(double latitude, double longitude) {
+		double min = 0;
+		int i = 0, pos = 0;
+		ArrayList<City> cityList = this.getCityList(-1);
+		for (City city : cityList) {
+			double lat = Double.parseDouble(city.latitude);
+			double lon = Double.parseDouble(city.longitude);
+			double pk = (180 / 3.14159);
+			double a1 = (lat / pk);
+			double a2 = (lon / pk);
+
+			double b1 = (latitude / pk);
+			double b2 = (longitude / pk);
+
+			double t1 = (Math.cos(a1) * Math.cos(a2) * Math.cos(b1) * Math
+					.cos(b2));
+			double t2 = (Math.cos(a1) * Math.sin(a2) * Math.cos(b1) * Math
+					.sin(b2));
+			double t3 = (Math.sin(a1) * Math.sin(b1));
+			double tt = Math.acos(t1 + t2 + t3);
+			double dist = (6366000 * tt);
+			if (dist < min || i == 0) {
+				min = dist;
+				pos = i;
+			}
+			i++;
+
+		}
+		if (pos < cityList.size() && cityList.get(pos) != null) {
+			settingAttributes sa = new settingAttributes();
+			String cityId = (String) Integer.toString(cityList.get(pos).cityNo);
+			sa.city.cityNo = -1;
+			if (cityId != null) {
+				sa.city.cityNo = Integer.parseInt(cityId);
+			}
+			if (sa.city.cityNo == -1)
+				sa.city.cityNo = 1;
+			this.setSetting(sa);
+
+			// SharedPreferences pref =
+			// PreferenceManager.getDefaultSharedPreferences(manager.getContext());
+			// Editor editor = pref.edit();
+			// editor.putString("city", cityId);
+			// editor.commit();
+			//
+
+		}
+
+	}
 
 }
