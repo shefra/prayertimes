@@ -12,8 +12,21 @@
 			</intent-filter>
 		</activity>
 		<activity android:name=".settings.SettingsActivity"></activity>
-		<activity android:name=".settings.TestActivity"></activity>
-
+		<activity android:name=".settings.TestActivity">
+			<intent-filter>
+				<action android:name="android.intent.action.Test" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		
+		</activity>
+		<activity android:name=".settings.AlertActivity">
+		<intent-filter>
+				<action android:name="android.intent.action.Alert" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		
+		</activity>
+		
 		<service android:name=".services.ServiceNot"></service>
 		<service android:name=".services.ServiceSetAlarm"></service>
 		<receiver android:name=".services.OnBootService" android:enabled="true" android:exported="false" android:label="OnBootService">

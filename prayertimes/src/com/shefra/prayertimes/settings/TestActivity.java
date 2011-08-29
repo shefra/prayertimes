@@ -16,14 +16,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class TestActivity extends Activity {
-
 	private MediaPlayer mPlayer ;
-	/** Called when the activity is first created. */
-	@Override
+	// Called when the activity is first created. 
+
+@Override
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.setContentView(R.layout.test);
-       
+		this.setContentView(R.layout.alert);
+		mPlayer.start();
         
 
 		TextView tv = (TextView) findViewById(R.id.city);
@@ -52,6 +53,7 @@ public class TestActivity extends Activity {
 			
 			public void onClick(View v) {
 				mPlayer = MediaPlayer.create(TestActivity.this, R.raw.yassir);
+				if(!(mPlayer.isPlaying()))
 				mPlayer.start();
 				
 			}
@@ -62,7 +64,7 @@ public class TestActivity extends Activity {
 			
 			public void onClick(View v) {
 				mPlayer.stop();
-				
+				onDestroy();
 			}
 		});
 

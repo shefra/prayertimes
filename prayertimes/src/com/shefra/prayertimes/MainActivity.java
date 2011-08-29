@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import com.shefra.prayertimes.services.ServiceSetAlarm;
+import com.shefra.prayertimes.settings.AlertActivity;
 import com.shefra.prayertimes.settings.SettingsActivity;
 import com.shefra.prayertimes.settings.TestActivity;
 import com.shefra.prayertimes.manager.*;
