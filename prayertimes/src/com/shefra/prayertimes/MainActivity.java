@@ -4,14 +4,27 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import com.shefra.prayertimes.services.ServiceSetAlarm;
+<<<<<<< HEAD
 import com.shefra.prayertimes.settings.AlertActivity;
+=======
+import com.shefra.prayertimes.settings.GPSListener;
+>>>>>>> 0f507266aa5e8d5e850ce8a80bc3817995a6d22e
 import com.shefra.prayertimes.settings.SettingsActivity;
-import com.shefra.prayertimes.settings.TestActivity;
 import com.shefra.prayertimes.manager.*;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.app.AlertDialog.Builder;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -19,6 +32,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	/** Called when the activity is first created. */
+	LocationManager locManager;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,6 +50,16 @@ public class MainActivity extends Activity {
 		this.init();
 		Intent intent = new Intent(this, ServiceSetAlarm.class);
 		startService(intent);
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean firstStart = pref.getBoolean("firstStart",true);
+        if(firstStart)
+        {
+        	this.onFirstStart();
+        	Editor edit = pref.edit();
+        	edit.putBoolean("firstStart", false);
+        	edit.commit();
+        }
+       
 		
 		
 	}
@@ -84,7 +108,6 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 1, 1, "Settings");
-		menu.add(0, 2, 2, "Test");
 		menu.add(0, 3, 3, "About");
 		menu.add(0, 4, 4, "Find Current City");
 		return true;
@@ -98,16 +121,32 @@ public class MainActivity extends Activity {
 			Intent myIntent = new Intent(this, SettingsActivity.class);
 			startActivity(myIntent);
 			return true;
-		case 2:
-			Intent myIntent2 = new Intent(this, TestActivity.class);
-			startActivity(myIntent2);
-
-			return true;
 		case 3:
-
+			
+			AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
+		    alertDialog.setTitle("About");  
+		    alertDialog.setMessage("Shefra @2011");  
+		    alertDialog.setButton("OK", new DialogInterface.OnClickListener(){
+		    public void onClick(DialogInterface dialog, int which) {  
+		        return;  
+		    }});
+		    alertDialog.show();
+			
 			return true;
 		case 4:
-			Toast.makeText(this, "Under construction", Toast.LENGTH_LONG);
+			
+			Context context = getApplicationContext();
+			ProgressDialog dialog;
+			dialog = ProgressDialog.show(context, "",
+					"Please wait for few seconds...", true);
+			
+			locManager = (LocationManager) context
+					.getSystemService(Context.LOCATION_SERVICE);
+
+			GPSListener lis = new GPSListener(context,dialog);
+			locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+					0, lis);
+
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -118,4 +157,47 @@ public class MainActivity extends Activity {
 		super.onResume();
 		this.init();
 	}
+	
+	public void onFirstStart(){
+		AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
+	    alertDialog.setTitle("Auto City Search");  
+	    alertDialog.setMessage("To find your current city automatically, enable GPS then come back and select 'Menu->Find Current City ' Option.");  
+	    alertDialog.setButton("OK", new DialogInterface.OnClickListener(){
+	    public void onClick(DialogInterface dialog, int which) {  
+	    	Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+	    	startActivityForResult(intent, 111);
+  
+	    }});
+	    alertDialog.show();
+	}
+	
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(requestCode == 111 && resultCode == 0){
+            LocationManager locManager = (LocationManager) getSystemService(LOCATION_SERVICE);  
+            
+            if (locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){  
+                               
+        		AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
+        	    alertDialog.setTitle("Info");  
+        	    alertDialog.setMessage("The GPS in Enabled now");  
+        	    alertDialog.setButton("OK", new DialogInterface.OnClickListener(){
+        	    public void onClick(DialogInterface dialog, int which) {  
+        	    	return;
+          
+        	    }});
+        	    alertDialog.show();
+            }else{
+        		AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
+        	    alertDialog.setTitle("Info");  
+        	    alertDialog.setMessage("The GPS in still disabled, try again!");  
+        	    alertDialog.setButton("OK", new DialogInterface.OnClickListener(){
+        	    public void onClick(DialogInterface dialog, int which) {  
+        	   
+          
+        	    }});
+        	    alertDialog.show();
+            }
+        }
+    }
+
 }

@@ -71,21 +71,29 @@ public void onCreate(){
 	public void notification(){
 		String ns = Context.NOTIFICATION_SERVICE;
 		NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
-		CharSequence tickerText = "pray";
-		long when = System.currentTimeMillis();
-		//int icon = R.drawable.notification_icon;
-		Notification notification = new Notification(com.shefra.prayertimes.R.drawable.icon, tickerText, when);
-		Context context = getApplicationContext();
-		CharSequence contentTitle = "salat";
-		CharSequence contentText = "go to the mosque now ";
-		Intent notificationIntent = new Intent(this, ServiceNot.class);
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-		notification.sound = Uri.parse("android.resource://com.shefra.prayertimes/raw/yassir");
-		//notification.defaults = Notification.DEFAULT_SOUND;
-		notification.flags |= notification.FLAG_AUTO_CANCEL ;
-		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-		mNotificationManager.notify(1, notification);
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+		//int icon = R.drawable.notification_icon;
+		String AzanMode = pref.getString("notSoundEntry", "full") ;
+		if(AzanMode.equals("full")){
+			Intent intent = new Intent(this, ServiceSetAlarm.class);
+			startActivity(intent);
+		}
+		else if(AzanMode.equals("short")){
+			CharSequence tickerText = "pray";
+			long when = System.currentTimeMillis();
+			Notification notification = new Notification(com.shefra.prayertimes.R.drawable.icon, tickerText, when);
+			Context context = getApplicationContext();
+			CharSequence contentTitle = "salat";
+			CharSequence contentText = "go to the mosque now ";
+			Intent notificationIntent = new Intent(this, ServiceNot.class);
+			PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+			notification.sound = Uri.parse("android.resource://com.shefra.prayertimes/raw/yassir");
+			//notification.defaults = Notification.DEFAULT_SOUND;
+			notification.flags |= notification.FLAG_AUTO_CANCEL ;
+			notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+			mNotificationManager.notify(1, notification);
+		}
+		
 		Editor editor = pref.edit();
 		if(pref.getBoolean("disable", false))
 			editor.putString("moode","notfication");
