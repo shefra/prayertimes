@@ -4,11 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import com.shefra.prayertimes.services.ServiceSetAlarm;
-<<<<<<< HEAD
-import com.shefra.prayertimes.settings.AlertActivity;
-=======
 import com.shefra.prayertimes.settings.GPSListener;
->>>>>>> 0f507266aa5e8d5e850ce8a80bc3817995a6d22e
 import com.shefra.prayertimes.settings.SettingsActivity;
 import com.shefra.prayertimes.manager.*;
 
