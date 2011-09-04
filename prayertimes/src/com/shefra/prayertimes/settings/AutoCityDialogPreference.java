@@ -40,8 +40,12 @@ public class AutoCityDialogPreference extends DialogPreference implements
 			Context context = this.getContext();
 			locManager = (LocationManager) context
 					.getSystemService(Context.LOCATION_SERVICE);
-			locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
-					0, this);
+			if(!locManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+				locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
+						0, this);
+			else
+				locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+						0, this);
 			dialog = ProgressDialog.show(context, "",
 					"Please wait for few seconds...", true);
 
