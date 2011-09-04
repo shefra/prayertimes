@@ -140,8 +140,8 @@ public class MainActivity extends Activity {
 					.getSystemService(Context.LOCATION_SERVICE);
 
 			GPSListener lis = new GPSListener(context,dialog);
-			locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
-					0, lis);
+			//locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+				//	0, lis);
 
 			return true;
 		}
