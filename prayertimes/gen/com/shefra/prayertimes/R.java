@@ -30,9 +30,10 @@ public final class R {
         public static final int dhr=0x7f020006;
         public static final int fajr=0x7f020007;
         public static final int icon=0x7f020008;
-        public static final int isha=0x7f020009;
-        public static final int magrib=0x7f02000a;
-        public static final int remaining=0x7f02000b;
+        public static final int icon1=0x7f020009;
+        public static final int isha=0x7f02000a;
+        public static final int magrib=0x7f02000b;
+        public static final int remaining=0x7f02000c;
     }
     public static final class id {
         public static final int asrTime=0x7f08000e;
@@ -61,7 +62,8 @@ public final class R {
         public static final int test=0x7f030004;
     }
     public static final class raw {
-        public static final int yassir=0x7f050000;
+        public static final int majed=0x7f050000;
+        public static final int yassir=0x7f050001;
     }
     public static final class string {
         public static final int app_name=0x7f060001;

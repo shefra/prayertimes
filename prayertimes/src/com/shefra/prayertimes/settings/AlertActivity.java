@@ -30,7 +30,7 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 			SharedPreferences pref = PreferenceManager
 						.getDefaultSharedPreferences(this);
 			
-			mPlayer = MediaPlayer.create(AlertActivity.this, R.raw.yassir);//TODO it should be Dynamically 
+			mPlayer = MediaPlayer.create(AlertActivity.this, R.raw.majed);//TODO it should be Dynamically 
 			mPlayer.start();
 		
 			mPlayer.setOnCompletionListener(AlertActivity.this);

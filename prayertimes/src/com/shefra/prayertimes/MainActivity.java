@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import com.shefra.prayertimes.services.ServiceSetAlarm;
+import com.shefra.prayertimes.settings.AlertActivity;
 import com.shefra.prayertimes.settings.GPSListener;
 import com.shefra.prayertimes.settings.SettingsActivity;
 import com.shefra.prayertimes.manager.*;
@@ -33,7 +34,6 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.main);
-		
 		Manager m = new Manager(getApplicationContext());
 		try {
 			m.createDatabase();

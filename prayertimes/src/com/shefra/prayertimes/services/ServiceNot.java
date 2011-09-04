@@ -1,6 +1,7 @@
 package com.shefra.prayertimes.services;
 
 import com.shefra.prayertimes.R;
+import com.shefra.prayertimes.settings.AlertActivity;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -69,19 +70,21 @@ public void onCreate(){
     }
 	
 	public void notification(){
+		Intent intent;
 		String ns = Context.NOTIFICATION_SERVICE;
 		NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 		//int icon = R.drawable.notification_icon;
-		String AzanMode = pref.getString("notSoundEntry", "full") ;
+		String AzanMode = pref.getString("notSound", "full") ;
 		if(AzanMode.equals("full")){
-			Intent intent = new Intent(this, ServiceSetAlarm.class);
-			startActivity(intent);
+			Intent intent1 = new Intent(getBaseContext(), AlertActivity.class);
+			intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			getApplication().startActivity(intent1);
 		}
 		else if(AzanMode.equals("short")){
 			CharSequence tickerText = "pray";
 			long when = System.currentTimeMillis();
-			Notification notification = new Notification(com.shefra.prayertimes.R.drawable.icon, tickerText, when);
+			Notification notification = new Notification(com.shefra.prayertimes.R.drawable.icon1, tickerText, when);
 			Context context = getApplicationContext();
 			CharSequence contentTitle = "salat";
 			CharSequence contentText = "go to the mosque now ";
@@ -100,7 +103,7 @@ public void onCreate(){
 		else
 			editor.putString("moode","silent");
 		editor.commit();
-		Intent intent = new Intent(this, ServiceSetAlarm.class);
+		intent = new Intent(this, ServiceSetAlarm.class);
         startService(intent);
         this.stopSelf();
 	}
