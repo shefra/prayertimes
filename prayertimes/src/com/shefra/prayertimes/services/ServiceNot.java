@@ -71,17 +71,17 @@ public void onCreate(){
 	
 	public void notification(){
 		Intent intent;
-		String ns = Context.NOTIFICATION_SERVICE;
-		NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 		//int icon = R.drawable.notification_icon;
 		String AzanMode = pref.getString("notSound", "full") ;
 		if(AzanMode.equals("full")){
-			Intent intent1 = new Intent(getBaseContext(), AlertActivity.class);
-			intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			getApplication().startActivity(intent1);
+			 intent = new Intent(getBaseContext(), AlertActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			getApplication().startActivity(intent);
 		}
 		else if(AzanMode.equals("short")){
+			String ns = Context.NOTIFICATION_SERVICE;
+			NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
 			CharSequence tickerText = "pray";
 			long when = System.currentTimeMillis();
 			Notification notification = new Notification(com.shefra.prayertimes.R.drawable.icon1, tickerText, when);

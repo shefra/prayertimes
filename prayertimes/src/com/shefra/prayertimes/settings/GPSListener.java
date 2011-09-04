@@ -29,6 +29,10 @@ public class GPSListener implements LocationListener {
 	public GPSListener(Context c,ProgressDialog dialog) {
 		context = c;
 		this.dialog = dialog;
+		locManager = (LocationManager) context
+		.getSystemService(Context.LOCATION_SERVICE);
+		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+		0, this);
 	}
 
 	// Location Listener implementation
