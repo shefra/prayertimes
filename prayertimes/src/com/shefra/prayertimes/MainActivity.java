@@ -131,17 +131,17 @@ public class MainActivity extends Activity {
 			return true;
 		case 4:
 			
-			Context context = getApplicationContext();
+			//Context context = getApplicationContext();
 			ProgressDialog dialog;
-			dialog = ProgressDialog.show(context, "",
+			dialog = ProgressDialog.show(this, "",
 					"Please wait for few seconds...", true);
 			
-			locManager = (LocationManager) context
+			locManager = (LocationManager) this
 					.getSystemService(Context.LOCATION_SERVICE);
 
-			GPSListener lis = new GPSListener(context,dialog);
-			//locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
-				//	0, lis);
+			GPSListener lis = new GPSListener(this,dialog);
+			locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
+					0, lis);
 
 			return true;
 		}
