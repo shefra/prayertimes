@@ -6,7 +6,7 @@ package com.shefra.prayertimes.moazen;
 /**
  *
  * @author aziz
- */
+ */ 
 public class Mazhab {
         public enum Type {
 	    Default,

@@ -17,7 +17,7 @@ public class CityListener implements
 	public CityListener(ListPreference cityList,Manager manager){
 		this.manager = manager;
 		//this.cityList = cityList;
-	}
+	} 
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
 		//ListPreference lp = (ListPreference) preference;
 		//String value = (String)newValue;

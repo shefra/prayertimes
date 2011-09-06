@@ -10,7 +10,7 @@ package com.shefra.prayertimes.moazen;
 public class Time {
     public Time(double time){
         this.m_time=convertToTime(time,false);
-    }
+    } 
     public Time(double time,boolean isAM){this.m_time=convertToTime(time,isAM);}
     public final String text(){return m_time;}
 

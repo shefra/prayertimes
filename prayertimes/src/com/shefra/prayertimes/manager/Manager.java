@@ -28,7 +28,7 @@ public class Manager extends SQLiteOpenHelper {
 		super(applicationContext, DB_NAME, null, 1);
 		this.context = applicationContext;
 	}
-
+ 
 	public int to24(String time) {
 		String[] t = time.split(":");
 		String[] AMORPM = t[2].split(" ");
@@ -361,7 +361,7 @@ public class Manager extends SQLiteOpenHelper {
 		db.close();
 		return country;
 	}
-
+ 
 	public azanAttribute getData(int id) {
 		db = SQLiteDatabase.openOrCreateDatabase(DB_PATH + DB_NAME, null);
 		db.setVersion(1);

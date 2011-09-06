@@ -20,12 +20,12 @@ public final class PrayerTime {
 	protected Calender m_calender;
 	protected Mazhab m_mazhab;
 	protected Season m_season;
-
+ 
 	protected double fajr;
 	protected double shrouk;
 	protected double zuhr;
 	protected double asr;
-	protected double maghrib;
+	protected double maghrib; 
 	protected double isha;
         protected double dec;
 

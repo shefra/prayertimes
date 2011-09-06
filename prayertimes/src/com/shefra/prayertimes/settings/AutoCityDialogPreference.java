@@ -9,6 +9,7 @@ import com.shefra.prayertimes.manager.settingAttributes;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.location.Location;
@@ -30,7 +31,7 @@ public class AutoCityDialogPreference extends DialogPreference implements
 		super(context, attrs);
 		// this.setLayoutResource(R.layout.city);
 
-	}
+	} 
 
 	@Override
 	protected void onDialogClosed(boolean positiveResult) {
@@ -46,9 +47,19 @@ public class AutoCityDialogPreference extends DialogPreference implements
 			else
 				locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
 						0, this);
-			dialog = ProgressDialog.show(context, "",
-					"Please wait for few seconds...", true);
-
+			dialog = new ProgressDialog(context);
+			dialog.setTitle("");
+			dialog.setMessage("Please wait for few seconds...");
+			dialog.setButton("cancel", new DialogInterface.OnClickListener() 
+		    {
+		        public void onClick(DialogInterface dialog, int which) 
+		        {
+		        	locManager.removeUpdates(AutoCityDialogPreference.this);
+		        	dialog.dismiss();
+		            return;
+		        }
+		    });
+			dialog.show();
 		} else {
 			// this.setSummary("NO");
 		}

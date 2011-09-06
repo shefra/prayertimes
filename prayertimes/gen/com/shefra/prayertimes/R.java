@@ -67,7 +67,9 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f060001;
+        public static final int autoSearch=0x7f060002;
         public static final int hello=0x7f060000;
+        public static final int manualSearch=0x7f060003;
     }
     public static final class xml {
         public static final int settings=0x7f040000;

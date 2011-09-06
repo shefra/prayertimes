@@ -22,7 +22,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 		addPreferencesFromResource(R.xml.settings);
 		this.init();
 
-	}
+	} 
 	public void init(){
 		m = new Manager(getApplicationContext());
 
@@ -100,7 +100,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			ListPreference mazhabP = (ListPreference) findPreference("mazhab");
 			String mazhabSummary = mazhabP.getEntry().toString();
 			mazhabP.setSummary(mazhabSummary);	
-			
+			 
 			ListPreference seasonP = (ListPreference) findPreference("season");
 			String seasonSummary = seasonP.getEntry().toString();
 			seasonP.setSummary(seasonSummary);		
@@ -134,6 +134,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	
 	protected void onResume() {
 	    super.onResume();
+	    this.init();
 	    getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener( this );
 	}
 

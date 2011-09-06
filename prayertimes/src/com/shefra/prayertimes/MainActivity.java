@@ -3,9 +3,8 @@ package com.shefra.prayertimes;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
-import com.shefra.prayertimes.services.ServiceSetAlarm;
-import com.shefra.prayertimes.settings.AlertActivity;
-import com.shefra.prayertimes.settings.GPSListener;
+import com.shefra.prayertimes.services.*;
+import com.shefra.prayertimes.settings.AutoCityMainActivity;
 import com.shefra.prayertimes.settings.SettingsActivity;
 import com.shefra.prayertimes.manager.*;
 
@@ -26,10 +25,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-
+ 
 public class MainActivity extends Activity {
+	private  ProgressDialog dialog;
+	private  LocationManager locManager;
+	
 	/** Called when the activity is first created. */
-	LocationManager locManager;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -60,7 +62,7 @@ public class MainActivity extends Activity {
 		
 	}
 
-	private void init() {
+	public void init() {
 		
 		Manager manager = new Manager(getApplicationContext());
 		
@@ -131,19 +133,7 @@ public class MainActivity extends Activity {
 			return true;
 		case 4:
 			
-			//Context context = getApplicationContext();
-			ProgressDialog dialog;
-			dialog = ProgressDialog.show(this, "",
-					"Please wait for few seconds...", true);
-			
-			locManager = (LocationManager) this
-					.getSystemService(Context.LOCATION_SERVICE);
-
-			GPSListener lis = new GPSListener(this,dialog);
-			locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
-					0, lis);
-
-			return true;
+			new AutoCityMainActivity(this, dialog).startSearch();
 		}
 		return super.onOptionsItemSelected(item);
 
@@ -154,15 +144,25 @@ public class MainActivity extends Activity {
 		this.init();
 	}
 	
+	
+	//TODO : support NETWORK_PROVIDER  
 	public void onFirstStart(){
+		locManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
 	    alertDialog.setTitle("Auto City Search");  
-	    alertDialog.setMessage("To find your current city automatically, enable GPS then come back and select 'Menu->Find Current City ' Option.");  
+	    if (locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){  
+	    	alertDialog.setMessage("To find your current city automatically, enable GPS then come back and select 'Menu->Find Current City ' Option.");
+	    }
+	    else
+	    {
+	    	alertDialog.setMessage("GPS is enabled ,to find current city automatically select 'Menu->Find Current City ' Option.");	
+	    }
 	    alertDialog.setButton("OK", new DialogInterface.OnClickListener(){
 	    public void onClick(DialogInterface dialog, int which) {  
+	    	 if (locManager.isProviderEnabled(LocationManager.GPS_PROVIDER) == false){  
 	    	Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 	    	startActivityForResult(intent, 111);
-  
+	    	 }
 	    }});
 	    alertDialog.show();
 	}

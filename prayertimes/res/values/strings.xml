@@ -39,4 +39,8 @@
 		<item name="short">short</item>
 		<item name="full">full</item>
 	</string-array>
+	
+	<string name="autoSearch">Automatic Search</string>
+	<string name="manualSearch">Manual Search</string>
+	
 </resources>

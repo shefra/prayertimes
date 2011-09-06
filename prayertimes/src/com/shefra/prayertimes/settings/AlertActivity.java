@@ -69,7 +69,7 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 				
 			}
 		});
-
+ 
 	}
 	/*public void onCompletionListener(){
 		Log.d(TAG, "onCompletionListener called");

@@ -6,7 +6,7 @@ package com.shefra.prayertimes.moazen;
 /**
  *
  * @author aziz
- */
+ */ 
 public class Calender {
         public  enum  Type {
 	    UmmAlQuraUniv,

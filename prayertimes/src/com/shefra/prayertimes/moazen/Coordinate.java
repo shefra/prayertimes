@@ -6,7 +6,7 @@ package com.shefra.prayertimes.moazen;
 /**
  *
  * @author Admin
- */
+ */ 
 public class Coordinate {
 	public double longitude;
 	public double latitude;

@@ -5,7 +5,7 @@
 	<uses-sdk android:minSdkVersion="7" />
 
 	<application android:icon="@drawable/icon" android:label="@string/app_name" android:debuggable="false">
-		<activity android:name=".MainActivity" android:label="@string/app_name">
+		<activity android:name=".MainActivity" android:label="@string/app_name" android:screenOrientation="nosensor">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
 				<category android:name="android.intent.category.LAUNCHER" />
@@ -19,7 +19,7 @@
 			</intent-filter>
 		
 		</activity>
-		<activity android:name=".settings.AlertActivity">
+		<activity android:name=".settings.AlertActivity" android:screenOrientation="nosensor">
 		<intent-filter>
 				<action android:name="android.intent.action.Alert" />
 				<category android:name="android.intent.category.LAUNCHER" />

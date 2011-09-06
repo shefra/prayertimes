@@ -15,7 +15,7 @@ public class Season {
         }
 	public void setSeason(String season){
             if(season.equals("Winter"))
-                    this.season=Type.Winter;
+                     this.season=Type.Winter;
             else
                     this.season=Type.Summer;
 

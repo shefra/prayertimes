@@ -4,15 +4,19 @@
 	<PreferenceCategory android:title="Location Settings">
 	<PreferenceScreen         xmlns:android="http://schemas.android.com/apk/res/android"
         android:key="first_preferencescreen" android:title="City">
+        <PreferenceCategory android:title="@string/autoSearch">
 		<com.shefra.prayertimes.settings.AutoCityDialogPreference android:key="autocity"
 			android:title="Find My City" 
 			android:summary="Locate city automatically using the GPS,If the result is not correct use the manual option" />
+		</PreferenceCategory>
+		<PreferenceCategory android:title="@string/manualSearch">
 		<ListPreference android:key="country" android:title="Country"
 			android:defaultValue="1" android:dialogTitle="Select Your Country"
 			android:summary="Select Your Country" />
 		<ListPreference android:key="city" android:title="City"
 			android:defaultValue="10" android:dialogTitle="Select Your City"
 			android:summary="Select Your City" />
+		</PreferenceCategory>
     </PreferenceScreen>			
 	</PreferenceCategory>
 	

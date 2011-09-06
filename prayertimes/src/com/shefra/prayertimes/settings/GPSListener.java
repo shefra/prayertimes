@@ -34,7 +34,7 @@ public class GPSListener implements LocationListener {
 		locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
 		0, this);
 	}
-
+ 
 	// Location Listener implementation
 	private void updateWithNewLocation(Location location) {
 		String latLongString = "";

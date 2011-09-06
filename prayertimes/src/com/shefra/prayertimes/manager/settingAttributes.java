@@ -16,7 +16,7 @@ public class settingAttributes {
 		country = new Country(countryNameC,countryNoC);
 		mazhab = mazhabC;
 		calender = calenderC;
-	}
+	} 
 	
 	public settingAttributes(String cityNameC , String latitudeC,String longitudeC,String timeZoneC,
 			String mazhabC,String calenderC,int cityNoC ,String countryNameC, int countryNoC){
