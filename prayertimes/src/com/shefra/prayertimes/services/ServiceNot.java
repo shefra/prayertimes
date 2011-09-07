@@ -73,24 +73,24 @@ public void onCreate(){
 		Intent intent;
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 		//int icon = R.drawable.notification_icon;
-		String AzanMode = pref.getString("notSound", "full") ;
-		if(AzanMode.equals("full")){
+		String azanMode = pref.getString("notSound", "full") ;
+		if(azanMode.equals("full")){
 			 intent = new Intent(getBaseContext(), AlertActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			getApplication().startActivity(intent);
 		}
-		else if(AzanMode.equals("short")){
+		else if(azanMode.equals("short")){
 			String ns = Context.NOTIFICATION_SERVICE;
 			NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
 			CharSequence tickerText = "pray";
 			long when = System.currentTimeMillis();
 			Notification notification = new Notification(com.shefra.prayertimes.R.drawable.icon1, tickerText, when);
 			Context context = getApplicationContext();
-			CharSequence contentTitle = "salat";
-			CharSequence contentText = "go to the mosque now ";
+			CharSequence contentTitle = "حان وقت الصلاة ";
+			CharSequence contentText = "دخل الان وقت الصلاة ";
 			Intent notificationIntent = new Intent(this, ServiceNot.class);
 			PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-			notification.sound = Uri.parse("android.resource://com.shefra.prayertimes/raw/yassir");
+			notification.sound = Uri.parse("android.resource://com.shefra.prayertimes/raw/notification");
 			//notification.defaults = Notification.DEFAULT_SOUND;
 			notification.flags |= notification.FLAG_AUTO_CANCEL ;
 			notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);

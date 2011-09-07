@@ -120,6 +120,15 @@ public class ServiceSetAlarm extends Service{
         calendar.setTimeInMillis(System.currentTimeMillis());
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         int sec = Integer.parseInt(pref.getString("silentStart", "20"));
+        if(sec == 0)
+        {
+        	String azanMode = pref.getString("notSound", "short");
+        	if(azanMode.equals("short")){
+        		sec = 3 ;
+        	}
+        	else
+        		sec = 4 ;
+        }
         calendar.add(Calendar.SECOND, sec*60);
         alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
 		
