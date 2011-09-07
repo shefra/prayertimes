@@ -25,7 +25,7 @@ public class TestActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.alert);
 		mPlayer.start();
-        
+         
  
 		TextView tv = (TextView) findViewById(R.id.city);
 		try {

@@ -32,7 +32,7 @@ public class AutoCityDialogPreference extends DialogPreference implements
 		// this.setLayoutResource(R.layout.city);
 
 	} 
-
+ 
 	@Override
 	protected void onDialogClosed(boolean positiveResult) {
 		super.onDialogClosed(positiveResult);

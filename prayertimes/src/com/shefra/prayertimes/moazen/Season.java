@@ -19,7 +19,7 @@ public class Season {
             else
                     this.season=Type.Summer;
 
-        }
+        } 
 
 	public final Type type(){return seasonInt() ;}
 	public final  Type seasonInt(){return season;}

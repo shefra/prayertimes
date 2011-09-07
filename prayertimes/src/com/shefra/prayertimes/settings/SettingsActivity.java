@@ -50,17 +50,11 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			
 			
 
-			ListPreference ls = (ListPreference) findPreference("language");
-			CharSequence[] entries = { "English", "Arabic" };
-			CharSequence[] entryValues = { "1", "2" };
-			ls.setEntries(entries);
-			ls.setDefaultValue("1");
-			ls.setEntryValues(entryValues);
 
 			//
 			ListPreference ssLP = (ListPreference) findPreference("silentStart");
-			CharSequence[] ssEntries = { "immedialtely", "10 minutes",
-					"20 minutes" };
+			CharSequence[] ssEntries = { "@string/now", "@string/minutes10",
+					"@string/minutes20" };
 			CharSequence[] ssEntryValues = { "0", "10", "20" };
 			ssLP.setEntries(ssEntries);
 			ssLP.setDefaultValue("1");
@@ -68,8 +62,8 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 
 			//
 			ListPreference sdLP = (ListPreference) findPreference("silentDuration");
-			CharSequence[] sdEntries = { "10 minutes", "20 minutes",
-					"30 minutes" };
+			CharSequence[] sdEntries = { "@string/minutes10", "@string/minutes20",
+					"@string/minutes30" };
 			CharSequence[] sdEntryValues = { "10", "20", "30" };
 			sdLP.setEntries(sdEntries);
 			sdLP.setDefaultValue("1");
@@ -88,9 +82,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			PreferenceScreen ps = (PreferenceScreen) findPreference("first_preferencescreen");			
 			ps.setSummary(m.getCountry(Integer.parseInt(countryId)).countryName + "/" + m.getCity(Integer.parseInt(cityId)).cityName);
 			
-			String language = ls.getEntry().toString(); 
-			ls.setSummary(language);
-			
+		
 			String silentStart = ssLP.getEntry().toString(); 
 			ssLP.setSummary(silentStart);
 			
@@ -115,7 +107,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			int position, long id) {
 
 	};
-
+ 
 	private void fillCountryPreference(ListPreference countryPref) {
 		List<Country> countryList = m.getCountryList();
 		CharSequence[] countryEntries = new CharSequence[countryList.size()];

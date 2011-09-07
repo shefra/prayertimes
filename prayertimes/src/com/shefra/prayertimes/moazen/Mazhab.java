@@ -17,7 +17,7 @@ public class Mazhab {
         Mazhab(Type T){this.mazhab=T;}
 	public void setMazhab(Type mazhab){
             this.mazhab=mazhab;
-        }
+        } 
 	public void setMazhab(String mazhab){
             if(mazhab.equals("Default"))
                     this.mazhab=Type.Default;

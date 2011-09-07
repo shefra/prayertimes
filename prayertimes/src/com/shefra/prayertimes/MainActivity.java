@@ -105,9 +105,9 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 1, 1, "Settings");
-		menu.add(0, 3, 3, "About");
-		menu.add(0, 4, 4, "Find Current City");
+		menu.add(0, 1, 1, "@string/settings");
+		menu.add(0, 3, 3, "@string/about");
+		menu.add(0, 4, 4, "@string/autoCityTitle");
 		return true;
 	}
 
@@ -122,9 +122,9 @@ public class MainActivity extends Activity {
 		case 3:
 			
 			AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
-		    alertDialog.setTitle("About");  
+		    alertDialog.setTitle("@string/about");  
 		    alertDialog.setMessage("Shefra @2011");  
-		    alertDialog.setButton("OK", new DialogInterface.OnClickListener(){
+		    alertDialog.setButton("@string/close", new DialogInterface.OnClickListener(){
 		    public void onClick(DialogInterface dialog, int which) {  
 		        return;  
 		    }});
@@ -149,13 +149,13 @@ public class MainActivity extends Activity {
 	public void onFirstStart(){
 		locManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
-	    alertDialog.setTitle("Auto City Search");  
+	    alertDialog.setTitle("@string/autoSearch");  
 	    if (locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){  
-	    	alertDialog.setMessage("To find your current city automatically, enable GPS then come back and select 'Menu->Find Current City ' Option.");
+	    	alertDialog.setMessage("@string/autoSearchHowDisabled");
 	    }
 	    else
 	    {
-	    	alertDialog.setMessage("GPS is enabled ,to find current city automatically select 'Menu->Find Current City ' Option.");	
+	    	alertDialog.setMessage("@string/autoSearchHowEnabled");	
 	    }
 	    alertDialog.setButton("OK", new DialogInterface.OnClickListener(){
 	    public void onClick(DialogInterface dialog, int which) {  

@@ -34,7 +34,7 @@ public class CityListener implements
 		Intent intent = new Intent(manager.getContext(),ServiceSetAlarm.class);
 		manager.getContext().startService(intent);
 		
-		
+		  
 		
 		
 		return true;

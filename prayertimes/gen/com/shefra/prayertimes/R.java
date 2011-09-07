@@ -9,14 +9,13 @@ package com.shefra.prayertimes;
 
 public final class R {
     public static final class array {
-        public static final int language=0x7f070002;
-        public static final int languageValues=0x7f070003;
+        public static final int languageValues=0x7f070002;
         public static final int mazhab=0x7f070000;
         public static final int mazhabValues=0x7f070001;
-        public static final int notSoundEntry=0x7f070006;
-        public static final int notSoundValues=0x7f070007;
-        public static final int season=0x7f070004;
-        public static final int seasonValues=0x7f070005;
+        public static final int notSoundEntry=0x7f070005;
+        public static final int notSoundValues=0x7f070006;
+        public static final int season=0x7f070003;
+        public static final int seasonValues=0x7f070004;
     }
     public static final class attr {
     }
@@ -64,12 +63,47 @@ public final class R {
     public static final class raw {
         public static final int majed=0x7f050000;
         public static final int notification=0x7f050001;
+        public static final int yassir=0x7f050002;
     }
     public static final class string {
+        public static final int about=0x7f06001e;
         public static final int app_name=0x7f060001;
-        public static final int autoSearch=0x7f060002;
+        public static final int autoCitySummary=0x7f060005;
+        public static final int autoCityTitle=0x7f060004;
+        public static final int autoSearch=0x7f06001b;
+        public static final int autoSearchHowDisabled=0x7f060024;
+        public static final int autoSearchHowEnabled=0x7f060025;
+        public static final int city=0x7f060008;
+        public static final int cityDlgTitle=0x7f060009;
+        public static final int close=0x7f06001f;
+        public static final int country=0x7f060006;
+        public static final int countryDlgTitle=0x7f060007;
+        public static final int disableSummary=0x7f06000c;
+        public static final int disableTitle=0x7f06000b;
+        public static final int firstPreferencescreenTitle=0x7f060003;
+        public static final int generalSettings=0x7f060013;
         public static final int hello=0x7f060000;
-        public static final int manualSearch=0x7f060003;
+        public static final int locationSettings=0x7f060002;
+        public static final int manualSearch=0x7f06001c;
+        public static final int mazhabDlgTitle=0x7f060017;
+        public static final int mazhabSummary=0x7f060018;
+        public static final int mazhabTitle=0x7f060016;
+        public static final int minutes10=0x7f060022;
+        public static final int minutes20=0x7f060020;
+        public static final int minutes30=0x7f060021;
+        public static final int notSoundDlgTitle=0x7f060015;
+        public static final int notSoundTitle=0x7f060014;
+        public static final int now=0x7f060023;
+        public static final int seasonDlgTitle=0x7f06001a;
+        public static final int seasonTitle=0x7f060019;
+        public static final int settings=0x7f06001d;
+        public static final int silentDurationDlgTitle=0x7f060012;
+        public static final int silentDurationSummary=0x7f060011;
+        public static final int silentDurationTitle=0x7f060010;
+        public static final int silentSettings=0x7f06000a;
+        public static final int silentStartDlgTitle=0x7f06000e;
+        public static final int silentStartSummary=0x7f06000f;
+        public static final int silentStartTitle=0x7f06000d;
     }
     public static final class xml {
         public static final int settings=0x7f040000;

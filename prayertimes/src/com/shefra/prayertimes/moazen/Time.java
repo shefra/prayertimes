@@ -19,7 +19,7 @@ public class Time {
     public final int second(){return m_second;}
     public final String zone(){return m_zone;}
 
-
+ 
     private String convertToTime(double var,boolean isAM){
         String time = "";
         int ivar = (int)var;

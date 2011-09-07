@@ -61,7 +61,7 @@ public class AutoCityMainActivity implements LocationListener{
 
 			dialog.show();
 
-	}
+	} 
 	
 	// Location Listener implementation
 	private void updateWithNewLocation(Location location) {

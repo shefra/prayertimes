@@ -16,7 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-
+ 
 public class AlertActivity extends Activity implements OnCompletionListener {
 	private static final String TAG = "AlertPlayer";
 	private MediaPlayer mPlayer ;
@@ -69,7 +69,7 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 				
 			}
 		});
- 
+  
 	}
 	/*public void onCompletionListener(){
 		Log.d(TAG, "onCompletionListener called");

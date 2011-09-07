@@ -1,28 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="hello">Hello World, PreferenceActivityActivity!</string>
-	<string name="app_name">Khoshooa</string>
+	<string name="app_name">صموتي</string>
 	<string-array name="mazhab">
-		<item name="1">Hanafi</item>
-		<item name="2">Hanbali...</item>
+		<item name="1">حنفي</item>
+		<item name="2">شافعي...</item>
 	</string-array>
 	<string-array name="mazhabValues">
 		<item name="1">1</item>
 		<item name="2">2</item>
 	</string-array>
 
-	<string-array name="language">
-		<item name="1">English</item>
-		<item name="2">Arabic</item>
-	</string-array>
 	<string-array name="languageValues">
 		<item name="1">1</item>
 		<item name="2">2</item>
 	</string-array>
 
 	<string-array name="season">
-		<item name="1">Summer</item>
-		<item name="2">Winter</item>
+		<item name="1">صيفي</item>
+		<item name="2">شتوي</item>
 	</string-array>
 	<string-array name="seasonValues">
 		<item name="1">1</item>
@@ -30,9 +26,9 @@
 	</string-array>
 
 	<string-array name="notSoundEntry">
-		<item name="Disable">Disable</item>
-		<item name="short">Short Azan</item>
-		<item name="full">full Azan</item>
+		<item name="Disable">بدون صوت</item>
+		<item name="short">أذان مختصر</item>
+		<item name="full">أذان كامل</item>
 	</string-array>
 	<string-array name="notSoundValues">
 		<item name="Disable">Disable</item>
@@ -40,7 +36,42 @@
 		<item name="full">full</item>
 	</string-array>
 	
-	<string name="autoSearch">Automatic Search</string>
-	<string name="manualSearch">Manual Search</string>
+	<string name="locationSettings">إعدادات المدينة</string>
+	<string name="firstPreferencescreenTitle">المدينة</string>
+	<string name="autoCityTitle">ابحث عن مدينتي</string>
+	<string name="autoCitySummary">البحث عن المدينة التي تتواجد بها الآن عن طريق أبراج الاتصالات أو عن طريق الأقمار الصناعية </string>
+	<string name="country">الدولة</string>
+	<string name="countryDlgTitle">اختر الدولة</string>
+	<string name="city">المدينة</string>
+	<string name="cityDlgTitle">اختر المدينة</string>
+	<string name="silentSettings">إعدادات الوضع الصامت</string>
+	<string name="disableTitle">إيقاف التحويل إلى صامت</string>
+	<string name="disableSummary">إيقاف التحويل التلقائي إلى الوضع الصامت عندما يحين وقت الأذان</string>
+	<string name="silentStartTitle">وقت البدء بالوضع الصامت</string>
+	<string name="silentStartDlgTitle">متى يتم التحويل إلى صامت؟</string>
+	<string name="silentStartSummary">متى ترغب بالتحويل إلى الوضع الصامت عندما يحين وقت الأذان</string>
+	<string name="silentDurationTitle">مدة الوضع الصامت</string>
+	<string name="silentDurationSummary">مدة بقاء النظام على الوضع الصامت بعد الأذان</string>
+	<string name="silentDurationDlgTitle">مدة البقاء على الوضع الصامت</string>
+	<string name="generalSettings">إعدادات عامة</string>
+	<string name="notSoundTitle">صوت الإشعار</string>
+	<string name="notSoundDlgTitle">صوت الإشعار</string>
+	<string name="mazhabTitle">المذهب الفقهي</string>
+	<string name="mazhabDlgTitle">المذهب الفقهي</string>
+	<string name="mazhabSummary"></string>
+	<string name="seasonTitle">التوقيت </string>
+	<string name="seasonDlgTitle">التوقيت </string>				
+	<string name="autoSearch">البحث التلقائي</string>
+	<string name="manualSearch">البحث اليدوي</string>
+	<string name="settings">الإعدادات</string>
+	<string name="about">من نحن؟</string>
+	<string name="close">إغلاق</string>
+	<string name="minutes20">20 دقيقة</string>
+	<string name="minutes30">30 دقيقة</string>
+	<string name="minutes10">10 دقائق</string>
+	<string name="now">بعد الأذان مباشرة</string>
+	<string name="autoSearchHowDisabled">خدمة الجي-بي-إس أو خدمة أبراج الاتصالات لاتعمل الآن ، في حال أردت أن تقوم بالبحث التلقائي عن المدينة فيجب تشغيلها ثم العودة مرة أخرى  </string>
+	<string name="autoSearchHowEnabled">خدمة الجي-بي-إس أو خدمة أبراج الاتصالات  تعمل الآن ، اختر من االقائمة الرئيسية الخيار : ابحث عن مدينتي</string>	
+	
 	
 </resources>

@@ -24,7 +24,7 @@ public class Calender {
 
             if (string.equals("UmmAlQuraUniv"))
                 calender=Type.UmmAlQuraUniv;
-
+ 
             else if (string.equals("EgytionGeneralAuthorityofSurvey"))
                 calender=Type.EgytionGeneralAuthorityofSurvey;
 

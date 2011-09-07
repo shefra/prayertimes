@@ -498,7 +498,7 @@ public class Manager extends SQLiteOpenHelper {
 
 			double b1 = (latitude / pk);
 			double b2 = (longitude / pk);
-
+ 
 			double t1 = (Math.cos(a1) * Math.cos(a2) * Math.cos(b1) * Math
 					.cos(b2));
 			double t2 = (Math.cos(a1) * Math.sin(a2) * Math.cos(b1) * Math
@@ -511,7 +511,7 @@ public class Manager extends SQLiteOpenHelper {
 				pos = i;
 			}
 			i++;
-
+ 
 		}
 		if (pos < cityList.size() && cityList.get(pos) != null) {
 			settingAttributes sa = new settingAttributes();
