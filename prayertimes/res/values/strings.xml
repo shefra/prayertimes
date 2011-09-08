@@ -25,6 +25,28 @@
 		<item name="2">2</item>
 	</string-array>
 
+	<string-array name="silentStartEntry">
+		<item name="immediately">بعد الأذان مباشرة</item>
+		<item name="minutes10">10 دقيقة</item>
+		<item name="minutes20">20 دقيقة</item>
+	</string-array>
+	<string-array name="silentStartEntryValues">
+		<item name="immediately">0</item>
+		<item name="minutes10">10</item>
+		<item name="minutes20">20</item>
+	</string-array>
+
+	<string-array name="silentDurationEntry">
+		<item name="minutes10">10 دقيقة</item>
+		<item name="minutes20">20 دقيقة</item>
+		<item name="minutes30">30 دقيقة</item>
+	</string-array>
+	<string-array name="silentDurationEntryValues">
+		<item name="minutes10">10</item>
+		<item name="minutes20">20</item>
+		<item name="minutes30">30</item>
+	</string-array>
+		
 	<string-array name="notSoundEntry">
 		<item name="Disable">بدون صوت</item>
 		<item name="short">أذان مختصر</item>

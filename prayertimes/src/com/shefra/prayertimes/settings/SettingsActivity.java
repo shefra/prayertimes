@@ -46,28 +46,6 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			if(v == null)
 				v = "1";//TODO 
 			CityListener.fillCityPreference(cityPreference,v ,m);
-			
-			
-			
-
-
-			//
-			ListPreference ssLP = (ListPreference) findPreference("silentStart");
-			CharSequence[] ssEntries = { "@string/now", "@string/minutes10",
-					"@string/minutes20" };
-			CharSequence[] ssEntryValues = { "0", "10", "20" };
-			ssLP.setEntries(ssEntries);
-			ssLP.setDefaultValue("1");
-			ssLP.setEntryValues(ssEntryValues);
-
-			//
-			ListPreference sdLP = (ListPreference) findPreference("silentDuration");
-			CharSequence[] sdEntries = { "@string/minutes10", "@string/minutes20",
-					"@string/minutes30" };
-			CharSequence[] sdEntryValues = { "10", "20", "30" };
-			sdLP.setEntries(sdEntries);
-			sdLP.setDefaultValue("1");
-			sdLP.setEntryValues(sdEntryValues);
 
 			// ok , now let us set summary sections for each preference
 			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -82,10 +60,11 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			PreferenceScreen ps = (PreferenceScreen) findPreference("first_preferencescreen");			
 			ps.setSummary(m.getCountry(Integer.parseInt(countryId)).countryName + "/" + m.getCity(Integer.parseInt(cityId)).cityName);
 			
-		
+			ListPreference ssLP = (ListPreference) findPreference("silentStart");
 			String silentStart = ssLP.getEntry().toString(); 
 			ssLP.setSummary(silentStart);
 			
+			ListPreference sdLP = (ListPreference) findPreference("silentDuration");
 			String silentDuration = sdLP.getEntry().toString();
 			sdLP.setSummary(silentDuration);			
 

@@ -28,7 +28,7 @@ public class Manager extends SQLiteOpenHelper {
 		super(applicationContext, DB_NAME, null, 1);
 		this.context = applicationContext;
 	}
- 
+
 	public int to24(String time) {
 		String[] t = time.split(":");
 		String[] AMORPM = t[2].split(" ");
@@ -67,13 +67,13 @@ public class Manager extends SQLiteOpenHelper {
 	}
 
 	public static String secondsToTime(double time) {
-		//int second = (int) time;
+
 		int hours = (int) (time / 3600);
 		time = time - (hours * 3600);
 		int minutes = (int) (time / 60);
 		time = time - minutes * 60;
 		int seconds = (int) time;
-		String remTime = hours % 12 + ":" + minutes + ":" + seconds;
+		String remTime = hours % 12 + ":" + minutes /* + ":" + seconds */;
 		return remTime;
 	}
 
@@ -122,32 +122,6 @@ public class Manager extends SQLiteOpenHelper {
 		return nearestPrayer;
 	}
 
-	// public int nearestPrayerTime(int hour, int min, int sec, int dd,
-	// int mm, int yy) throws IOException {
-	// int count = 0, test = 0;
-	// int[] temp = new int[5];
-	// ArrayList<String> prayerTimes = getPrayerTimes(dd,mm,yy);
-	// while (prayerTimes.size() > count) {
-	// test = this.to24(prayerTimes.get(count));
-	//
-	// test = this.getMinute(prayerTimes.get(count));
-	// test = this.getSecond(prayerTimes.get(count));
-	// temp[count] = this.getSec(this.to24(prayerTimes.get(count)),
-	// this.getMinute(prayerTimes.get(count)),
-	// this.getSecond(prayerTimes.get(count)));
-	//
-	// if (count > 0 && temp[count] > this.getSec(hour, min, sec)
-	// && temp[count - 1] < this.getSec(hour, min, sec)) {
-	// // count++;
-	// // return this.getSec(prayerTimes.get(count));
-	// return temp[count];
-	// }
-	// count++;
-	// }
-	// // return this.getSec(prayerTimes.get(0));
-	// return temp[0];
-	// }
-
 	// -----------DataBase methods-----------//
 	public String getDatabasePath() {
 		return DB_PATH;
@@ -188,10 +162,10 @@ public class Manager extends SQLiteOpenHelper {
 			// do nothing - database already exist
 		} else {
 
-			// By calling this method and empty database will be created into
+			// By calling this method an empty database will be created into
 			// the default system path
 			// of your application so we are gonna be able to overwrite that
-			// database with our database.
+			// database with our new database.
 			this.getReadableDatabase();
 
 			try {
@@ -277,9 +251,8 @@ public class Manager extends SQLiteOpenHelper {
 		SharedPreferences pref = PreferenceManager
 				.getDefaultSharedPreferences(this.context);
 		sa.city.timeZone = pref.getString("timeZone", "3");
-		sa.city.latitude = pref.getString("latitude", "21.43");// TODO put
-																// makkah as
-																// default
+		// Makkah
+		sa.city.latitude = pref.getString("latitude", "21.43");
 		sa.city.longitude = pref.getString("longitude", "39.82");
 		sa.calender = pref.getString("calender", "UmmAlQuraUniv");
 		sa.mazhab = pref.getString("mazhab", "2");
@@ -295,30 +268,24 @@ public class Manager extends SQLiteOpenHelper {
 		db.setVersion(1);
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
-		
-		//TODO : use better way to detect the selected language.
-		SharedPreferences pref = PreferenceManager
-		.getDefaultSharedPreferences(this.context);
-		String lang = pref.getString("language","english");
-		
+
 		String whereClause = null;
-		if(id != -1)
-		{
+		if (id != -1) {
 			whereClause = "country_id=" + id;
 		}
 		Cursor cur = db.query("citiesTable", new String[] { "cityNO",
-				"cityName","cityNameAr","latitude","longitude" }, whereClause, null, null, null, null);
+				"cityName", "cityNameAr", "latitude", "longitude" },
+				whereClause, null, null, null, null);
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
 			City c = new City();
 			c.cityNo = cur.getInt(0);
-			if(lang.equals("1")){
-				c.cityName = cur.getString(1);
-			}
-			else{
+			if (cur.getString(2) != null)
 				c.cityName = cur.getString(2);
-			}
-			c.latitude  = cur.getString(3);
+			else
+				c.cityName = cur.getString(1);
+
+			c.latitude = cur.getString(3);
 			c.longitude = cur.getString(4);
 			city.add(c);
 			cur.moveToNext();
@@ -336,24 +303,17 @@ public class Manager extends SQLiteOpenHelper {
 		db.setVersion(1);
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
-		
-		//TODO : use better way to detect the selected language.
-		SharedPreferences pref = PreferenceManager
-		.getDefaultSharedPreferences(this.context);
-		String lang = pref.getString("language","english");
-		
-		
+
 		Cursor cur = db.query("country", null, null, null, null, null, null);
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
 			Country c = new Country();
 			c.countryNo = cur.getInt(0);
-			if(lang.equals("1")){
-				c.countryName = cur.getString(1);
-			}
-			else{
+			if (cur.getString(2) != null)
 				c.countryName = cur.getString(2);
-			}
+			else
+				c.countryName = cur.getString(1);
+
 			country.add(c);
 			cur.moveToNext();
 		}
@@ -361,7 +321,7 @@ public class Manager extends SQLiteOpenHelper {
 		db.close();
 		return country;
 	}
- 
+
 	public azanAttribute getData(int id) {
 		db = SQLiteDatabase.openOrCreateDatabase(DB_PATH + DB_NAME, null);
 		db.setVersion(1);
@@ -407,8 +367,8 @@ public class Manager extends SQLiteOpenHelper {
 	public Context getContext() {
 		return context;
 	}
-	
-	public Country getCountry(int countrId){
+
+	public Country getCountry(int countrId) {
 		SQLiteDatabase db;
 		Country country = new Country();
 
@@ -416,33 +376,26 @@ public class Manager extends SQLiteOpenHelper {
 		db.setVersion(1);
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
-		
-		//TODO : use better way to detect the selected language.
-		SharedPreferences pref = PreferenceManager
-		.getDefaultSharedPreferences(this.context);
-		String lang = pref.getString("language","english");
-		
-		Cursor cur = db.query("country", null, "country_id=" + countrId, null, null, null, null);
+
+		Cursor cur = db.query("country", null, "country_id=" + countrId, null,
+				null, null, null);
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
-			
+
 			country.countryNo = cur.getInt(0);
-			if(lang.equals("1")){
-				country.countryName = cur.getString(1);
-			}
-			else{
+
+			if (cur.getString(2) != null)
 				country.countryName = cur.getString(2);
-			}
-		
-			
-			
+			else
+				country.countryName = cur.getString(1);
+
 			cur.moveToNext();
 		}
 		cur.close();
 		db.close();
 		return country;
 	}
-	
+
 	public City getCity(int cityId) {
 		City city = new City();
 
@@ -450,26 +403,20 @@ public class Manager extends SQLiteOpenHelper {
 		db.setVersion(1);
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
-		
-		//TODO : use better way to detect the selected language.
-		SharedPreferences pref = PreferenceManager
-		.getDefaultSharedPreferences(this.context);
-		String lang = pref.getString("language","english");
-		
+
 		Cursor cur = db.query("citiesTable", new String[] { "cityNO",
-				"cityName","cityNameAr" }, "cityNO=" + cityId, null, null, null, null);
+				"cityName", "cityNameAr" }, "cityNO=" + cityId, null, null,
+				null, null);
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
-			
+
 			city.cityNo = cur.getInt(0);
-			
-			if(lang.equals("1")){
-				city.cityName = cur.getString(1);
-			}
-			else{
+
+			if (cur.getString(2) != null)
 				city.cityName = cur.getString(2);
-			}
-		
+			else
+				city.cityName = cur.getString(1);
+
 			cur.moveToNext();
 		}
 		cur.close();
@@ -478,59 +425,58 @@ public class Manager extends SQLiteOpenHelper {
 	}
 
 	public City getCurrentCity() {
-		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences pref = PreferenceManager
+				.getDefaultSharedPreferences(context);
 		String cityId = pref.getString("city", "1");
 		City city = this.getCity(Integer.parseInt(cityId));
 		return city;
-		
-		
+
 	}
+
 	public void findCurrentCity(double latitude, double longitude) {
-		double min = 0;
-		int i = 0, pos = 0;
-		ArrayList<City> cityList = this.getCityList(-1);
-		for (City city : cityList) {
-			double lat = Double.parseDouble(city.latitude);
-			double lon = Double.parseDouble(city.longitude);
-			double pk = (180 / 3.14159);
-			double a1 = (lat / pk);
-			double a2 = (lon / pk);
+		try {
+			double min = 0;
+			int i = 0, pos = 0;
+			ArrayList<City> cityList = this.getCityList(-1);
+			for (City city : cityList) {
+				double lat = Double.parseDouble(city.latitude);
+				double lon = Double.parseDouble(city.longitude);
+				double pk = (180 / 3.14159);
+				double a1 = (lat / pk);
+				double a2 = (lon / pk);
 
-			double b1 = (latitude / pk);
-			double b2 = (longitude / pk);
- 
-			double t1 = (Math.cos(a1) * Math.cos(a2) * Math.cos(b1) * Math
-					.cos(b2));
-			double t2 = (Math.cos(a1) * Math.sin(a2) * Math.cos(b1) * Math
-					.sin(b2));
-			double t3 = (Math.sin(a1) * Math.sin(b1));
-			double tt = Math.acos(t1 + t2 + t3);
-			double dist = (6366000 * tt);
-			if (dist < min || i == 0) {
-				min = dist;
-				pos = i;
+				double b1 = (latitude / pk);
+				double b2 = (longitude / pk);
+
+				double t1 = (Math.cos(a1) * Math.cos(a2) * Math.cos(b1) * Math
+						.cos(b2));
+				double t2 = (Math.cos(a1) * Math.sin(a2) * Math.cos(b1) * Math
+						.sin(b2));
+				double t3 = (Math.sin(a1) * Math.sin(b1));
+				double tt = Math.acos(t1 + t2 + t3);
+				double dist = (6366000 * tt);
+				if (dist < min || i == 0) {
+					min = dist;
+					pos = i;
+				}
+				i++;
+
 			}
-			i++;
- 
-		}
-		if (pos < cityList.size() && cityList.get(pos) != null) {
-			settingAttributes sa = new settingAttributes();
-			String cityId = (String) Integer.toString(cityList.get(pos).cityNo);
-			sa.city.cityNo = -1;
-			if (cityId != null) {
-				sa.city.cityNo = Integer.parseInt(cityId);
+			if (pos < cityList.size() && cityList.get(pos) != null) {
+				settingAttributes sa = new settingAttributes();
+				String cityId = (String) Integer
+						.toString(cityList.get(pos).cityNo);
+				sa.city.cityNo = -1;
+				if (cityId != null) {
+					sa.city.cityNo = Integer.parseInt(cityId);
+				}
+				if (sa.city.cityNo == -1)
+					sa.city.cityNo = 1;
+				this.setSetting(sa);
+
 			}
-			if (sa.city.cityNo == -1)
-				sa.city.cityNo = 1;
-			this.setSetting(sa);
-
-			// SharedPreferences pref =
-			// PreferenceManager.getDefaultSharedPreferences(manager.getContext());
-			// Editor editor = pref.edit();
-			// editor.putString("city", cityId);
-			// editor.commit();
-			//
-
+		} catch (Exception e) {
+			e = e;
 		}
 
 	}

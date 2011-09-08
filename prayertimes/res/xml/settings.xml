@@ -30,16 +30,19 @@
 			android:summary="@string/disableSummary" />
 		<ListPreference android:key="silentStart"
 			android:title="@string/silentStartTitle"
-			android:defaultValue="0" android:dialogTitle="@string/silentStartDlgTitle"
+			android:dialogTitle="@string/silentStartDlgTitle" android:entries="@array/silentStartEntry"
+			android:defaultValue="1"  android:entryValues="@array/silentStartEntryValues"
 			android:summary="@string/silentStartSummary" />
+			
 		<ListPreference android:key="silentDuration"
-			android:title="@string/silentDurationTitle" android:defaultValue="10"
+			android:title="@string/silentDurationTitle" android:defaultValue="1" android:entries="@array/silentDurationEntry"
+			android:entryValues="@array/silentDurationEntryValues"
 			android:dialogTitle="@string/silentDurationDlgTitle" android:summary="@string/silentDurationSummary" />
 		
 	</PreferenceCategory>
 	
 	<PreferenceCategory android:title="@string/generalSettings">
-		<ListPreference android:key="notSound" android:title="@string/notSoundTitle" android:defaultValue="2"
+		<ListPreference android:key="notSound" android:title="@string/notSoundTitle" android:defaultValue="1"
 					   android:dialogTitle="@string/notSoundDlgTitle" android:entries="@array/notSoundEntry" android:entryValues="@array/notSoundValues"/>
 		<ListPreference android:key="mazhab" android:title="@string/mazhabTitle"
 			android:dialogTitle="@string/mazhabDlgTitle" android:entries="@array/mazhab"
