@@ -86,14 +86,21 @@
 	<string name="autoSearch">البحث التلقائي</string>
 	<string name="manualSearch">البحث اليدوي</string>
 	<string name="settings">الإعدادات</string>
-	<string name="about">من نحن؟</string>
+	<string name="about">عن الفريق</string>
 	<string name="close">إغلاق</string>
 	<string name="minutes20">20 دقيقة</string>
 	<string name="minutes30">30 دقيقة</string>
 	<string name="minutes10">10 دقائق</string>
 	<string name="now">بعد الأذان مباشرة</string>
-	<string name="autoSearchHowDisabled">خدمة الجي-بي-إس أو خدمة أبراج الاتصالات لاتعمل الآن ، في حال أردت أن تقوم بالبحث التلقائي عن المدينة فيجب تشغيلها ثم العودة مرة أخرى  </string>
-	<string name="autoSearchHowEnabled">خدمة الجي-بي-إس أو خدمة أبراج الاتصالات  تعمل الآن ، اختر من االقائمة الرئيسية الخيار : ابحث عن مدينتي</string>	
-	
-	
+	<string name="autoSearchHowDisabled">خدمة  جي-بي-إس  و خدمة أبراج الشبكة  لاتعمل الآن ، في حال أردت أن تقوم بالبحث التلقائي عن المدينة فيجب تشغيلها ثم العودة مرة أخرى  </string>
+	<string name="autoSearchHowEnabled">خدمة  جي-بي-إس  و خدمة أبراج الشبكة  تعمل الآن ، اختر من االقائمة الرئيسية الخيار : ابحث عن مدينتي</string>	
+	<string name="notTitle">حان وقت الصلاة</string>
+	<string name="notContent">حان وقت الصلاة</string>
+	<string name="teamName"><a href="http://shefrah.com/">تطوير و برمجة فريق شيفرة</a></string>
+	<string name="gpsAndNetworkIsDisabled">جي-بي-إس و أبراج الشبكة غير مفعلة ، لا يمكن تشغيل البحث التلقائي ، يمكنك تشغيلها لاحقاً أو تجربة البحث اليدوي عن طريق الإعدادات</string>
+	<string name="pleaseWait">الرجاء الانتظار</string>
+	<string name="cancel">إلغاء</string>
+	<string name="noLocationFound">لم يتم العثور على مدينة في موقعك الحالي</string>
+	<string name="dialogAutoSearchMessage">سيتم البحث بإستخدام أبراج الشبكة أو خدمة جي-بي-إس ، تأكد من تفعيل إحدى الخدمتين ليتم العثور على المدينة</string>
+	<string name="version">1.0 Beta</string>
 </resources>

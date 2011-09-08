@@ -86,8 +86,8 @@ public void onCreate(){
 			long when = System.currentTimeMillis();
 			Notification notification = new Notification(com.shefra.prayertimes.R.drawable.icon1, tickerText, when);
 			Context context = getApplicationContext();
-			CharSequence contentTitle = "";
-			CharSequence contentText = "";
+			CharSequence contentTitle = getString(R.string.notTitle);
+			CharSequence contentText = getString(R.string.notContent);
 			Intent notificationIntent = new Intent(this, ServiceNot.class);
 			PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 			notification.sound = Uri.parse("android.resource://com.shefra.prayertimes/raw/notification");

@@ -8,7 +8,7 @@
 	        
 	        <PreferenceCategory android:title="@string/autoSearch">
 				<com.shefra.prayertimes.settings.AutoCityDialogPreference android:key="autocity"
-					android:title="@string/autoCityTitle" 
+					android:title="@string/autoCityTitle" android:dialogMessage="@string/dialogAutoSearchMessage"
 					android:summary="@string/autoCitySummary" />
 			</PreferenceCategory>
 			

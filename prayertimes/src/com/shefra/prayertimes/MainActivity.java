@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import com.shefra.prayertimes.services.*;
+import com.shefra.prayertimes.settings.About;
 import com.shefra.prayertimes.settings.AutoCityMainActivity;
 import com.shefra.prayertimes.settings.SettingsActivity;
 import com.shefra.prayertimes.manager.*;
@@ -105,9 +106,9 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		menu.add(0, 1, 1, "@string/settings");
-		menu.add(0, 3, 3, "@string/about");
-		menu.add(0, 4, 4, "@string/autoCityTitle");
+		menu.add(0, 1, 1, getString(R.string.settings));
+		menu.add(0, 3, 3, getString(R.string.about));
+		menu.add(0, 4, 4, getString(R.string.autoCityTitle));
 		return true;
 	}
 
@@ -120,15 +121,17 @@ public class MainActivity extends Activity {
 			startActivity(myIntent);
 			return true;
 		case 3:
-			
-			AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
-		    alertDialog.setTitle("@string/about");  
-		    alertDialog.setMessage("Shefra @2011");  
-		    alertDialog.setButton("@string/close", new DialogInterface.OnClickListener(){
-		    public void onClick(DialogInterface dialog, int which) {  
-		        return;  
-		    }});
-		    alertDialog.show();
+//			
+//			AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
+//		    alertDialog.setTitle(getString(R.string.about));  
+//		    alertDialog.setMessage(getString(R.string.teamName));  
+//		    alertDialog.setButton(getString(R.string.close), new DialogInterface.OnClickListener(){
+//		    public void onClick(DialogInterface dialog, int which) {  
+//		        return;  
+//		    }});
+//		    alertDialog.show();
+			Intent MyIntent = new Intent (this , About.class);
+			startActivity(MyIntent);
 			
 			return true;
 		case 4:
@@ -149,21 +152,25 @@ public class MainActivity extends Activity {
 	public void onFirstStart(){
 		locManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
-	    alertDialog.setTitle("@string/autoSearch");  
-	    if (locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){  
-	    	alertDialog.setMessage("@string/autoSearchHowDisabled");
+	    alertDialog.setTitle(getString(R.string.autoSearch));  
+	    if (!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && !locManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){  
+	    	alertDialog.setMessage(getString(R.string.autoSearchHowDisabled));
+		    alertDialog.setButton(getString(R.string.close), new DialogInterface.OnClickListener(){
+			    public void onClick(DialogInterface dialog, int which) {      	 
+			    	Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+			    	startActivityForResult(intent, 111);
+			    	 
+			    }});
 	    }
 	    else
 	    {
-	    	alertDialog.setMessage("@string/autoSearchHowEnabled");	
+//	    	alertDialog.setMessage(getString(R.string.autoSearchHowEnabled));	
+	    	alertDialog.setButton(getString(R.string.close), new DialogInterface.OnClickListener(){
+			    public void onClick(DialogInterface dialog, int which) {  
+			    	new AutoCityMainActivity(MainActivity.this, MainActivity.this.dialog).startSearch();
+			    }});
 	    }
-	    alertDialog.setButton("OK", new DialogInterface.OnClickListener(){
-	    public void onClick(DialogInterface dialog, int which) {  
-	    	 if (locManager.isProviderEnabled(LocationManager.GPS_PROVIDER) == false){  
-	    	Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-	    	startActivityForResult(intent, 111);
-	    	 }
-	    }});
+
 	    alertDialog.show();
 	}
 	
@@ -171,25 +178,15 @@ public class MainActivity extends Activity {
         if(requestCode == 111 && resultCode == 0){
             LocationManager locManager = (LocationManager) getSystemService(LOCATION_SERVICE);  
             
-            if (locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){  
-                               
-        		AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
-        	    alertDialog.setTitle("Info");  
-        	    alertDialog.setMessage("The GPS in Enabled now");  
-        	    alertDialog.setButton("OK", new DialogInterface.OnClickListener(){
-        	    public void onClick(DialogInterface dialog, int which) {  
-        	    	return;
-          
-        	    }});
-        	    alertDialog.show();
+            if (locManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){  
+            	new AutoCityMainActivity(MainActivity.this, MainActivity.this.dialog).startSearch();            	
             }else{
         		AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
-        	    alertDialog.setTitle("Info");  
-        	    alertDialog.setMessage("The GPS in still disabled, try again!");  
-        	    alertDialog.setButton("OK", new DialogInterface.OnClickListener(){
+        	    alertDialog.setTitle("");  
+        	    alertDialog.setMessage(getString(R.string.gpsAndNetworkIsDisabled));  
+        	    alertDialog.setButton(getString(R.string.close), new DialogInterface.OnClickListener(){
         	    public void onClick(DialogInterface dialog, int which) {  
-        	   
-          
+        	    	return;          
         	    }});
         	    alertDialog.show();
             }

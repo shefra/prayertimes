@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent" android:background="#ffffff"
+	android:layout_height="fill_parent">
+	<TableLayout android:layout_width="fill_parent"
+		android:layout_marginLeft="30px" android:layout_marginRight="10px"
+		android:layout_marginTop="40px" android:layout_height="wrap_content"
+		android:shrinkColumns="*" android:stretchColumns="*">
+		<TableRow android:layout_height="wrap_content"
+			android:layout_width="fill_parent">
+
+			<ImageView android:layout_height="wrap_content" android:layout_marginBottom="5dp"
+				android:layout_gravity="center_vertical|center_horizontal|center"
+				android:scaleType="center" android:layout_width="fill_parent"
+				android:src="@drawable/shefrah">
+			</ImageView>
+
+		</TableRow>
+		<TableRow android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+			<TextView android:layout_width="fill_parent" android:layout_marginBottom="5dp"   android:autoLink="web"
+				android:layout_gravity="center_vertical|center_horizontal|center"
+				android:layout_height="wrap_content" android:text="@string/teamName"
+				android:textStyle="bold" android:textColor="#5c6577"
+				android:gravity="center" />
+		</TableRow>
+		<TableRow android:layout_width="fill_parent" 
+			android:layout_height="wrap_content">
+			<TextView android:layout_width="fill_parent" 
+				android:layout_gravity="center_vertical|center_horizontal|center"
+				android:layout_height="wrap_content" android:text="@string/version"
+				android:textStyle="bold" android:textColor="#5c6577"
+				android:gravity="center" />
+		</TableRow>
+	</TableLayout>
+
+</LinearLayout>

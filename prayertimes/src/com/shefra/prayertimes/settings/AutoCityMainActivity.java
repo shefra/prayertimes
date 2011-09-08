@@ -48,8 +48,8 @@ public class AutoCityMainActivity implements LocationListener{
 			
 				dialog = new ProgressDialog(context);
 				dialog.setTitle("");
-				dialog.setMessage("Please wait for few seconds...");
-				dialog.setButton("cancel", new DialogInterface.OnClickListener() 
+				dialog.setMessage(context.getString(R.string.pleaseWait));
+				dialog.setButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() 
 			    {
 			        public void onClick(DialogInterface dialog, int which) 
 			        {

@@ -30,6 +30,7 @@ public class AutoCityDialogPreference extends DialogPreference implements
 	public AutoCityDialogPreference(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		// this.setLayoutResource(R.layout.city);
+		// this.setDialogMessage(this.getContext().getString(R.string.dialogAutoSearchMessage));
 
 	} 
  
@@ -49,8 +50,8 @@ public class AutoCityDialogPreference extends DialogPreference implements
 						0, this);
 			dialog = new ProgressDialog(context);
 			dialog.setTitle("");
-			dialog.setMessage("Please wait for few seconds...");
-			dialog.setButton("cancel", new DialogInterface.OnClickListener() 
+			dialog.setMessage(context.getString(R.string.pleaseWait));
+			dialog.setButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() 
 		    {
 		        public void onClick(DialogInterface dialog, int which) 
 		        {
@@ -76,7 +77,7 @@ public class AutoCityDialogPreference extends DialogPreference implements
 			manager.findCurrentCity(lat,lng);
 
 		} else {
-			this.setSummary( "No location found" );
+			this.setSummary( this.getContext().getString(R.string.noLocationFound) );
 		}
 		locManager.removeUpdates(this);
 		dialog.hide();

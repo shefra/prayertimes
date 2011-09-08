@@ -37,6 +37,7 @@ public final class R {
         public static final int isha=0x7f02000a;
         public static final int magrib=0x7f02000b;
         public static final int remaining=0x7f02000c;
+        public static final int shefrah=0x7f02000d;
     }
     public static final class id {
         public static final int asrTime=0x7f08000e;
@@ -58,11 +59,12 @@ public final class R {
         public static final int state=0x7f080004;
     }
     public static final class layout {
-        public static final int alert=0x7f030000;
-        public static final int city=0x7f030001;
-        public static final int cityfinder=0x7f030002;
-        public static final int main=0x7f030003;
-        public static final int test=0x7f030004;
+        public static final int about=0x7f030000;
+        public static final int alert=0x7f030001;
+        public static final int city=0x7f030002;
+        public static final int cityfinder=0x7f030003;
+        public static final int main=0x7f030004;
+        public static final int test=0x7f030005;
     }
     public static final class raw {
         public static final int majed=0x7f050000;
@@ -77,15 +79,18 @@ public final class R {
         public static final int autoSearch=0x7f06001b;
         public static final int autoSearchHowDisabled=0x7f060024;
         public static final int autoSearchHowEnabled=0x7f060025;
+        public static final int cancel=0x7f06002b;
         public static final int city=0x7f060008;
         public static final int cityDlgTitle=0x7f060009;
         public static final int close=0x7f06001f;
         public static final int country=0x7f060006;
         public static final int countryDlgTitle=0x7f060007;
+        public static final int dialogAutoSearchMessage=0x7f06002d;
         public static final int disableSummary=0x7f06000c;
         public static final int disableTitle=0x7f06000b;
         public static final int firstPreferencescreenTitle=0x7f060003;
         public static final int generalSettings=0x7f060013;
+        public static final int gpsAndNetworkIsDisabled=0x7f060029;
         public static final int hello=0x7f060000;
         public static final int locationSettings=0x7f060002;
         public static final int manualSearch=0x7f06001c;
@@ -95,9 +100,13 @@ public final class R {
         public static final int minutes10=0x7f060022;
         public static final int minutes20=0x7f060020;
         public static final int minutes30=0x7f060021;
+        public static final int noLocationFound=0x7f06002c;
+        public static final int notContent=0x7f060027;
         public static final int notSoundDlgTitle=0x7f060015;
         public static final int notSoundTitle=0x7f060014;
+        public static final int notTitle=0x7f060026;
         public static final int now=0x7f060023;
+        public static final int pleaseWait=0x7f06002a;
         public static final int seasonDlgTitle=0x7f06001a;
         public static final int seasonTitle=0x7f060019;
         public static final int settings=0x7f06001d;
@@ -108,6 +117,8 @@ public final class R {
         public static final int silentStartDlgTitle=0x7f06000e;
         public static final int silentStartSummary=0x7f06000f;
         public static final int silentStartTitle=0x7f06000d;
+        public static final int teamName=0x7f060028;
+        public static final int version=0x7f06002e;
     }
     public static final class xml {
         public static final int settings=0x7f040000;
