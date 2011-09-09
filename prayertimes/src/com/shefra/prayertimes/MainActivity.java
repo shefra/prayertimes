@@ -3,6 +3,9 @@ package com.shefra.prayertimes;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import com.shefra.prayertimes.services.*;
 import com.shefra.prayertimes.settings.About;
 import com.shefra.prayertimes.settings.AutoCityMainActivity;
@@ -20,6 +23,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.view.Menu;
@@ -65,18 +69,16 @@ public class MainActivity extends Activity {
 
 	public void init() {
 		
-		Manager manager = new Manager(getApplicationContext());
+		final Manager manager = new Manager(getApplicationContext());
 		
 		String cityName = manager.getCurrentCity().cityName;
 		TextView cityTextView = (TextView) findViewById(R.id.cityName);
 		cityTextView.setText(cityName);
-		Date date = new Date();
-		int dd = date.getDate();//calendar.get(Calendar.DAY_OF_MONTH);
-		int mm = date.getMonth()+1;//7;//calendar.get(Calendar.MONTH+1);
-		int yy = date.getYear()+1900;//calendar.get(Calendar.YEAR);
-		int h = date.getHours();//calendar.get(Calendar.HOUR_OF_DAY);
-		int m = date.getMinutes();//calendar.get(Calendar.MINUTE);
-		int s = date.getSeconds();//calendar.get(Calendar.SECOND);
+		 Date date = new Date();
+		 final int dd = date.getDate();//calendar.get(Calendar.DAY_OF_MONTH);
+		 final int mm = date.getMonth()+1;//7;//calendar.get(Calendar.MONTH+1);
+		 final int yy = date.getYear()+1900;//calendar.get(Calendar.YEAR);
+	
 
 		try {
 				
@@ -91,17 +93,51 @@ public class MainActivity extends Activity {
 			asrTime.setText(prayersList.get(2));
 			magribTime.setText(prayersList.get(3));
 			ishaTime.setText(prayersList.get(4));
+		
+			TimerMethod(manager,yy, mm, dd); //to calculate the nearest  pray 
+			Timer myTimer =new Timer();
+			TimerTask scanTask ;
+			final Handler handler = new Handler();
 
-			TextView remainingTime = (TextView) findViewById(R.id.remainingTime);
-			int time = manager.nearestPrayerTime(h, m,s, yy, mm, dd);
-			int def =  manager.diffrent((h*3600+m*60+s),time);
-			remainingTime.setText(Manager.secondsToTime(def));		
+			scanTask = new TimerTask() {
+			    public void run() {
+			            
+						handler.post(new Runnable() {
+			                    public void run() {
+			                    		try {
+											TimerMethod(manager,yy, mm, dd);
+			                    		} catch (IOException e) {
+			    							// TODO Auto-generated catch block
+			    							e.printStackTrace();
+			    						} 
+			                        }
+			               });
+			        }};
+
+			
+
+//									  start ,rebated 	
+			myTimer.schedule(scanTask, 0, 60000); 
+			
+				
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		
+	}
+	public void TimerMethod(Manager manager ,int yy, int mm, int dd ) throws IOException
+	{
+		Date date = new Date();
+		 
+		 int h = date.getHours();//calendar.get(Calendar.HOUR_OF_DAY);
+		 int m = date.getMinutes();//calendar.get(Calendar.MINUTE);
+		 int s = date.getSeconds();//calendar.get(Calendar.SECOND);
+		TextView remainingTime = (TextView) findViewById(R.id.remainingTime);
+		int time = manager.nearestPrayerTime(h, m,s, yy, mm, dd);
+		int def =  manager.diffrent((h*3600+m*60+s),time);
+		remainingTime.setText(Manager.secondsToTime(def));	
 	}
 
 	@Override

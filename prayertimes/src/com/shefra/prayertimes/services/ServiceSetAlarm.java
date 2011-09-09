@@ -122,7 +122,7 @@ public class ServiceSetAlarm extends Service{
         int sec = Integer.parseInt(pref.getString("silentStart", "20"));
         if(sec == 0)
         {
-        	String azanMode = pref.getString("notSound", "short");
+        	String azanMode = pref.getString("notSound", "full");
         	if(azanMode.equals("short")){
         		sec = 3 ;
         	}
