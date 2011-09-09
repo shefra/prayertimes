@@ -124,7 +124,7 @@ public class ServiceSetAlarm extends Service{
         {
         	String azanMode = pref.getString("notSound", "full");
         	if(azanMode.equals("short")){
-        		sec = 3 ;
+        		sec = 1 ;
         	}
         	else
         		sec = 4 ;
