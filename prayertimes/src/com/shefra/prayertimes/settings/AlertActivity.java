@@ -51,7 +51,7 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 
 			//tv.setText(e.toString() + ",");
 		}
-		
+		/*
 		Button b1 = (Button) findViewById(R.id.button1);
 		b1.setOnClickListener(new OnClickListener() {
 			
@@ -59,7 +59,7 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 				
 			}
 		});
-		
+		*/
 		Button b2 = (Button) findViewById(R.id.button2);
 		b2.setOnClickListener(new OnClickListener() {
 			
