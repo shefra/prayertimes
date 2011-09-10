@@ -9,54 +9,76 @@ package com.shefra.prayertimes;
 
 public final class R {
     public static final class array {
-        public static final int languageValues=0x7f070002;
         public static final int mazhab=0x7f070000;
         public static final int mazhabValues=0x7f070001;
-        public static final int notSoundEntry=0x7f070009;
-        public static final int notSoundValues=0x7f07000a;
-        public static final int season=0x7f070003;
-        public static final int seasonValues=0x7f070004;
-        public static final int silentDurationEntry=0x7f070007;
-        public static final int silentDurationEntryValues=0x7f070008;
-        public static final int silentStartEntry=0x7f070005;
-        public static final int silentStartEntryValues=0x7f070006;
+        public static final int notSoundEntry=0x7f070008;
+        public static final int notSoundValues=0x7f070009;
+        public static final int season=0x7f070002;
+        public static final int seasonValues=0x7f070003;
+        public static final int silentDurationEntry=0x7f070006;
+        public static final int silentDurationEntryValues=0x7f070007;
+        public static final int silentStartEntry=0x7f070004;
+        public static final int silentStartEntryValues=0x7f070005;
     }
     public static final class attr {
     }
     public static final class drawable {
-        public static final int asr=0x7f020000;
-        public static final int b1=0x7f020001;
-        public static final int b2=0x7f020002;
-        public static final int background1=0x7f020003;
-        public static final int bbg=0x7f020004;
-        public static final int city=0x7f020005;
-        public static final int dhr=0x7f020006;
-        public static final int fajr=0x7f020007;
-        public static final int icon=0x7f020008;
-        public static final int icon1=0x7f020009;
-        public static final int isha=0x7f02000a;
-        public static final int magrib=0x7f02000b;
-        public static final int remaining=0x7f02000c;
-        public static final int shefrah=0x7f02000d;
+        public static final int alertactivity=0x7f020000;
+        public static final int alertbackground=0x7f020001;
+        public static final int asr=0x7f020002;
+        public static final int asr1=0x7f020003;
+        public static final int b1=0x7f020004;
+        public static final int b2=0x7f020005;
+        public static final int background=0x7f020006;
+        public static final int background1=0x7f020007;
+        public static final int background2=0x7f020008;
+        public static final int bbg=0x7f020009;
+        public static final int city=0x7f02000a;
+        public static final int currentcity=0x7f02000b;
+        public static final int currentcity1=0x7f02000c;
+        public static final int currentcity3=0x7f02000d;
+        public static final int currentcity4=0x7f02000e;
+        public static final int currentcity6=0x7f02000f;
+        public static final int dhr=0x7f020010;
+        public static final int dhr1=0x7f020011;
+        public static final int fajr=0x7f020012;
+        public static final int fajr1=0x7f020013;
+        public static final int hbg1=0x7f020014;
+        public static final int headertextbg1=0x7f020015;
+        public static final int headertextbg3=0x7f020016;
+        public static final int headertextbg4=0x7f020017;
+        public static final int icon=0x7f020018;
+        public static final int icon1=0x7f020019;
+        public static final int isha=0x7f02001a;
+        public static final int isha1=0x7f02001b;
+        public static final int magrib=0x7f02001c;
+        public static final int magrib1=0x7f02001d;
+        public static final int prayerstable=0x7f02001e;
+        public static final int prayerstable_left=0x7f02001f;
+        public static final int prayerstable_right=0x7f020020;
+        public static final int praytimebackground=0x7f020021;
+        public static final int praytimetext4=0x7f020022;
+        public static final int remaining=0x7f020023;
+        public static final int shefrah=0x7f020024;
+        public static final int table4=0x7f020025;
     }
     public static final class id {
-        public static final int asrTime=0x7f08000e;
-        public static final int button1=0x7f080005;
-        public static final int button2=0x7f080006;
-        public static final int city=0x7f080001;
-        public static final int cityName=0x7f080008;
-        public static final int citys=0x7f080009;
-        public static final int country=0x7f080000;
-        public static final int ditore=0x7f080003;
-        public static final int dlgMsg=0x7f080007;
-        public static final int duhrTime=0x7f08000d;
-        public static final int fajrTime=0x7f08000c;
-        public static final int ishaTime=0x7f080010;
-        public static final int language=0x7f080002;
-        public static final int magribTime=0x7f08000f;
-        public static final int remainingText=0x7f08000b;
-        public static final int remainingTime=0x7f08000a;
-        public static final int state=0x7f080004;
+        public static final int asrTime=0x7f080007;
+        public static final int button1=0x7f08000f;
+        public static final int button2=0x7f080000;
+        public static final int city=0x7f08000b;
+        public static final int cityName=0x7f080002;
+        public static final int country=0x7f08000a;
+        public static final int ditore=0x7f08000d;
+        public static final int dlgMsg=0x7f080001;
+        public static final int duhrTime=0x7f080006;
+        public static final int fajrTime=0x7f080005;
+        public static final int ishaTime=0x7f080009;
+        public static final int language=0x7f08000c;
+        public static final int magribTime=0x7f080008;
+        public static final int remainingText=0x7f080003;
+        public static final int remainingTime=0x7f080004;
+        public static final int state=0x7f08000e;
     }
     public static final class layout {
         public static final int about=0x7f030000;
@@ -84,7 +106,7 @@ public final class R {
         public static final int close=0x7f06001f;
         public static final int country=0x7f060006;
         public static final int countryDlgTitle=0x7f060007;
-        public static final int dialogAutoSearchMessage=0x7f06002d;
+        public static final int dialogAutoSearchMessage=0x7f06002e;
         public static final int disableSummary=0x7f06000c;
         public static final int disableTitle=0x7f06000b;
         public static final int firstPreferencescreenTitle=0x7f060003;
@@ -99,12 +121,13 @@ public final class R {
         public static final int minutes10=0x7f060022;
         public static final int minutes20=0x7f060020;
         public static final int minutes30=0x7f060021;
-        public static final int noLocationFound=0x7f06002c;
+        public static final int noLocationFound=0x7f06002d;
         public static final int notContent=0x7f060027;
         public static final int notSoundDlgTitle=0x7f060015;
         public static final int notSoundTitle=0x7f060014;
         public static final int notTitle=0x7f060026;
         public static final int now=0x7f060023;
+        public static final int ok=0x7f06002c;
         public static final int pleaseWait=0x7f06002a;
         public static final int seasonDlgTitle=0x7f06001a;
         public static final int seasonTitle=0x7f060019;
@@ -117,7 +140,7 @@ public final class R {
         public static final int silentStartSummary=0x7f06000f;
         public static final int silentStartTitle=0x7f06000d;
         public static final int teamName=0x7f060028;
-        public static final int version=0x7f06002e;
+        public static final int version=0x7f06002f;
     }
     public static final class xml {
         public static final int settings=0x7f040000;

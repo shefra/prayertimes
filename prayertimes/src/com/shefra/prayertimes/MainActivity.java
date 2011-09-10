@@ -42,12 +42,15 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.main);
 		Manager m = new Manager(getApplicationContext());
+		
+
 		try {
 			m.createDatabase();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		
 		// run service
 		this.init();
@@ -201,7 +204,7 @@ public class MainActivity extends Activity {
 	    else
 	    {
 //	    	alertDialog.setMessage(getString(R.string.autoSearchHowEnabled));	
-	    	alertDialog.setButton(getString(R.string.close), new DialogInterface.OnClickListener(){
+	    	alertDialog.setButton(getString(R.string.ok), new DialogInterface.OnClickListener(){
 			    public void onClick(DialogInterface dialog, int which) {  
 			    	new AutoCityMainActivity(MainActivity.this, MainActivity.this.dialog).startSearch();
 			    }});
