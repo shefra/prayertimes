@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="@drawable/alertbackground">
+	
+	<TableLayout android:layout_width="fill_parent" android:layout_marginTop="40dp"
+		 android:weightSum="5"
+		 android:layout_height="fill_parent"
+		android:shrinkColumns="*" android:stretchColumns="*">
+		<TableRow android:layout_height="wrap_content"
+			 
+			android:layout_width="fill_parent" android:layout_weight="2">		</TableRow>
+			
+			<TableRow android:layout_marginTop="20dp" android:layout_weight="1" android:background="@drawable/praytimetext4" android:layout_marginLeft="5dp" android:layout_marginRight="5dp">  </TableRow>
+		<TableRow android:layout_marginTop="20dp" android:layout_weight="1" android:visibility="invisible" android:background="@drawable/praytimetext4" android:layout_marginLeft="5dp" android:layout_marginRight="5dp">  </TableRow>
+		<TableRow android:layout_height="wrap_content"
+			 
+			android:layout_width="fill_parent" android:layout_weight="1">
+			
+				<Button android:text="ايقاف التنبيه" android:textColor="#3C5413" android:id="@+id/button2" android:layout_width="wrap_content"  android:layout_height="wrap_content"></Button>
+		</TableRow>
+	</TableLayout>
+
+</LinearLayout>

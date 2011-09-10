@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+	<PreferenceCategory android:title="@string/locationSettings">
+
+		<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+			android:key="first_preferencescreen" android:title="@string/firstPreferencescreenTitle">
+
+			<PreferenceCategory android:title="@string/autoSearch">
+				<com.shefra.prayertimes.settings.AutoCityDialogPreference
+					android:key="autocity" android:title="@string/autoCityTitle"
+					android:dialogMessage="@string/dialogAutoSearchMessage"
+					android:summary="@string/autoCitySummary" />
+			</PreferenceCategory>
+
+			<PreferenceCategory android:title="@string/manualSearch">
+				<ListPreference android:key="country" android:title="@string/country"
+					android:defaultValue="1" android:dialogTitle="@string/countryDlgTitle" />
+				<ListPreference android:key="city" android:title="@string/city"
+					android:defaultValue="10" android:dialogTitle="@string/cityDlgTitle"
+					android:summary="" />
+			</PreferenceCategory>
+		</PreferenceScreen>
+
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/silentSettings">
+
+		<CheckBoxPreference android:key="disable"
+			android:title="@string/disableTitle" android:enabled="true"
+			android:summary="@string/disableSummary" />
+		<ListPreference android:key="silentStart" android:title="@string/silentStartTitle"
+			android:dialogTitle="@string/silentStartDlgTitle" android:entries="@array/silentStartEntry"
+			 android:summary="@string/silentStartSummary"
+			android:entryValues="@array/silentStartEntryValues"  android:defaultValue="0"/>
+		<ListPreference android:key="silentDuration" android:title="@string/silentDurationTitle"
+			android:dialogTitle="@string/silentDurationDlgTitle" android:entries="@array/silentDurationEntry"
+			 android:summary="@string/silentDurationSummary"
+			android:entryValues="@array/silentDurationEntryValues"  android:defaultValue="20"/>
+	</PreferenceCategory>
+
+	<PreferenceCategory android:title="@string/generalSettings">
+		<ListPreference android:key="notSound" android:title="@string/notSoundTitle"
+			android:defaultValue="short" android:dialogTitle="@string/notSoundDlgTitle"
+			android:entries="@array/notSoundEntry" android:entryValues="@array/notSoundValues" />
+		<ListPreference android:key="mazhab" android:title="@string/mazhabTitle"
+			android:dialogTitle="@string/mazhabDlgTitle" android:entries="@array/mazhab"
+			android:defaultValue="2" android:summary="@string/mazhabSummary"
+			android:entryValues="@array/mazhabValues" />
+
+		<ListPreference android:key="season" android:title="@string/seasonTitle"
+			android:dialogTitle="@string/seasonDlgTitle" android:entries="@array/season"
+			android:defaultValue="2" android:summary="" android:entryValues="@array/seasonValues" />
+	</PreferenceCategory>
+
+</PreferenceScreen>
