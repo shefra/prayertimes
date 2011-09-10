@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_marginBottom="40dp" android:orientation="vertical"
+android:layout_width="fill_parent" android:layout_height="fill_parent"
+android:background="@drawable/background">
+<TableLayout android:layout_width="fill_parent"
+android:weightSum="7" android:layout_marginLeft="15dp"
+android:layout_marginRight="15dp" android:layout_height="wrap_content"
+android:layout_marginTop="100dp" android:shrinkColumns="*"
+android:stretchColumns="*">
+
+<TableRow android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+android:layout_weight="1" android:weightSum="2" android:background="@drawable/headbg"
+android:layout_marginBottom="10dp" android:layout_width="fill_parent">
+<TextView android:layout_width="0px" android:width="0px"
+android:layout_weight="1" android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_height="wrap_content" android:text=""
+android:textStyle="bold" android:textColor="#FFFFFF" android:textSize="16sp"
+android:gravity="center" android:id="@+id/cityName" />
+<ImageView android:layout_width="0px" android:width="0px"
+android:layout_weight="1" android:layout_height="fill_parent"
+android:id="@+id/remainingText" android:layout_gravity="center_vertical|center_horizontal|center"
+android:src="@drawable/currentc">
+</ImageView>
+
+</TableRow>
+
+<TableRow android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+android:layout_weight="1" android:weightSum="2" android:background="@drawable/headbg"
+android:layout_marginBottom="10dp" android:layout_width="fill_parent">
+<TextView android:layout_width="0px" android:width="0px"
+android:layout_weight="1" android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_height="wrap_content" android:text=""
+android:textStyle="bold" android:textColor="#FFFFFF" android:textSize="16sp"
+android:gravity="center" android:id="@+id/remainingTime" />
+<ImageView android:layout_width="0px" android:width="0px"
+android:layout_weight="1" android:layout_height="wrap_content"
+android:id="@+id/remainingText" android:layout_gravity="center_vertical|center_horizontal|center"
+android:src="@drawable/remainingt">
+</ImageView>
+
+</TableRow>
+
+
+<TableRow android:layout_height="wrap_content"
+android:layout_weight="1" android:weightSum="2"
+android:layout_marginBottom="10dp" android:layout_width="fill_parent">
+
+<TextView android:layout_width="0px" android:width="0px"
+android:background="@drawable/prayerstable_left"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_height="fill_parent" android:text=""
+android:layout_weight="1" android:textStyle="bold"
+android:textColor="#2f3d0a" android:gravity="center" android:id="@+id/fajrTime" />
+<ImageView android:layout_width="0px" android:width="0px"
+android:layout_height="fill_parent" android:background="@drawable/prayerstable_right"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_weight="1" android:src="@drawable/fajr1" />
+</TableRow>
+<TableRow android:layout_height="wrap_content"
+android:layout_weight="1" android:weightSum="2"
+android:layout_marginBottom="10dp" android:layout_width="fill_parent">
+
+<TextView android:layout_width="0px" android:width="0px"
+android:background="@drawable/prayerstable_left"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_height="fill_parent" android:text=""
+android:layout_weight="1" android:textStyle="bold"
+android:textColor="#2f3d0a" android:gravity="center" android:id="@+id/duhrTime" />
+<ImageView android:layout_width="0px" android:width="0px"
+android:layout_height="fill_parent" android:background="@drawable/prayerstable_right"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_weight="1" android:src="@drawable/dhr1" />
+</TableRow>
+<TableRow android:layout_height="wrap_content"
+android:layout_weight="1" android:weightSum="2"
+android:layout_marginBottom="10dp" android:layout_width="fill_parent">
+
+<TextView android:layout_width="0px" android:width="0px"
+android:background="@drawable/prayerstable_left"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_height="fill_parent" android:text=""
+android:layout_weight="1" android:textStyle="bold"
+android:textColor="#2f3d0a" android:gravity="center" android:id="@+id/asrTime" />
+<ImageView android:layout_width="0px" android:width="0px"
+android:layout_height="fill_parent" android:background="@drawable/prayerstable_right"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_weight="1" android:src="@drawable/asr1" />
+</TableRow>
+
+<TableRow android:layout_height="wrap_content"
+android:layout_weight="1" android:weightSum="2"
+android:layout_marginBottom="10dp" android:layout_width="fill_parent">
+
+<TextView android:layout_width="0px" android:width="0px"
+android:background="@drawable/prayerstable_left"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_height="fill_parent" android:text=""
+android:layout_weight="1" android:textStyle="bold"
+android:textColor="#2f3d0a" android:gravity="center" android:id="@+id/magribTime" />
+<ImageView android:layout_width="0px" android:width="0px"
+android:layout_height="fill_parent" android:background="@drawable/prayerstable_right"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_weight="1" android:src="@drawable/magrib1" />
+</TableRow>
+<TableRow android:layout_height="wrap_content"
+android:layout_weight="1" android:weightSum="2"
+android:layout_marginBottom="10dp" android:layout_width="fill_parent">
+
+<TextView android:layout_width="0px" android:width="0px"
+android:background="@drawable/prayerstable_left"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_height="fill_parent" android:text=""
+android:layout_weight="1" android:textStyle="bold"
+android:textColor="#2f3d0a" android:gravity="center" android:id="@+id/ishaTime" />
+<ImageView android:layout_width="0px" android:width="0px"
+android:layout_height="fill_parent" android:background="@drawable/prayerstable_right"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_weight="1" android:src="@drawable/isha1" />
+</TableRow>
+
+
+</TableLayout>
+</LinearLayout>

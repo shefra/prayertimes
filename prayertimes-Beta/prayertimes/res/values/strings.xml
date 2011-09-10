@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="hello">Hello World, PreferenceActivityActivity!</string>
+	<string name="app_name">صموتي</string>
+	<string-array name="mazhab">
+		<item name="1">حنفي</item>
+		<item name="2">شافعي...</item>
+	</string-array>
+	<string-array name="mazhabValues">
+		<item name="1">1</item>
+		<item name="2">2</item>
+	</string-array>
+
+	<string-array name="languageValues">
+		<item name="1">1</item>
+		<item name="2">2</item>
+	</string-array>
+
+	<string-array name="season">
+		<item name="1">صيفي</item>
+		<item name="2">شتوي</item>
+	</string-array>
+	<string-array name="seasonValues">
+		<item name="1">1</item>
+		<item name="2">2</item>
+	</string-array>
+
+	<string-array name="silentStartEntry">
+		<item name="immediately">بعد الأذان مباشرة</item>
+		<item name="minutes10">10 دقيقة</item>
+		<item name="minutes20">20 دقيقة</item>
+	</string-array>
+	<string-array name="silentStartEntryValues">
+		<item name="immediately">0</item>
+		<item name="minutes10">10</item>
+		<item name="minutes20">20</item>
+	</string-array>
+
+	<string-array name="silentDurationEntry">
+		<item name="minutes10">10 دقيقة</item>
+		<item name="minutes20">20 دقيقة</item>
+		<item name="minutes30">30 دقيقة</item>
+	</string-array>
+	<string-array name="silentDurationEntryValues">
+		<item name="minutes10">10</item>
+		<item name="minutes20">20</item>
+		<item name="minutes30">30</item>
+	</string-array>
+		
+	<string-array name="notSoundEntry">
+		<item name="Disable">بدون صوت</item>
+		<item name="short">أذان مختصر</item>
+		<item name="full">أذان كامل</item>
+	</string-array>
+	<string-array name="notSoundValues">
+		<item name="Disable">Disable</item>
+		<item name="short">short</item>
+		<item name="full">full</item>
+	</string-array>
+	
+	<string name="locationSettings">إعدادات المدينة</string>
+	<string name="firstPreferencescreenTitle">المدينة</string>
+	<string name="autoCityTitle">ابحث عن مدينتي</string>
+	<string name="autoCitySummary">البحث عن المدينة التي تتواجد بها الآن عن طريق أبراج الاتصالات أو عن طريق الأقمار الصناعية </string>
+	<string name="country">الدولة</string>
+	<string name="countryDlgTitle">اختر الدولة</string>
+	<string name="city">المدينة</string>
+	<string name="cityDlgTitle">اختر المدينة</string>
+	<string name="silentSettings">إعدادات الوضع الصامت</string>
+	<string name="disableTitle">إيقاف التحويل إلى صامت</string>
+	<string name="disableSummary">إيقاف التحويل التلقائي إلى الوضع الصامت عندما يحين وقت الأذان</string>
+	<string name="silentStartTitle">وقت البدء بالوضع الصامت</string>
+	<string name="silentStartDlgTitle">متى يتم التحويل إلى صامت؟</string>
+	<string name="silentStartSummary">متى ترغب بالتحويل إلى الوضع الصامت عندما يحين وقت الأذان</string>
+	<string name="silentDurationTitle">مدة الوضع الصامت</string>
+	<string name="silentDurationSummary">مدة بقاء النظام على الوضع الصامت بعد الأذان</string>
+	<string name="silentDurationDlgTitle">مدة البقاء على الوضع الصامت</string>
+	<string name="generalSettings">إعدادات عامة</string>
+	<string name="notSoundTitle">صوت الإشعار</string>
+	<string name="notSoundDlgTitle">صوت الإشعار</string>
+	<string name="mazhabTitle">المذهب الفقهي</string>
+	<string name="mazhabDlgTitle">المذهب الفقهي</string>
+	<string name="mazhabSummary"></string>
+	<string name="seasonTitle">التوقيت </string>
+	<string name="seasonDlgTitle">التوقيت </string>				
+	<string name="autoSearch">البحث التلقائي</string>
+	<string name="manualSearch">البحث اليدوي</string>
+	<string name="settings">الإعدادات</string>
+	<string name="about">عن الفريق</string>
+	<string name="close">إغلاق</string>
+	<string name="minutes20">20 دقيقة</string>
+	<string name="minutes30">30 دقيقة</string>
+	<string name="minutes10">10 دقائق</string>
+	<string name="now">بعد الأذان مباشرة</string>
+	<string name="autoSearchHowDisabled">خدمة  جي-بي-إس  و خدمة أبراج الشبكة  لاتعمل الآن ، في حال أردت أن تقوم بالبحث التلقائي عن المدينة فيجب تشغيلها ثم العودة مرة أخرى  </string>
+	<string name="autoSearchHowEnabled">خدمة  جي-بي-إس  و خدمة أبراج الشبكة  تعمل الآن ، اختر من االقائمة الرئيسية الخيار : ابحث عن مدينتي</string>	
+	<string name="notTitle">حان وقت الصلاة</string>
+	<string name="notContent">حان وقت الصلاة</string>
+	<string name="teamName"><a href="http://shefrah.com/">تطوير و برمجة فريق شيفرة</a></string>
+	<string name="gpsAndNetworkIsDisabled">جي-بي-إس و أبراج الشبكة غير مفعلة ، لا يمكن تشغيل البحث التلقائي ، يمكنك تشغيلها لاحقاً أو تجربة البحث اليدوي عن طريق الإعدادات</string>
+	<string name="pleaseWait">الرجاء الانتظار</string>
+	<string name="cancel">إلغاء</string>
+	<string name="noLocationFound">لم يتم العثور على مدينة في موقعك الحالي</string>
+	<string name="dialogAutoSearchMessage">سيتم البحث بإستخدام أبراج الشبكة أو خدمة جي-بي-إس ، تأكد من تفعيل إحدى الخدمتين ليتم العثور على المدينة</string>
+	<string name="version">1.0 Beta</string>
+</resources>
