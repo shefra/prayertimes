@@ -32,7 +32,7 @@
 		<ListPreference android:key="silentStart" android:title="@string/silentStartTitle"
 			android:dialogTitle="@string/silentStartDlgTitle" android:entries="@array/silentStartEntry"
 			 android:summary="@string/silentStartSummary"
-			android:entryValues="@array/silentStartEntryValues"  android:defaultValue="20"/>
+			android:entryValues="@array/silentStartEntryValues"  android:defaultValue="0"/>
 		<ListPreference android:key="silentDuration" android:title="@string/silentDurationTitle"
 			android:dialogTitle="@string/silentDurationDlgTitle" android:entries="@array/silentDurationEntry"
 			 android:summary="@string/silentDurationSummary"
