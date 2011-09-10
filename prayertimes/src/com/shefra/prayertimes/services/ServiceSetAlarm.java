@@ -119,7 +119,7 @@ public class ServiceSetAlarm extends Service{
 		Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-        int sec = Integer.parseInt(pref.getString("silentStart", "20"));
+        int sec = Integer.parseInt(pref.getString("silentStart", "0"));
         if(sec == 0)
         {
         	String azanMode = pref.getString("notSound", "full");
