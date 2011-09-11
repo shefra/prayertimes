@@ -41,7 +41,7 @@
 
 	<PreferenceCategory android:title="@string/generalSettings">
 		<ListPreference android:key="notSound" android:title="@string/notSoundTitle"
-			android:defaultValue="short" android:dialogTitle="@string/notSoundDlgTitle"
+			android:defaultValue="full" android:dialogTitle="@string/notSoundDlgTitle"
 			android:entries="@array/notSoundEntry" android:entryValues="@array/notSoundValues" />
 		<ListPreference android:key="mazhab" android:title="@string/mazhabTitle"
 			android:dialogTitle="@string/mazhabDlgTitle" android:entries="@array/mazhab"
