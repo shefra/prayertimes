@@ -191,7 +191,7 @@ public class MainActivity extends Activity {
 	    alertDialog.setTitle(getString(R.string.autoSearch));  
 	    if (!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && !locManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){  
 	    	alertDialog.setMessage(getString(R.string.autoSearchHowDisabled));
-		    alertDialog.setButton(getString(R.string.close), new DialogInterface.OnClickListener(){
+		    alertDialog.setButton(getString(R.string.ok), new DialogInterface.OnClickListener(){
 			    public void onClick(DialogInterface dialog, int which) {      	 
 			    	Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 			    	startActivityForResult(intent, 111);
@@ -200,8 +200,8 @@ public class MainActivity extends Activity {
 	    }
 	    else
 	    {
-//	    	alertDialog.setMessage(getString(R.string.autoSearchHowEnabled));	
-	    	alertDialog.setButton(getString(R.string.close), new DialogInterface.OnClickListener(){
+	    	alertDialog.setMessage(getString(R.string.autoSearchHowEnabled));	
+	    	alertDialog.setButton(getString(R.string.ok), new DialogInterface.OnClickListener(){
 			    public void onClick(DialogInterface dialog, int which) {  
 			    	new AutoCityMainActivity(MainActivity.this, MainActivity.this.dialog).startSearch();
 			    }});
@@ -220,7 +220,7 @@ public class MainActivity extends Activity {
         		AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
         	    alertDialog.setTitle("");  
         	    alertDialog.setMessage(getString(R.string.gpsAndNetworkIsDisabled));  
-        	    alertDialog.setButton(getString(R.string.close), new DialogInterface.OnClickListener(){
+        	    alertDialog.setButton(getString(R.string.ok), new DialogInterface.OnClickListener(){
         	    public void onClick(DialogInterface dialog, int which) {  
         	    	return;          
         	    }});

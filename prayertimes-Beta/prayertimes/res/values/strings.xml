@@ -87,8 +87,8 @@
 	<string name="minutes30">30 دقيقة</string>
 	<string name="minutes10">10 دقائق</string>
 	<string name="now">بعد الأذان مباشرة</string>
-	<string name="autoSearchHowDisabled">خدمة  جي-بي-إس  و خدمة أبراج الشبكة  لاتعمل الآن ، في حال أردت أن تقوم بالبحث التلقائي عن المدينة فيجب تشغيلها ثم العودة مرة أخرى  </string>
-	<string name="autoSearchHowEnabled">خدمة  جي-بي-إس  أو خدمة أبراج الشبكة  تعمل الآن ، سيتم البحث الآن </string>	
+	<string name="autoSearchHowDisabled">خدمة  جي-بي-إس  و خدمة أبراج الشبكة  لاتعمل الآن ، في حال أردت أن تقوم بالبحث التلقائي عن المدينة فيجب تشغيلها ثم العودة مرة أخرى   ، سيتم نقلك الآن لإعدادات النظام </string>
+	<string name="autoSearchHowEnabled">خدمة  جي-بي-إس  أو خدمة أبراج الشبكة  تعمل ، سيتم البحث الآن  عن مدينتك</string>	
 	<string name="notTitle">حان وقت الصلاة</string>
 	<string name="notContent">حان وقت الصلاة</string>
 	<string name="teamName"><a href="http://shefrah.com/">تطوير و برمجة فريق شيفرة</a></string>

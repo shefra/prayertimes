@@ -66,7 +66,12 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			
 			ListPreference sdLP = (ListPreference) findPreference("silentDuration");
 			String silentDuration = sdLP.getEntry().toString();
-			sdLP.setSummary(silentDuration);			
+			sdLP.setSummary(silentDuration);		
+			
+			ListPreference nsLP = (ListPreference) findPreference("notSound");
+			String nsString = nsLP.getEntry().toString();
+			nsLP.setSummary(nsString);			
+			
 
 			ListPreference mazhabP = (ListPreference) findPreference("mazhab");
 			String mazhabSummary = mazhabP.getEntry().toString();
