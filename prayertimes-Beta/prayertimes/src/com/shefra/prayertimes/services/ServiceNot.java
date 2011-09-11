@@ -116,6 +116,8 @@ public void onCreate(){
 		editor.commit();
 		Intent intent = new Intent(this, ServiceSetAlarm.class);
         startService(intent);
+        editor.putBoolean("FirstSetGeneralSilent", true);
+        editor.commit();
         this.stopSelf();
 		
 	}
@@ -128,6 +130,8 @@ public void onCreate(){
 		editor.commit();
 		Intent intent = new Intent(this, ServiceSetAlarm.class);
         startService(intent);
+        editor.putBoolean("FirstSetGeneralSilent", true);
+        editor.commit();
         this.stopSelf();
 		
 	}

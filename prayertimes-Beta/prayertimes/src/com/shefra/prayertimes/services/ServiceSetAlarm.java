@@ -51,8 +51,9 @@ public class ServiceSetAlarm extends Service{
 	@Override
 	public void onStart(Intent intent, int startId) {
 		try {
-			alarmManager.cancel(pendingIntent);
 			pref = PreferenceManager.getDefaultSharedPreferences(this);
+			if(pref.getString("moode", "notfication").equals("notfication"))
+				alarmManager.cancel(pendingIntent);
 			if(pref.getString("isCityChanged", "false").equals("true"))
 			{
 				editor = pref.edit();
@@ -116,31 +117,41 @@ public class ServiceSetAlarm extends Service{
 		
 	}
 	private void silent(){
-		Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        pref = PreferenceManager.getDefaultSharedPreferences(this);
-        int sec = Integer.parseInt(pref.getString("silentStart", "0"));
-        if(sec == 0)
-        {
-        	String azanMode = pref.getString("notSound", "full");
-        	if(azanMode.equals("short")){
-        		sec = 1 ;
-        	}
-        	else
-        		sec = 4 ;
-        }
-        calendar.add(Calendar.SECOND, sec*60);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
+		pref = PreferenceManager.getDefaultSharedPreferences(this);
+		if(pref.getBoolean("FirstSetGeneralSilent", true)){
+			Calendar calendar = Calendar.getInstance();
+	        calendar.setTimeInMillis(System.currentTimeMillis());
+	        int sec = Integer.parseInt(pref.getString("silentStart", "0"));
+	        if(sec == 0)
+	        {
+	        	String azanMode = pref.getString("notSound", "full");
+	        	if(azanMode.equals("short")){
+	        		sec = 1 ;
+	        	}
+	        	else
+	        		sec = 4 ;
+	        }
+	        calendar.add(Calendar.SECOND, sec*60);
+	        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
+	        editor = pref.edit();
+	        editor.putBoolean("FirstSetGeneralSilent", false);
+	        editor.commit();
+		}
 		
 	}
 	
 	private void general(){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
         pref = PreferenceManager.getDefaultSharedPreferences(this);
-		 int sec = Integer.parseInt(pref.getString("silentDuration", "20"));
-        calendar.add(Calendar.SECOND, sec*60);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
+		if(pref.getBoolean("FirstSetGeneralSilent", true)){
+	        Calendar calendar = Calendar.getInstance();
+	        calendar.setTimeInMillis(System.currentTimeMillis());
+			 int sec = Integer.parseInt(pref.getString("silentDuration", "20"));
+	        calendar.add(Calendar.SECOND, sec*60);
+	        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
+	        editor = pref.edit();
+	        editor.putBoolean("FirstSetGeneralSilent", false);
+	        editor.commit();
+		}
 
 	}
 
