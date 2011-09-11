@@ -21,7 +21,7 @@
 					android:summary="" />
 			</PreferenceCategory>
 		</PreferenceScreen>
-
+ 
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/silentSettings">
