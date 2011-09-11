@@ -9,17 +9,16 @@ package com.shefra.prayertimes;
 
 public final class R {
     public static final class array {
-        public static final int languageValues=0x7f070002;
         public static final int mazhab=0x7f070000;
         public static final int mazhabValues=0x7f070001;
-        public static final int notSoundEntry=0x7f070009;
-        public static final int notSoundValues=0x7f07000a;
-        public static final int season=0x7f070003;
-        public static final int seasonValues=0x7f070004;
-        public static final int silentDurationEntry=0x7f070007;
-        public static final int silentDurationEntryValues=0x7f070008;
-        public static final int silentStartEntry=0x7f070005;
-        public static final int silentStartEntryValues=0x7f070006;
+        public static final int notSoundEntry=0x7f070008;
+        public static final int notSoundValues=0x7f070009;
+        public static final int season=0x7f070002;
+        public static final int seasonValues=0x7f070003;
+        public static final int silentDurationEntry=0x7f070006;
+        public static final int silentDurationEntryValues=0x7f070007;
+        public static final int silentStartEntry=0x7f070004;
+        public static final int silentStartEntryValues=0x7f070005;
     }
     public static final class attr {
     }
@@ -110,7 +109,7 @@ public final class R {
         public static final int close=0x7f06001f;
         public static final int country=0x7f060006;
         public static final int countryDlgTitle=0x7f060007;
-        public static final int dialogAutoSearchMessage=0x7f06002d;
+        public static final int dialogAutoSearchMessage=0x7f06002e;
         public static final int disableSummary=0x7f06000c;
         public static final int disableTitle=0x7f06000b;
         public static final int firstPreferencescreenTitle=0x7f060003;
@@ -125,12 +124,13 @@ public final class R {
         public static final int minutes10=0x7f060022;
         public static final int minutes20=0x7f060020;
         public static final int minutes30=0x7f060021;
-        public static final int noLocationFound=0x7f06002c;
+        public static final int noLocationFound=0x7f06002d;
         public static final int notContent=0x7f060027;
         public static final int notSoundDlgTitle=0x7f060015;
         public static final int notSoundTitle=0x7f060014;
         public static final int notTitle=0x7f060026;
         public static final int now=0x7f060023;
+        public static final int ok=0x7f06002c;
         public static final int pleaseWait=0x7f06002a;
         public static final int seasonDlgTitle=0x7f06001a;
         public static final int seasonTitle=0x7f060019;
@@ -143,7 +143,7 @@ public final class R {
         public static final int silentStartSummary=0x7f06000f;
         public static final int silentStartTitle=0x7f06000d;
         public static final int teamName=0x7f060028;
-        public static final int version=0x7f06002e;
+        public static final int version=0x7f06002f;
     }
     public static final class xml {
         public static final int settings=0x7f040000;

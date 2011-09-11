@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<string name="hello">Hello World, PreferenceActivityActivity!</string>
-	<string name="app_name">صموتي</string>
+	<string name="app_name">طمأنينة</string>
 	<string-array name="mazhab">
 		<item name="1">حنفي</item>
 		<item name="2">شافعي...</item>
