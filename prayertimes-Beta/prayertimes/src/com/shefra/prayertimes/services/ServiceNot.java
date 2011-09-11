@@ -102,6 +102,7 @@ public void onCreate(){
 			editor.putString("moode","notfication");
 		else
 			editor.putString("moode","silent");
+		editor.putBoolean("FirstSetGeneralSilent", true);
 		editor.commit();
 		intent = new Intent(this, ServiceSetAlarm.class);
         startService(intent);
