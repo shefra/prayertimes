@@ -45,6 +45,7 @@ import android.database.Cursor;
 import android.database.sqlite.*;
 import android.preference.PreferenceManager;
 
+// Manager is the main class that works as layer  between the app and database/xml files
 public class Manager extends SQLiteOpenHelper {
 
 	private static String DB_PATH = "/data/data/com.shefra.prayertimes/databases/";
@@ -108,6 +109,8 @@ public class Manager extends SQLiteOpenHelper {
 		return ((hh * 3600) + (mm * 60) + ss);
 	}
 
+	// get nearest prayer time based on current time
+
 	public int nearestPrayerTime(int hour, int min, int sec, int year,
 			int month, int day) throws IOException {
 		ArrayList<String> prayerTimes = getPrayerTimes(day, month, year);
@@ -153,6 +156,7 @@ public class Manager extends SQLiteOpenHelper {
 		return DB_NAME;
 	}
 
+	// used to know if the database is installed or not
 	private boolean checkDataBase() {
 		SQLiteDatabase checkDB = null;
 
@@ -169,6 +173,10 @@ public class Manager extends SQLiteOpenHelper {
 		return checkDB != null ? true : false;
 	}
 
+	// copy the database from assets folder to data folder (system folder)
+	// Android system does not allow to access the database from assets folder
+
+	// BE CAREFUL : the file must not be bigger then 1 Mega byte :(
 	public void createDatabase() throws IOException {
 		boolean dbExist = checkDataBase();
 		if (dbExist) {
@@ -187,6 +195,7 @@ public class Manager extends SQLiteOpenHelper {
 		}
 	}
 
+	// read createDatabase method for more comments
 	public void copyDataBase() throws IOException {
 		// Open your local db as the input stream
 		InputStream myInput = this.context.getAssets().open(DB_NAME);
@@ -261,7 +270,8 @@ public class Manager extends SQLiteOpenHelper {
 	}
 
 	// -----------get methods-----------//
-	// id = -1 => means all citys
+	// git city list based on country id 
+	// if id = -1 => means return all cities in the database
 	public ArrayList<City> getCityList(int id) {
 		ArrayList<City> city = new ArrayList<City>();
 		
@@ -281,6 +291,11 @@ public class Manager extends SQLiteOpenHelper {
 		while (cur.isAfterLast() == false) {
 			City c = new City();
 			c.cityNo = cur.getInt(0);
+			
+			// not all the city has Arabic name
+			// so use English name instead
+			// prevents NULL error that happens when put NULL
+			// into a view object ( e.g. ListView )
 			if (cur.getString(2) != null)
 				c.cityName = cur.getString(2);
 			else
@@ -296,6 +311,7 @@ public class Manager extends SQLiteOpenHelper {
 		return city;
 	}
 
+	// get all country from the database
 	public ArrayList<Country> getCountryList() {
 		SQLiteDatabase db;
 		ArrayList<Country> country = new ArrayList<Country>();
@@ -311,6 +327,10 @@ public class Manager extends SQLiteOpenHelper {
 		while (cur.isAfterLast() == false) {
 			Country c = new Country();
 			c.countryNo = cur.getInt(0);
+			// not all the country has Arabic name
+			// so use English name instead
+			// prevents NULL error that happens when put NULL
+			// into a view object ( e.g. ListView )
 			if (cur.getString(2) != null)
 				c.countryName = cur.getString(2);
 			else
@@ -347,6 +367,7 @@ public class Manager extends SQLiteOpenHelper {
 		return aA;
 	}
 
+	
 	public ArrayList<String> getPrayerTimes(int dd, int mm, int yy)
 			throws IOException {
 		
@@ -370,6 +391,9 @@ public class Manager extends SQLiteOpenHelper {
 		return context;
 	}
 
+	// get country details based on country id 
+	// useful when read country id frrom xml preference
+	
 	public Country getCountry(int countrId) {
 		SQLiteDatabase db;
 		Country country = new Country();
@@ -385,7 +409,10 @@ public class Manager extends SQLiteOpenHelper {
 		while (cur.isAfterLast() == false) {
 
 			country.countryNo = cur.getInt(0);
-
+			// not all the country has Arabic name
+			// so use English name instead
+			// prevents NULL error that happens when put NULL
+			// into a view object ( e.g. ListView )
 			if (cur.getString(2) != null)
 				country.countryName = cur.getString(2);
 			else
@@ -397,6 +424,8 @@ public class Manager extends SQLiteOpenHelper {
 		return country;
 	}
 
+	/// get city details based on city id
+	// useful when read city id from preference file ( xml file/ setting file)
 	public City getCity(int cityId) {
 		City city = new City();
 
@@ -411,6 +440,10 @@ public class Manager extends SQLiteOpenHelper {
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
 			city.cityNo = cur.getInt(0);
+			// not all the city has Arabic name
+			// so use English name instead
+			// prevents NULL error that happens when put NULL
+			// into a view object ( e.g. ListView )
 			if (cur.getString(2) != null)
 				city.cityName = cur.getString(2);
 			else
@@ -422,6 +455,9 @@ public class Manager extends SQLiteOpenHelper {
 		return city;
 	}
 	
+	// read the preference file( xml file)
+	// to get the selected city id 
+	// then get city detailed based on that id
 	public City getCurrentCity() {
 		SharedPreferences pref = PreferenceManager
 				.getDefaultSharedPreferences(context);
@@ -431,6 +467,8 @@ public class Manager extends SQLiteOpenHelper {
 
 	}
 	
+	// find the current city based on its latitude and longtiude
+	// I DON'T KNOW HOW  THE METHOD WORKS !?
 	public void findCurrentCity(double latitude, double longitude) {
 		try {
 				double min = 0;

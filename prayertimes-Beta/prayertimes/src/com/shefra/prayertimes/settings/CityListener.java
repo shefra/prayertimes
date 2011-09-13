@@ -10,17 +10,20 @@ import com.shefra.prayertimes.manager.Manager;
 import com.shefra.prayertimes.manager.settingAttributes;
 import com.shefra.prayertimes.services.ServiceSetAlarm;
 
+// this class works as city listener
+// it used by city list on Settings screen
+// when the city is changed manually by the user 
+// this class start working
 public class CityListener implements
 		android.preference.Preference.OnPreferenceChangeListener {
 	private Manager manager;
-	//private ListPreference cityList;
 	public CityListener(ListPreference cityList,Manager manager){
 		this.manager = manager;
-		//this.cityList = cityList;
 	} 
+
+	// this methods is triggered by the system when the city changed
+	// it gives us the new city value , whitch is city id 
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
-		//ListPreference lp = (ListPreference) preference;
-		//String value = (String)newValue;
 		settingAttributes sa = new settingAttributes();
 		String cityId = (String)newValue;
 		sa.city.cityNo = -1;
@@ -29,8 +32,11 @@ public class CityListener implements
 		}
 		if (sa.city.cityNo == -1)
 			sa.city.cityNo = 1;
+		
+		// update preference file ( xml/setting file ) 
 		manager.setSetting(sa);
 		
+		// restart the service .. read ServiceSetAlarm for more
 		Intent intent = new Intent(manager.getContext(),ServiceSetAlarm.class);
 		manager.getContext().startService(intent);
 		
@@ -40,6 +46,9 @@ public class CityListener implements
 		return true;
 	}
 	
+	// used to fill the ListPreference view that appears in setting screen
+	// with city list that is read from the database
+	// read the cities that belong to country id 
 	public static void fillCityPreference(ListPreference cityPref, String countryId,Manager m) {
 		List<City> cityList = m.getCityList(Integer.parseInt(countryId));
 		CharSequence[] cityEntries = new CharSequence[cityList.size()];

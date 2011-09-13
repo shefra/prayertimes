@@ -13,6 +13,9 @@ import android.os.Bundle;
 import android.preference.*;
 import android.widget.Toast;
 
+// this class is the main class for Settings screen
+// It used PreferenceActivity to do the job
+// read more on Android Doc about Preference 
 public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener  {
 	Manager m;
 
@@ -20,6 +23,8 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.settings);
+		
+		// initialized the Settings activity with new values
 		this.init();
 
 	} 
@@ -29,18 +34,17 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 
 		try {
 		
-
+			// country List preference assigned with Country listener 
+			// to get know when the country is changed
+			// the same thing with city preference
 			ListPreference countryPreference = (ListPreference) findPreference("country");
 			ListPreference cityPreference = (ListPreference) findPreference("city");
 			CountryListener countryListener = new CountryListener(cityPreference,m);
 			countryPreference.setOnPreferenceChangeListener(countryListener);
 			CityListener cityListener = new CityListener(cityPreference,m);
 			cityPreference.setOnPreferenceChangeListener(cityListener);
-			/*final CheckBoxPreference autoCityPreference = (CheckBoxPreference) findPreference("autocity");
-			AutoCityListener autoCityListener = new AutoCityListener(cityPreference,m,(LocationManager)getSystemService(Context.LOCATION_SERVICE));
-			autoCityPreference.setOnPreferenceChangeListener(autoCityListener);*/
-
-
+			
+			// fill country preference list with country list 
 			fillCountryPreference(countryPreference);
 			String v = countryPreference.getValue();
 			if(v == null)
@@ -50,13 +54,18 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			// ok , now let us set summary sections for each preference
 			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 			
-			String countryId = pref.getString("country", "1"); //TODO: check default value/ the second parameter		
+			String countryId = pref.getString("country", "211"); //TODO: check default value/ the second parameter		
 			countryPreference.setSummary(m.getCountry(Integer.parseInt(countryId)).countryName);
 			
 			
 			String cityId = pref.getString("city", "1"); // TODO : check default value/ second parameter			
 			cityPreference.setSummary(m.getCity(Integer.parseInt(cityId)).cityName);
 
+			// set Summary text for each element in the setting screen
+			// Read more about summary code on Android Docs!
+			// It used to display the selected value ( current value ) under the element
+			// e.g. if the current country "XYZ" the it displays XYZ under the element
+			// it reads the value from xml ( preference file) and uses Manager helper functions as well
 			PreferenceScreen ps = (PreferenceScreen) findPreference("first_preferencescreen");			
 			ps.setSummary(m.getCountry(Integer.parseInt(countryId)).countryName + "/" + m.getCity(Integer.parseInt(cityId)).cityName);
 			
@@ -92,6 +101,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 
 	};
  
+	// read data from database into preference list 
 	private void fillCountryPreference(ListPreference countryPref) {
 		List<Country> countryList = m.getCountryList();
 		CharSequence[] countryEntries = new CharSequence[countryList.size()];
@@ -103,7 +113,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			i++;
 		}
 		countryPref.setEntries(countryEntries);
-		countryPref.setDefaultValue("1");
+		countryPref.setDefaultValue("211");
 		countryPref.setEntryValues(countryEntryValues);
 
 	}

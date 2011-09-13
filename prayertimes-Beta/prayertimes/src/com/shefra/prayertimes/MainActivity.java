@@ -31,6 +31,10 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
  
+
+// MainActivity represents main screen that is displayed to the user
+// it Contains main data such as prayer times , remaining time until next prayer,
+// city name , and so on ..
 public class MainActivity extends Activity {
 	private  ProgressDialog dialog;
 	private  LocationManager locManager;
@@ -41,23 +45,43 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.main);
+
+		// create Manager object and use it to :
+		// - load database into system folder at the first time
+		// - get some data from database (prayer times .. )
+		// - write some data to the database when necessary .
 		Manager m = new Manager(getApplicationContext());
 		try {
+			// this method will work just one time as it is implemented
+			// it copies the database file from assets folder to data folder
+			// this step is necessary since that way Android system works :)
 			m.createDatabase();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// TODO we have to log the error 
 			e.printStackTrace();
 		}
 		
-		// run service
+		// initialize the view objects with the data
 		this.init();
+		
+		// run the app service , read ServiceSetAlarm for more info 
 		Intent intent = new Intent(this, ServiceSetAlarm.class);
 		startService(intent);
+		
+		// check xml preference file to check if this is the first run for the app
+		// in the user device.
+		
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         boolean firstStart = pref.getBoolean("firstStart",true);
         if(firstStart)
         {
+        	// run some stuff at first time
+        	// e.g. search for the use city 
+        	// TODO : in the future we should run a wizard 
+        	// it improve the usability for our app .
         	this.onFirstStart();
+        	
+        	// ok , change the flag to false , by this way we prevent onFirstStart method from running again
         	Editor edit = pref.edit();
         	edit.putBoolean("firstStart", false);
         	edit.commit();
@@ -71,9 +95,13 @@ public class MainActivity extends Activity {
 		
 		final Manager manager = new Manager(getApplicationContext());
 		
+		// read city name using manager helper methods
 		String cityName = manager.getCurrentCity().cityName;
 		TextView cityTextView = (TextView) findViewById(R.id.cityName);
 		cityTextView.setText(cityName);
+		
+		 // get current date
+		// read Android/Java documentation for more info
 		 Date date = new Date();
 		 final int dd = date.getDate();//calendar.get(Calendar.DAY_OF_MONTH);
 		 final int mm = date.getMonth()+1;//7;//calendar.get(Calendar.MONTH+1);
@@ -81,7 +109,11 @@ public class MainActivity extends Activity {
 	
 
 		try {
-				
+			
+			// get prayertimes as a List
+			// index 0 : Fajr time
+			// index 1 : Dhur time 
+			// and so on , until index 4 witch is Isha time
 			List<String> prayersList = manager.getPrayerTimes(dd, mm, yy);
 			TextView fajrTime = (TextView) findViewById(R.id.fajrTime);
 			TextView duhrTime = (TextView) findViewById(R.id.duhrTime);
@@ -94,6 +126,7 @@ public class MainActivity extends Activity {
 			magribTime.setText(prayersList.get(3));
 			ishaTime.setText(prayersList.get(4));
 		
+			// Timer used to decrease the remaining time to next prayer
 			TimerMethod(manager,yy, mm, dd); //to calculate the nearest  pray 
 			Timer myTimer =new Timer();
 			TimerTask scanTask ;
@@ -115,8 +148,8 @@ public class MainActivity extends Activity {
 			        }};
 
 			
-
-//									  start ,rebated 	
+			// start the timer
+			// 60000 ms == 60 seconds == 1 minutes :)
 			myTimer.schedule(scanTask, 0, 60000); 
 			
 				
@@ -127,6 +160,7 @@ public class MainActivity extends Activity {
 
 		
 	}
+	
 	public void TimerMethod(Manager manager ,int yy, int mm, int dd ) throws IOException
 	{
 		Date date = new Date();
@@ -134,16 +168,22 @@ public class MainActivity extends Activity {
 		 int h = date.getHours();//calendar.get(Calendar.HOUR_OF_DAY);
 		 int m = date.getMinutes();//calendar.get(Calendar.MINUTE);
 		 int s = date.getSeconds();//calendar.get(Calendar.SECOND);
-		TextView remainingTime = (TextView) findViewById(R.id.remainingTime);
+		// get remaining text view and change its value to " remaining time)
+		 TextView remainingTime = (TextView) findViewById(R.id.remainingTime);
+		// nearest prayer time ,
+		// for example :Asr : 3:10
+		// difference : Current time - Asr time == Current Time - 3:10 = remaining time
 		int time = manager.nearestPrayerTime(h, m,s, yy, mm, dd);
 		int def =  manager.diffrent((h*3600+m*60+s),time);
 		remainingTime.setText(Manager.secondsToTime(def));	
 	}
 
+	// add main menu items
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add(0, 1, 1, getString(R.string.settings));
 		menu.add(0, 3, 3, getString(R.string.about));
+		// find the current city automatically
 		menu.add(0, 4, 4, getString(R.string.autoCityTitle));
 		return true;
 	}
@@ -153,70 +193,90 @@ public class MainActivity extends Activity {
 
 		switch (item.getItemId()) {
 		case 1:
+			// run Settings screen
 			Intent myIntent = new Intent(this, SettingsActivity.class);
 			startActivity(myIntent);
 			return true;
 		case 3:
-//			
-//			AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
-//		    alertDialog.setTitle(getString(R.string.about));  
-//		    alertDialog.setMessage(getString(R.string.teamName));  
-//		    alertDialog.setButton(getString(R.string.close), new DialogInterface.OnClickListener(){
-//		    public void onClick(DialogInterface dialog, int which) {  
-//		        return;  
-//		    }});
-//		    alertDialog.show();
+			// run About screen 
 			Intent MyIntent = new Intent (this , About.class);
 			startActivity(MyIntent);
 			
 			return true;
 		case 4:
-			
+			// run auto city finder dialog .
 			new AutoCityMainActivity(this, dialog).startSearch();
 		}
 		return super.onOptionsItemSelected(item);
 
 	}
 	
+	// update the view on resume
 	public void onResume(){
 		super.onResume();
 		this.init();
 	}
 	
 	
-	//TODO : support NETWORK_PROVIDER  
+	// this method is triggered at the first time
+	// put here what you want to execute at the first run for the app on this device
+	
 	public void onFirstStart(){
+		// Show Dialog box that tell the user about GPS status and network provider status
+		
+		// this Service used to check if the GPS/Network providers work or not .
 		locManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		
 		AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
 	    alertDialog.setTitle(getString(R.string.autoSearch));  
+	    
+	    // if the GPS/Network providers not work , tell the user
+	    // then move it to the system settings screen
+	    // by this way the user can change GPS/network status and come back again
 	    if (!locManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && !locManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){  
 	    	alertDialog.setMessage(getString(R.string.autoSearchHowDisabled));
 		    alertDialog.setButton(getString(R.string.ok), new DialogInterface.OnClickListener(){
 			    public void onClick(DialogInterface dialog, int which) {      	 
 			    	Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+			    	// 111 is the code that we will use it with the method this.onActivityResult
+			    	// it is used to get know that the user is comeback from
+			    	// System settings screen to out app
+			    	// check Android documentation for mire info
 			    	startActivityForResult(intent, 111);
 			    	 
 			    }});
 	    }
+	    // if GPS or Network provider works that fine we don't need to send the user to system settings just tell the user that we are going to search for the
+	    // current city
 	    else
 	    {
 	    	alertDialog.setMessage(getString(R.string.autoSearchHowEnabled));	
 	    	alertDialog.setButton(getString(R.string.ok), new DialogInterface.OnClickListener(){
-			    public void onClick(DialogInterface dialog, int which) {  
+			    public void onClick(DialogInterface dialog, int which) { 
+			    	// Run city finder method
 			    	new AutoCityMainActivity(MainActivity.this, MainActivity.this.dialog).startSearch();
 			    }});
 	    }
 
+	    // show the dialog 
 	    alertDialog.show();
 	}
 	
+	// this method is triggered when we send the user outside the app (e.g. to System Settings ) then the user come back again
+	// to our app , we know that by resultCode
+	// read Android App for more info about this method
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         if(requestCode == 111 && resultCode == 0){
+        	
             LocationManager locManager = (LocationManager) getSystemService(LOCATION_SERVICE);  
             
+            // check GPS/Network status
+            // if one of them enabled then start city finder method
             if (locManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){  
             	new AutoCityMainActivity(MainActivity.this, MainActivity.this.dialog).startSearch();            	
             }else{
+            	// if no then tell the user that we cannot search for the city while 
+            	// the GPS or network provider does not work
         		AlertDialog alertDialog = new AlertDialog.Builder(this).create();  
         	    alertDialog.setTitle("");  
         	    alertDialog.setMessage(getString(R.string.gpsAndNetworkIsDisabled));  

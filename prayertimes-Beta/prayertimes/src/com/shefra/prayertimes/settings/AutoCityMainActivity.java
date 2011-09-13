@@ -22,6 +22,14 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 
+// this class works exactly as AutoCityDialogPreference
+// but since I faced some bugs 
+// I seprate the two class
+// this class is used to find current city and work as LocationListener
+// it used at two stages in our app : 
+// 
+// 1- at the first run for the app on this device
+// 2- when the user clicks on : find my city menu item from main menu 
 public class AutoCityMainActivity implements LocationListener{
 	ProgressDialog dialog;
 	LocationManager locManager;
@@ -37,12 +45,20 @@ public class AutoCityMainActivity implements LocationListener{
 
 		locManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		
-	
+		// If the network provider works run it , else try GPS  provider
+		// TODO : what happens if GPS and Network providers are not suuported ??
+
 						
 			if(!locManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) )
+				// the last parameter is Location Listener which is this object
+				// since we implement LocationListener Interface
+				// read more on Android
 				locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
 						0, this);
 			else
+				// the last parameter is Location Listener which is this object
+				// since we implement LocationListener Interface
+				// read more on Android
 				locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
 						0, this);
 			
@@ -64,6 +80,8 @@ public class AutoCityMainActivity implements LocationListener{
 	} 
 	
 	// Location Listener implementation
+	// read Android doc for more info
+	// this methods is triggered when new location ( latitiude and longitude ) is found by the system
 	private void updateWithNewLocation(Location location) {
 		
 		Manager manager = new Manager(context);
@@ -72,12 +90,15 @@ public class AutoCityMainActivity implements LocationListener{
 			double lng = location.getLongitude();
 			
 			manager.findCurrentCity(lat,lng);
+			// update main activity since the city name is changed
+			// just update all views  
 			MainActivity mainActivity = (MainActivity) context;
 			mainActivity.init();
 
 		} else {
 			//this.setSummary( "No location found" );
 		}
+		// remove the listener , we don't need it anymore
 		locManager.removeUpdates(this);
 		dialog.hide();
 	}
