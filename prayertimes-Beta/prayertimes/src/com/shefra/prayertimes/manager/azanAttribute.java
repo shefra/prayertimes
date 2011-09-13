@@ -1,3 +1,6 @@
+/*
+ * azanAttribute Calss to store City Attributes. 
+ */
 package com.shefra.prayertimes.manager;
 
 public class azanAttribute {

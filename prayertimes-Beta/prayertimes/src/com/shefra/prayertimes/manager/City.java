@@ -1,3 +1,6 @@
+/*
+ * City Class , it used to store City data.
+ */
 package com.shefra.prayertimes.manager;
 
 public class City {

@@ -1,3 +1,6 @@
+/*
+ * Country Class ,it used to store Country data.
+ */
 package com.shefra.prayertimes.manager;
 
 public class Country {

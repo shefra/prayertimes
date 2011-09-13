@@ -1,3 +1,10 @@
+/*
+ * settingAttributes Class,it used to store the setting attributes
+ * Constructors:
+ * 	1- Default.
+ * 	2- TODO (KHALID).
+ * 	3- TODO (KHALID).
+ */ 
 package com.shefra.prayertimes.manager;
 
 public class settingAttributes {
