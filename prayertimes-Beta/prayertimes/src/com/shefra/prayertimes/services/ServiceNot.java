@@ -1,3 +1,10 @@
+/**************************************************
+ * 15/10/1432H  13/11/2011 
+ * this class is responsible for notification 
+ * and converting to silent or general 
+ * it read from the xml to now what is the next action 
+ *****************************************************/
+
 package com.shefra.prayertimes.services;
 
 import com.shefra.prayertimes.R;
@@ -28,6 +35,7 @@ public void onCreate(){
 	public void onStart(Intent intent, int startId) {
 		//this.activMode();
 	}
+	//this method read from to now the next action
 	public void activMode(){
 	       
 	       
@@ -38,9 +46,12 @@ public void onCreate(){
            
             this.notification();
         else if(key.equals("silent")){
-                if(audioManagerState().equalsIgnoreCase("silent"))
+                if(audioManagerState().equalsIgnoreCase("silent"))/***
+                if the devise is already in silent mode by the user  the program  will not convert it to general
+                ***/
                     edit.putString("nextState", "silent");
                 else
+                	//if the devise is  in silent mode by the program  the program  will  convert it to general
                     edit.putString("nextState", "general");
                 edit.commit();
                 this.toSilent();
@@ -55,6 +66,7 @@ public void onCreate(){
                 }
             }
     }
+	// this method tell if the devise already in the silent mode
     public String audioManagerState(){
         AudioManager am = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
 
@@ -72,9 +84,9 @@ public void onCreate(){
 	public void notification(){
 		Intent intent;
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-		//int icon = R.drawable.notification_icon;
 		String azanMode = pref.getString("notSound", "full") ;
 		if(azanMode.equals("full")){
+			//Start AlertActivity class for full azan 
 			 intent = new Intent(getBaseContext(), AlertActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			getApplication().startActivity(intent);
@@ -91,18 +103,17 @@ public void onCreate(){
 			Intent notificationIntent = new Intent(this, ServiceNot.class);
 			PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 			notification.sound = Uri.parse("android.resource://com.shefra.prayertimes/raw/notification");
-			//notification.defaults = Notification.DEFAULT_SOUND;
 			notification.flags |= notification.FLAG_AUTO_CANCEL ;
 			notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
 			mNotificationManager.notify(1, notification);
 		}
 		
 		Editor editor = pref.edit();
-		if(pref.getBoolean("disable", false))
+		if(pref.getBoolean("disable", false))//if the user chose to disable silent ,the next action will be general , 
 			editor.putString("moode","notfication");
 		else
-			editor.putString("moode","silent");
-		editor.putBoolean("FirstSetGeneralSilent", true);
+			editor.putString("moode","silent");// next action will be silent
+		editor.putBoolean("FirstSetGeneralSilent", true);//enable scheduling foe silent or general 
 		editor.commit();
 		intent = new Intent(this, ServiceSetAlarm.class);
         startService(intent);
@@ -110,28 +121,28 @@ public void onCreate(){
 	}
 	public void toSilent(){
 		AudioManager manager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-		manager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor editor = pref.edit();
-		editor.putString("moode","general"); 
+		manager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+		editor.putString("moode","general");// next action will be general
 		editor.commit();
 		Intent intent = new Intent(this, ServiceSetAlarm.class);
         startService(intent);
-        editor.putBoolean("FirstSetGeneralSilent", true);
+        editor.putBoolean("FirstSetGeneralSilent", true);//enable scheduling foe silent or general 
         editor.commit();
         this.stopSelf();
 		
 	}
 	public void toGunral(){
 		AudioManager manager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
-		manager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 		Editor editor = pref.edit();
+		manager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 		editor.putString("moode","notfication"); 
 		editor.commit();
 		Intent intent = new Intent(this, ServiceSetAlarm.class);
         startService(intent);
-        editor.putBoolean("FirstSetGeneralSilent", true);
+        editor.putBoolean("FirstSetGeneralSilent", true);//enable scheduling for silent or general 
         editor.commit();
         this.stopSelf();
 		
