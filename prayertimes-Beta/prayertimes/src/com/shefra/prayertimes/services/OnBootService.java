@@ -1,5 +1,5 @@
 /*
- * OnBootService Class is a: Android Service that boots with the System to run 
+ * OnBootService Class is an: Android Service that boots with the System to run 
  * ServiceSetAlarm so the set alarm won't be lost.
  */
 
