@@ -1,6 +1,6 @@
 /*
  * AlertActivity Class : implements OnCompletionListener beside extending Activity
- * and because we need to Manage the activity once the Sound is completed
+ * because we need to finish() the activity once the Sound is completed
  *   
  */
 package com.shefra.prayertimes.settings;
