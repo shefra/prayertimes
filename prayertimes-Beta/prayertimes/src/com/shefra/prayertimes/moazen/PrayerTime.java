@@ -121,7 +121,7 @@ public final class PrayerTime {
             double fajrAlt = 0;
             double ishaAlt = 0;
             if (this.m_calender.type() == Calender.Type.UmmAlQuraUniv) {
-                fajrAlt=-19;
+                fajrAlt=-18.5;
             } else if (this.m_calender.type() == Calender.Type.EgytionGeneralAuthorityofSurvey) {
                 fajrAlt=-19.5;
                 ishaAlt=-17.5;

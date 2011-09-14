@@ -16,10 +16,23 @@
 		<item name="2">شتوي</item>
 	</string-array>
 	<string-array name="seasonValues">
-		<item name="1">1</item>
-		<item name="2">2</item> 
+		<item name="1">Summer</item>
+		<item name="2">Winter</item> 
 	</string-array>
-
+	<string-array name="calender">
+		<item name="1">أم القرى</item>
+		<item name="2">أمريكا الشمالية</item>
+		<item name="3">	جامعة العلوم الإسلامية بكراتشى</item>
+		<item name="4">	رابطة العالم الإسلامي</item>
+		<item name="5">	الهيئة العامة المصرية للمساحة</item>
+	</string-array>
+	<string-array name="calenderValues">
+		<item name="1">UmmAlQuraUniv</item>
+		<item name="2">IslamicSocietyOfNorthAmerica</item>
+		<item name="3">UnivOfIslamicScincesKarachi</item> 
+		<item name="4">MuslimWorldLeague</item> 
+		<item name="5">EgytionGeneralAuthorityofSurvey</item> 
+	</string-array>
 	<string-array name="silentStartEntry">
 		<item name="immediately">بعد الأذان مباشرة</item>
 		<item name="minutes10">10 دقيقة</item>
