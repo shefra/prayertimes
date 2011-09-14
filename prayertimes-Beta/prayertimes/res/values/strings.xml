@@ -7,8 +7,8 @@
 		<item name="2">شافعي...</item>
 	</string-array>
 	<string-array name="mazhabValues">
-		<item name="1">1</item>
-		<item name="2">2</item>
+		<item name="1">Hanafi</item>
+		<item name="2">Default</item>
 	</string-array>
 
 	<string-array name="season">
