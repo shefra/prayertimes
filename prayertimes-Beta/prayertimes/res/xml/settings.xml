@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
- 
+
 	<PreferenceCategory android:title="@string/locationSettings">
 
 		<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
@@ -29,14 +29,16 @@
 		<CheckBoxPreference android:key="disable"
 			android:title="@string/disableTitle" android:enabled="true"
 			android:summary="@string/disableSummary" />
-		<ListPreference android:key="silentStart" android:title="@string/silentStartTitle"
-			android:dialogTitle="@string/silentStartDlgTitle" android:entries="@array/silentStartEntry"
-			 android:summary="@string/silentStartSummary"
-			android:entryValues="@array/silentStartEntryValues"  android:defaultValue="0"/>
-		<ListPreference android:key="silentDuration" android:title="@string/silentDurationTitle"
-			android:dialogTitle="@string/silentDurationDlgTitle" android:entries="@array/silentDurationEntry"
-			 android:summary="@string/silentDurationSummary"
-			android:entryValues="@array/silentDurationEntryValues"  android:defaultValue="20"/>
+		<ListPreference android:key="silentStart"
+			android:title="@string/silentStartTitle" android:dialogTitle="@string/silentStartDlgTitle"
+			android:entries="@array/silentStartEntry" android:summary="@string/silentStartSummary"
+			android:entryValues="@array/silentStartEntryValues"
+			android:defaultValue="0" />
+		<ListPreference android:key="silentDuration"
+			android:title="@string/silentDurationTitle" android:dialogTitle="@string/silentDurationDlgTitle"
+			android:entries="@array/silentDurationEntry" android:summary="@string/silentDurationSummary"
+			android:entryValues="@array/silentDurationEntryValues"
+			android:defaultValue="20" />
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/generalSettings">
@@ -47,6 +49,9 @@
 			android:dialogTitle="@string/mazhabDlgTitle" android:entries="@array/mazhab"
 			android:defaultValue="2" android:summary="@string/mazhabSummary"
 			android:entryValues="@array/mazhabValues" />
+		<ListPreference android:key="calender" android:title="@string/calcMethodTitle"
+			android:dialogTitle="@string/calcMethodDlgTitle" android:entries="@array/calenderEntry"
+			android:entryValues="@array/calenderValues" android:summary="" />
 
 		<ListPreference android:key="season" android:title="@string/seasonTitle"
 			android:dialogTitle="@string/seasonDlgTitle" android:entries="@array/season"

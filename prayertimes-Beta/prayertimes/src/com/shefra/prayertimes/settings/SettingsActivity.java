@@ -90,6 +90,10 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			String seasonSummary = seasonP.getEntry().toString();
 			seasonP.setSummary(seasonSummary);		
 
+			 
+			ListPreference calendarP = (ListPreference) findPreference("calendar");
+			String calSummary = calendarP.getEntry().toString();
+			calendarP.setSummary(calSummary);				
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

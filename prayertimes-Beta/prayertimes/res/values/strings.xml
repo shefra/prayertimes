@@ -19,7 +19,9 @@
 		<item name="1">Summer</item>
 		<item name="2">Winter</item> 
 	</string-array>
-	<string-array name="calender">
+	
+	
+	<string-array name="calenderEntry">
 		<item name="1">أم القرى</item>
 		<item name="2">أمريكا الشمالية</item>
 		<item name="3">	جامعة العلوم الإسلامية بكراتشى</item>
@@ -43,6 +45,7 @@
 		<item name="minutes10">10</item>
 		<item name="minutes20">20</item>
 	</string-array>
+
 
 	<string-array name="silentDurationEntry">
 		<item>10 دقيقة</item>
@@ -111,5 +114,8 @@
 	<string name="ok">موافق</string>
 	<string name="noLocationFound">لم يتم العثور على مدينة في موقعك الحالي</string>
 	<string name="dialogAutoSearchMessage">سيتم البحث بإستخدام أبراج الشبكة أو خدمة جي-بي-إس ، تأكد من تفعيل إحدى الخدمتين ليتم العثور على المدينة</string>
-	<string name="version">1.0 Beta</string>
+	<string name="version">1.0.1 Beta2</string>
+	<string name="calcMethodTitle">طريقة الحساب</string>
+	<string name="calcMethodDlgTitle">طريقة الحساب</string>
+	
 </resources>
