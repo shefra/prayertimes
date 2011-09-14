@@ -47,15 +47,15 @@
 			android:entries="@array/notSoundEntry" android:entryValues="@array/notSoundValues" />
 		<ListPreference android:key="mazhab" android:title="@string/mazhabTitle"
 			android:dialogTitle="@string/mazhabDlgTitle" android:entries="@array/mazhab"
-			android:defaultValue="Default" android:summary="@string/mazhabSummary"
+			android:defaultValue="Default" 
 			android:entryValues="@array/mazhabValues" />
-		<ListPreference android:key="calender" android:title="@string/calcMethodTitle"
+		<ListPreference android:key="calendar" android:title="@string/calcMethodTitle"
 			android:dialogTitle="@string/calcMethodDlgTitle" android:entries="@array/calenderEntry"
-			android:entryValues="@array/calenderValues" android:summary="" android:defaultValue="UmmAlQuraUniv" />
+			android:defaultValue="UmmAlQuraUniv" android:entryValues="@array/calenderValues"  />
 
 		<ListPreference android:key="season" android:title="@string/seasonTitle"
 			android:dialogTitle="@string/seasonDlgTitle" android:entries="@array/season"
-			android:defaultValue="Winter" android:summary="" android:entryValues="@array/seasonValues" />
+			android:defaultValue="Winter" android:entryValues="@array/seasonValues" />
 	</PreferenceCategory>
 
 </PreferenceScreen>

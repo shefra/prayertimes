@@ -107,6 +107,7 @@ public class AutoCityDialogPreference extends DialogPreference implements
 		locManager.removeUpdates(this);
 		// and hide the waiting dialog
 		dialog.hide();
+		
 	}
 
 	// read Android Docs
