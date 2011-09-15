@@ -21,14 +21,14 @@
 	</string-array>
 	
 	
-	<string-array name="calenderEntry">
+	<string-array name="calendarEntry">
 		<item name="1">أم القرى</item>
 		<item name="2">أمريكا الشمالية</item>
 		<item name="3">	جامعة العلوم الإسلامية بكراتشى</item>
 		<item name="4">	رابطة العالم الإسلامي</item>
 		<item name="5">	الهيئة العامة المصرية للمساحة</item>
 	</string-array>
-	<string-array name="calenderValues">
+	<string-array name="calendarValues">
 		<item name="1">UmmAlQuraUniv</item>
 		<item name="2">IslamicSocietyOfNorthAmerica</item>
 		<item name="3">UnivOfIslamicScincesKarachi</item> 

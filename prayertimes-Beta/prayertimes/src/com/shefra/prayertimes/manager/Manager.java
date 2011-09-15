@@ -264,7 +264,7 @@ public class Manager extends SQLiteOpenHelper {
 		sa.city.timeZone = pref.getString("timeZone", "3");
 		sa.city.latitude = pref.getString("latitude", "21.43");
 		sa.city.longitude = pref.getString("longitude", "39.82");
-		sa.calender = pref.getString("calender", "UmmAlQuraUniv");
+		sa.calender = pref.getString("calendar", "UmmAlQuraUniv");
 		sa.mazhab = pref.getString("mazhab", "Default");
 		sa.season = pref.getString("season", "Winter");
 		return sa;

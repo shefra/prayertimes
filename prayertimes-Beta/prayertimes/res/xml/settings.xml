@@ -48,10 +48,10 @@
 		<ListPreference android:key="mazhab" android:title="@string/mazhabTitle"
 			android:dialogTitle="@string/mazhabDlgTitle" android:entries="@array/mazhab"
 			android:defaultValue="Default" 
-			android:entryValues="@array/mazhabValues" />
+			android:entryValues="@array/mazhabValues" /> 
 		<ListPreference android:key="calendar" android:title="@string/calcMethodTitle"
-			android:dialogTitle="@string/calcMethodDlgTitle" android:entries="@array/calenderEntry"
-			android:defaultValue="UmmAlQuraUniv" android:entryValues="@array/calenderValues"  />
+			android:dialogTitle="@string/calcMethodDlgTitle" android:entries="@array/calendarEntry"
+			android:defaultValue="UmmAlQuraUniv" android:entryValues="@array/calendarValues"  />
 
 		<ListPreference android:key="season" android:title="@string/seasonTitle"
 			android:dialogTitle="@string/seasonDlgTitle" android:entries="@array/season"
