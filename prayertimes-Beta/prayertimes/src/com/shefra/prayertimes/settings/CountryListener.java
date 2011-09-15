@@ -19,7 +19,7 @@ public class CountryListener implements
 	}
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
 		
-		// when the ciuntry change , update city list with new cities
+		// when the country change , update city list with new cities
 		// don't worry about country id 
 		// the system will write it to Preference file ( xml file)
 		// since we use Standard way ( thanks preference ) 

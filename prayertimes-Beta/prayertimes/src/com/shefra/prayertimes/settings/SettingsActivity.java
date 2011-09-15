@@ -4,13 +4,18 @@ import java.util.List;
 
 import com.shefra.prayertimes.*;
 import com.shefra.prayertimes.manager.*;
+import com.shefra.prayertimes.services.ServiceSetAlarm;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.*;
+import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.widget.Toast;
 
 // this class is the main class for Settings screen
@@ -83,15 +88,21 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			
 
 			ListPreference mazhabP = (ListPreference) findPreference("mazhab");
+			MazhabListener mazhabListener= new MazhabListener();
+			mazhabP.setOnPreferenceChangeListener(mazhabListener);
 			String mazhabSummary = mazhabP.getEntry().toString();
 			mazhabP.setSummary(mazhabSummary);	
 			 
 			ListPreference seasonP = (ListPreference) findPreference("season");
+			SeasonListener seasonListener= new SeasonListener();
+			seasonP.setOnPreferenceChangeListener(seasonListener);
 			String seasonSummary = seasonP.getEntry().toString();
 			seasonP.setSummary(seasonSummary);		
 
 			 
 			ListPreference calendarP = (ListPreference) findPreference("calendar");
+			CalendarListener calendarListener= new CalendarListener();
+			calendarP.setOnPreferenceChangeListener(calendarListener);
 			String calSummary = calendarP.getEntry().toString();
 			calendarP.setSummary(calSummary);				
 		} catch (Exception e) {
@@ -136,7 +147,58 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 	    this.init();
 	}
+	
+	private class MazhabListener implements OnPreferenceChangeListener
+	{
+		public boolean onPreferenceChange(Preference preference, Object newValue) {
+			
+			// restart the service when the value changed, by this way
+			// the service will calculate the remaining time to the next prayer 
+			// based on the new prayer time
+//			SharedPreferences pref = PreferenceManager
+//			.getDefaultSharedPreferences(SettingsActivity.this);
+//			Editor editor = pref.edit();
+//			editor.putString("mazhab",newValue.toString());
+			Intent intent = new Intent(SettingsActivity.this, ServiceSetAlarm.class);
+			startService(intent);
+			return true;
+		}
+	}
 
-
+	private class CalendarListener implements OnPreferenceChangeListener
+	{
+		public boolean onPreferenceChange(Preference preference, Object newValue) {
+			
+			// restart the service when the value changed, by this way
+			// the service will calculate the remaining time to the next prayer 
+			// based on the new prayer time
+//			SharedPreferences pref = PreferenceManager
+//			.getDefaultSharedPreferences(getApplicationContext());
+//			Editor editor = pref.edit();
+//			editor.putString("calendar",newValue.toString());
+			Intent intent = new Intent(SettingsActivity.this, ServiceSetAlarm.class);
+			startService(intent);
+			return true;
+		}
+	}
+	
+	private class SeasonListener implements OnPreferenceChangeListener
+	{
+		public boolean onPreferenceChange(Preference preference, Object newValue) {
+			
+			// restart the service when the value changed, by this way
+			// the service will calculate the remaining time to the next prayer 
+			// based on the new prayer time
+//			SharedPreferences pref = PreferenceManager
+//			.getDefaultSharedPreferences(SettingsActivity.this);
+//			Editor editor = pref.edit();
+//			editor.putString("season",newValue.toString());
+			Intent intent = new Intent(SettingsActivity.this, ServiceSetAlarm.class);
+			startService(intent);
+			return true;
+		}
+	}
+	
+	
 
 }

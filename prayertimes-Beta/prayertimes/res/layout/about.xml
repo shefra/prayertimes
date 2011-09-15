@@ -29,11 +29,7 @@
 		</TableRow>
 		<TableRow android:layout_width="fill_parent"
 			android:layout_height="wrap_content">
-			<TextView android:layout_width="fill_parent"
-				android:layout_gravity="center_vertical|center_horizontal|center"
-				android:layout_height="wrap_content" android:text="@string/version"
-				android:textStyle="bold" android:textColor="#5c6577"
-				android:gravity="center" />
+
 			<TextView android:layout_width="fill_parent"
 				android:layout_marginBottom="5dp"
 				android:layout_gravity="center_vertical|center_horizontal|center"
@@ -43,6 +39,17 @@
 				android:gravity="center" />
 
 		</TableRow>
+		<TableRow android:layout_width="fill_parent"
+			android:layout_height="wrap_content">
+					<TextView android:layout_width="fill_parent"
+				android:layout_gravity="center_vertical|center_horizontal|center"
+				android:layout_height="wrap_content" android:text="@string/version"
+				android:textStyle="bold" android:textColor="#5c6577"
+				android:gravity="center" />
+
+		</TableRow>
+				
+
 	</TableLayout>
 
 </LinearLayout>

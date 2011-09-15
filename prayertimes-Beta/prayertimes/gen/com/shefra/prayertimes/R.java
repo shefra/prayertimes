@@ -9,8 +9,8 @@ package com.shefra.prayertimes;
 
 public final class R {
     public static final class array {
-        public static final int calender=0x7f070004;
-        public static final int calenderValues=0x7f070005;
+        public static final int calendarEntry=0x7f070004;
+        public static final int calendarValues=0x7f070005;
         public static final int mazhab=0x7f070000;
         public static final int mazhabValues=0x7f070001;
         public static final int notSoundEntry=0x7f07000a;
@@ -105,6 +105,8 @@ public final class R {
         public static final int autoSearch=0x7f06001b;
         public static final int autoSearchHowDisabled=0x7f060024;
         public static final int autoSearchHowEnabled=0x7f060025;
+        public static final int calcMethodDlgTitle=0x7f060031;
+        public static final int calcMethodTitle=0x7f060030;
         public static final int cancel=0x7f06002b;
         public static final int city=0x7f060008;
         public static final int cityDlgTitle=0x7f060009;
