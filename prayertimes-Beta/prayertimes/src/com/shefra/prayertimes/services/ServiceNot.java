@@ -85,13 +85,13 @@ public void onCreate(){
 		Intent intent;
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 		String azanMode = pref.getString("notSound", "full") ;
-		if(azanMode.equals("full")){
+		if(azanMode.equals("full") && this.audioManagerState().equalsIgnoreCase("general")){
 			//Start AlertActivity class for full azan 
 			 intent = new Intent(getBaseContext(), AlertActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			getApplication().startActivity(intent);
 		}
-		else if(azanMode.equals("short")){
+		else if( !(azanMode.equals("disable")) && (azanMode.equals("short") || this.audioManagerState().equalsIgnoreCase("silent"))){
 			String ns = Context.NOTIFICATION_SERVICE;
 			NotificationManager mNotificationManager = (NotificationManager) getSystemService(ns);
 			CharSequence tickerText = "pray";
