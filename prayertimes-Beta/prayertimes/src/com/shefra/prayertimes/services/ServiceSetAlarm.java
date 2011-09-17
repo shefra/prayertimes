@@ -57,8 +57,6 @@ public class ServiceSetAlarm extends Service{
 	public void onStart(Intent intent, int startId) {
 		try {
 			pref = PreferenceManager.getDefaultSharedPreferences(this);
-			if(pref.getString("moode", "notfication").equals("notfication"))
-				alarmManager.cancel(pendingIntent);//cancel scheduling to make sure there is no duplicated schedule  
 			if(pref.getString("isCityChanged", "false").equals("true"))// If city changed we should reset moode value
 			{
 				editor = pref.edit();
@@ -75,7 +73,7 @@ public class ServiceSetAlarm extends Service{
 	
 	@Override
 	public void onDestroy() {
-		//alarmManager.cancel(pendingIntent);
+		alarmManager.cancel(pendingIntent);
 		
 	}
 
@@ -97,6 +95,8 @@ public class ServiceSetAlarm extends Service{
 	}
 //calculate the remaining time for the next prayer and schedule it in the alarm manager   
 	private void notfication() throws IOException {
+		alarmManager.cancel(pendingIntent);//cancel scheduling to make sure there is no duplicated schedule  
+		
 		Date date = new Date();
 		int dd = date.getDate();
 		int mm = date.getMonth() + 1;
@@ -112,8 +112,10 @@ public class ServiceSetAlarm extends Service{
                  Calendar calendar = Calendar.getInstance();
                  calendar.setTimeInMillis(System.currentTimeMillis());
                  int nextPrayer = manager.nearestPrayerTime(h, m,s, yy, mm, dd);
-     			int def =  manager.diffrent((h*3600+m*60+s),nextPrayer);             
-                 calendar.add(Calendar.SECOND, def);
+     			int def =  manager.diffrent((h*3600+m*60+s),nextPrayer); 
+     			int field = Calendar.SECOND;
+     			calendar.clear(field);
+                 calendar.add(field, def);
                  alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),pendingIntent);
 		
 	}
