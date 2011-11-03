@@ -1,12 +1,12 @@
 package com.shefra.prayertimes.settings;
 
+
 import java.util.ArrayList;
 
 import com.shefra.prayertimes.*;
 import com.shefra.prayertimes.manager.City;
 import com.shefra.prayertimes.manager.Manager;
 import com.shefra.prayertimes.manager.settingAttributes;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,11 +16,14 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.DialogPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.view.View;
 
 // this class works exactly as AutoCityDialogPreference
 // but since I faced some bugs 
@@ -34,6 +37,7 @@ public class AutoCityMainActivity implements LocationListener{
 	ProgressDialog dialog;
 	LocationManager locManager;
 	Context context;
+	private Handler handler;
 	
 	public AutoCityMainActivity(Context context,ProgressDialog dialog){
 		
@@ -64,7 +68,7 @@ public class AutoCityMainActivity implements LocationListener{
 			
 				dialog = new ProgressDialog(context);
 				dialog.setTitle("");
-				dialog.setMessage(context.getString(R.string.pleaseWait));
+				dialog.setMessage(("WWWW"));
 				dialog.setButton(context.getString(R.string.cancel), new DialogInterface.OnClickListener() 
 			    {
 			        public void onClick(DialogInterface dialog, int which) 
@@ -76,6 +80,7 @@ public class AutoCityMainActivity implements LocationListener{
 			    });
 
 			dialog.show();
+			handler = new Handler();
 
 	} 
 	
@@ -84,23 +89,47 @@ public class AutoCityMainActivity implements LocationListener{
 	// this methods is triggered when new location ( latitiude and longitude ) is found by the system
 	private void updateWithNewLocation(Location location) {
 		
-		Manager manager = new Manager(context);
+		
 		if (location != null) {
-			double lat = location.getLatitude();
-			double lng = location.getLongitude();
+			final double lat = location.getLatitude();
+			final double lng = location.getLongitude();
 			
-			manager.findCurrentCity(lat,lng);
-			// update main activity since the city name is changed
-			// just update all views  
-			MainActivity mainActivity = (MainActivity) context;
-			mainActivity.init();
+			// Do something long
+			Runnable runnable = new Runnable() {
+				
+				public void run() {
+					
+						try {
+							Manager manager = new Manager(context);
+							manager.findCurrentCity(lat,lng);
+							// update main activity since the city name is changed
+							// just update all views  
+
+							
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						handler.post(new Runnable() {
+						
+							public void run() {
+								if (AutoCityMainActivity.this.dialog.isShowing()) {
+									AutoCityMainActivity.this.dialog.dismiss();
+								}
+								MainActivity mainActivity = (MainActivity) context;
+								mainActivity.init();
+							}
+						});
+					
+				}
+			};
+			new Thread(runnable).start();
 
 		} else {
 			//this.setSummary( "No location found" );
 		}
+		
 		// remove the listener , we don't need it anymore
-		locManager.removeUpdates(this);
-		dialog.hide();
+		locManager.removeUpdates(AutoCityMainActivity.this);
 	}
 
 	public void onLocationChanged(Location location) {

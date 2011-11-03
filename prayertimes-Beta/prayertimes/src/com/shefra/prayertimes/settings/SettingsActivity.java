@@ -1,5 +1,8 @@
 package com.shefra.prayertimes.settings;
 
+
+import helper.DatabaseHelper;
+
 import java.util.List;
 
 import com.shefra.prayertimes.*;
@@ -23,7 +26,7 @@ import android.widget.Toast;
 // read more on Android Doc about Preference 
 public class SettingsActivity extends PreferenceActivity implements OnSharedPreferenceChangeListener  {
 	Manager m;
-
+	DatabaseHelper databaseHelper ;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,7 +38,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	} 
 	public void init(){
 		m = new Manager(getApplicationContext());
-
+		databaseHelper = new DatabaseHelper(getApplicationContext());
 
 		try {
 		
@@ -54,17 +57,17 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			String v = countryPreference.getValue();
 			if(v == null)
 				v = "1";//TODO 
-			CityListener.fillCityPreference(cityPreference,v ,m);
+			CityListener.fillCityPreference(cityPreference,v ,databaseHelper);
 
 			// ok , now let us set summary sections for each preference
 			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
 			
 			String countryId = pref.getString("country", "211"); //TODO: check default value/ the second parameter		
-			countryPreference.setSummary(m.getCountry(Integer.parseInt(countryId)).countryName);
+			countryPreference.setSummary(databaseHelper.getCountry(Integer.parseInt(countryId)).countryName);
 			
 			
 			String cityId = pref.getString("city", "1"); // TODO : check default value/ second parameter			
-			cityPreference.setSummary(m.getCity(Integer.parseInt(cityId)).cityName);
+			cityPreference.setSummary(databaseHelper.getCity(Integer.parseInt(cityId)).cityName);
 
 			// set Summary text for each element in the setting screen
 			// Read more about summary code on Android Docs!
@@ -72,7 +75,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			// e.g. if the current country "XYZ" the it displays XYZ under the element
 			// it reads the value from xml ( preference file) and uses Manager helper functions as well
 			PreferenceScreen ps = (PreferenceScreen) findPreference("first_preferencescreen");			
-			ps.setSummary(m.getCountry(Integer.parseInt(countryId)).countryName + "/" + m.getCity(Integer.parseInt(cityId)).cityName);
+			ps.setSummary(databaseHelper.getCountry(Integer.parseInt(countryId)).countryName + "/" + databaseHelper.getCity(Integer.parseInt(cityId)).cityName);
 			
 			ListPreference ssLP = (ListPreference) findPreference("silentStart");
 			String silentStart = ssLP.getEntry().toString(); 
@@ -118,7 +121,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
  
 	// read data from database into preference list 
 	private void fillCountryPreference(ListPreference countryPref) {
-		List<Country> countryList = m.getCountryList();
+		List<Country> countryList = databaseHelper.getCountryList();
 		CharSequence[] countryEntries = new CharSequence[countryList.size()];
 		CharSequence[] countryEntryValues = new CharSequence[countryList.size()];
 		int i = 0;

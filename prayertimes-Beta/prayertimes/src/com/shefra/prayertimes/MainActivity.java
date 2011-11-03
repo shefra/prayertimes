@@ -1,5 +1,9 @@
 package com.shefra.prayertimes;
 
+
+import helper.DatabaseHelper;
+import helper.TimeHelper;
+
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
@@ -51,11 +55,13 @@ public class MainActivity extends Activity {
 		// - get some data from database (prayer times .. )
 		// - write some data to the database when necessary .
 		Manager m = new Manager(getApplicationContext());
+		DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
+		
 		try {
 			// this method will work just one time as it is implemented
 			// it copies the database file from assets folder to data folder
 			// this step is necessary since that way Android system works :)
-			m.createDatabase();
+			databaseHelper.createDatabase();
 		} catch (IOException e) {
 			// TODO we have to log the error 
 			e.printStackTrace();
@@ -94,9 +100,10 @@ public class MainActivity extends Activity {
 	public void init() {
 		
 		final Manager manager = new Manager(getApplicationContext());
+		final DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
 		
 		// read city name using manager helper methods
-		String cityName = manager.getCurrentCity().cityName;
+		String cityName = databaseHelper.getCurrentCity().cityName;
 		TextView cityTextView = (TextView) findViewById(R.id.cityName);
 		cityTextView.setText(cityName);
 		
@@ -174,8 +181,8 @@ public class MainActivity extends Activity {
 		// for example :Asr : 3:10
 		// difference : Current time - Asr time == Current Time - 3:10 = remaining time
 		int time = manager.nearestPrayerTime(h, m,s, yy, mm, dd);
-		int def =  manager.diffrent((h*3600+m*60+s),time);
-		remainingTime.setText(Manager.secondsToTime(def));	
+		int def =  TimeHelper.diffrent((h*3600+m*60+s),time);
+		remainingTime.setText(TimeHelper.secondsToTime(def));	
 	}
 
 	// add main menu items

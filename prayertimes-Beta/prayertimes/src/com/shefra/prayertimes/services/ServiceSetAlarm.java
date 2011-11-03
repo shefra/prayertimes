@@ -8,11 +8,15 @@
  */
 package com.shefra.prayertimes.services;
 
+
+import helper.TimeHelper;
+
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
 import com.shefra.prayertimes.manager.Manager;
+
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -112,7 +116,7 @@ public class ServiceSetAlarm extends Service{
                  Calendar calendar = Calendar.getInstance();
                  calendar.setTimeInMillis(System.currentTimeMillis());
                  int nextPrayer = manager.nearestPrayerTime(h, m,s, yy, mm, dd);
-     			int def =  manager.diffrent((h*3600+m*60+s),nextPrayer); 
+     			int def =  TimeHelper.diffrent((h*3600+m*60+s),nextPrayer); 
      			int field = Calendar.SECOND;
      			calendar.clear(field);
                  calendar.add(field, def);

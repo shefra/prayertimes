@@ -1,4 +1,7 @@
 package com.shefra.prayertimes.settings;
+
+import helper.DatabaseHelper;
+
 import java.util.List;
 
 import android.content.Intent;
@@ -17,8 +20,10 @@ import com.shefra.prayertimes.services.ServiceSetAlarm;
 public class CityListener implements
 		android.preference.Preference.OnPreferenceChangeListener {
 	private Manager manager;
+	
 	public CityListener(ListPreference cityList,Manager manager){
 		this.manager = manager;
+		
 	} 
 
 	// this methods is triggered by the system when the city changed
@@ -49,8 +54,8 @@ public class CityListener implements
 	// used to fill the ListPreference view that appears in setting screen
 	// with city list that is read from the database
 	// read the cities that belong to country id 
-	public static void fillCityPreference(ListPreference cityPref, String countryId,Manager m) {
-		List<City> cityList = m.getCityList(Integer.parseInt(countryId));
+	public static void fillCityPreference(ListPreference cityPref, String countryId,DatabaseHelper databaseHelper) {
+		List<City> cityList = databaseHelper.getCityList(Integer.parseInt(countryId));
 		CharSequence[] cityEntries = new CharSequence[cityList.size()];
 		CharSequence[] cityEntryValues = new CharSequence[cityList.size()];
 		int i = 0;
