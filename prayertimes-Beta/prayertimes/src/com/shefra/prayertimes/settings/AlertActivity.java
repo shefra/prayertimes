@@ -5,14 +5,17 @@
  */
 package com.shefra.prayertimes.settings;
 
+import com.AzizHuss.ArabicRehaper.ArabicReshape;
 import com.shefra.prayertimes.*;
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
  
 public class AlertActivity extends Activity implements OnCompletionListener {
 	private MediaPlayer mPlayer;
@@ -20,6 +23,13 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.alert);
+		Typeface droidBold = Typeface.createFromAsset(getAssets(),"fonts/DroidSans-Bold.ttf");
+		 
+		String ardroid = ArabicReshape.reshape("اللهم رب هذه الدعوة التامَّة، والصلاة القائمة، آت محمداً الوسيلة والفضيلة، وابعثه اللهم مقاماً محموداً الذي وعدته.");
+		
+		TextView azanDoaa = (TextView) findViewById(R.id.azandoaa);
+		azanDoaa.setText(ardroid);
+		azanDoaa.setTypeface(droidBold);
 		try {
 			
 			mPlayer = MediaPlayer.create(AlertActivity.this, R.raw.majed); 
