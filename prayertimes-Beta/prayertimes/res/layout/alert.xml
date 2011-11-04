@@ -3,16 +3,19 @@
 	android:orientation="vertical" android:layout_width="fill_parent"
 	android:layout_height="fill_parent" android:background="@drawable/alertbackground">
 	
-	<TableLayout android:layout_width="fill_parent" android:layout_marginTop="40dp"
-		 android:weightSum="5"
+	<TableLayout android:layout_width="fill_parent" 
+
 		 android:layout_height="fill_parent"
 		android:shrinkColumns="*" android:stretchColumns="*">
+		
+			<TableRow android:layout_marginTop="20dp" android:layout_weight="1" android:layout_marginLeft="5dp" android:layout_marginRight="5dp" android:layout_height="wrap_content">  
+				<ImageView android:width="0dp" android:src="@drawable/praytimetext4" android:paddingTop="50dp" android:layout_gravity="center"/>
+			</TableRow>
 		<TableRow android:layout_height="wrap_content"
-			 
-			android:layout_width="fill_parent" android:layout_weight="2">		</TableRow>
-			
-			<TableRow android:layout_marginTop="20dp" android:layout_weight="1" android:background="@drawable/praytimetext4" android:layout_marginLeft="5dp" android:layout_marginRight="5dp">  </TableRow>
-		<TableRow android:layout_marginTop="20dp" android:layout_weight="1" android:visibility="invisible" android:background="@drawable/praytimetext4" android:layout_marginLeft="5dp" android:layout_marginRight="5dp">  </TableRow>
+
+ android:layout_width="fill_parent" android:width="0dp" android:layout_marginLeft="37dp" android:layout_marginRight="37dp">  
+			<TextView android:paddingBottom="40dp" android:gravity="center" android:id="@+id/azandoaa" android:layout_width="fill_parent" android:layout_height="fill_parent" android:textSize="20dp" android:textColor="#ffffff" android:layout_weight="1"/>
+		</TableRow>
 		<TableRow android:layout_height="wrap_content"
 			 
 			android:layout_width="fill_parent" android:layout_weight="1">
