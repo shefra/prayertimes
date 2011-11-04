@@ -10,7 +10,7 @@
 		<item name="1">Hanafi</item>
 		<item name="2">Default</item>
 	</string-array>
-
+	
 	<string-array name="season">
 		<item name="1">صيفي</item>
 		<item name="2">شتوي</item>
@@ -117,5 +117,18 @@
 	<string name="version">1.0.2 Beta</string>
 	<string name="calcMethodTitle">طريقة الحساب</string>
 	<string name="calcMethodDlgTitle">طريقة الحساب</string>
+	
+	<string name="fajrtxt">الفجر</string>
+	<string name="duhrtxt">الظهر</string>
+	<string name="asrtxt">العصر</string>
+	<string name="magribtxt">المغرب</string>
+	<string name="ishatxt">العشاء</string>
+
+	<string name="remaintxt">الصلاة القادمة</string>
+	<string name="citytxt">المدينة</string>
+	
+	<string name="azandoaa">اللهم ربَّ هذه الدعوة ، والصلاة القائمة ، آت محمداً الوسيلة والفضيلة ، وابعثه اللهم مقاماً محموداً الذي وعدته.</string>	
+	
+	
 	
 </resources>
