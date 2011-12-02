@@ -13,6 +13,7 @@ import java.util.TimerTask;
 import com.shefra.prayertimes.services.*;
 import com.shefra.prayertimes.settings.About;
 import com.shefra.prayertimes.settings.AutoCityMainActivity;
+import com.shefra.prayertimes.settings.CityFinder;
 import com.shefra.prayertimes.settings.SettingsActivity;
 import com.shefra.prayertimes.manager.*;
 
@@ -192,6 +193,7 @@ public class MainActivity extends Activity {
 		menu.add(0, 3, 3, getString(R.string.about));
 		// find the current city automatically
 		menu.add(0, 4, 4, getString(R.string.autoCityTitle));
+		menu.add(0, 5, 5, "New City Finder");
 		return true;
 	}
 
@@ -213,6 +215,13 @@ public class MainActivity extends Activity {
 		case 4:
 			// run auto city finder dialog .
 			new AutoCityMainActivity(this, dialog).startSearch();
+			return true;
+		case 5:
+			// run About screen 
+			Intent MyIntent2 = new Intent (this , CityFinder.class);
+			startActivity(MyIntent2);
+			
+			return true;
 		}
 		return super.onOptionsItemSelected(item);
 

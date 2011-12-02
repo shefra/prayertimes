@@ -25,7 +25,7 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 		this.setContentView(R.layout.alert);
 		Typeface droidBold = Typeface.createFromAsset(getAssets(),"fonts/DroidSans-Bold.ttf");
 		 
-		String ardroid = ArabicReshape.reshape("اللهم رب هذه الدعوة التامَّة، والصلاة القائمة، آت محمداً الوسيلة والفضيلة، وابعثه اللهم مقاماً محموداً الذي وعدته.");
+		String ardroid = ArabicReshape.reshape("Ø§Ù„Ù„Ù‡Ù… Ø±Ø¨ Ù‡Ø°Ù‡ Ø§Ù„Ø¯Ø¹ÙˆØ© Ø§Ù„ØªØ§Ù…Ù‘ÙŽØ©ØŒ ÙˆØ§Ù„ØµÙ„Ø§Ø© Ø§Ù„Ù‚Ø§Ø¦Ù…Ø©ØŒ Ø¢Øª Ù…Ø­Ù…Ø¯Ø§Ù‹ Ø§Ù„ÙˆØ³ÙŠÙ„Ø© ÙˆØ§Ù„Ù�Ø¶ÙŠÙ„Ø©ØŒ ÙˆØ§Ø¨Ø¹Ø«Ù‡ Ø§Ù„Ù„Ù‡Ù… Ù…Ù‚Ø§Ù…Ø§Ù‹ Ù…Ø­Ù…ÙˆØ¯Ø§Ù‹ Ø§Ù„Ø°ÙŠ ÙˆØ¹Ø¯ØªÙ‡.");
 		
 		TextView azanDoaa = (TextView) findViewById(R.id.azandoaa);
 		azanDoaa.setText(ardroid);

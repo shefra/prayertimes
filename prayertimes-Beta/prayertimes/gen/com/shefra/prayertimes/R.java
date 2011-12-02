@@ -68,22 +68,28 @@ public final class R {
         public static final int table4=0x7f020028;
     }
     public static final class id {
-        public static final int asrTime=0x7f080007;
-        public static final int button1=0x7f08000f;
-        public static final int button2=0x7f080000;
-        public static final int city=0x7f08000b;
-        public static final int cityName=0x7f080002;
-        public static final int country=0x7f08000a;
-        public static final int ditore=0x7f08000d;
-        public static final int dlgMsg=0x7f080001;
-        public static final int duhrTime=0x7f080006;
-        public static final int fajrTime=0x7f080005;
-        public static final int ishaTime=0x7f080009;
-        public static final int language=0x7f08000c;
-        public static final int magribTime=0x7f080008;
-        public static final int remainingText=0x7f080003;
-        public static final int remainingTime=0x7f080004;
-        public static final int state=0x7f08000e;
+        public static final int asrTime=0x7f08000d;
+        public static final int azandoaa=0x7f080000;
+        public static final int button1=0x7f080015;
+        public static final int button2=0x7f080001;
+        public static final int city=0x7f080011;
+        public static final int cityName=0x7f080008;
+        public static final int country=0x7f080010;
+        public static final int ditore=0x7f080013;
+        public static final int dlgMsg=0x7f080002;
+        public static final int duhrTime=0x7f08000c;
+        public static final int fajrTime=0x7f08000b;
+        public static final int findCity=0x7f080007;
+        public static final int ishaTime=0x7f08000f;
+        public static final int language=0x7f080012;
+        public static final int linearLayout1=0x7f080003;
+        public static final int linearLayout2=0x7f080004;
+        public static final int magribTime=0x7f08000e;
+        public static final int progressBar1=0x7f080005;
+        public static final int remainingText=0x7f080009;
+        public static final int remainingTime=0x7f08000a;
+        public static final int state=0x7f080014;
+        public static final int textViewResult=0x7f080006;
     }
     public static final class layout {
         public static final int about=0x7f030000;
@@ -100,27 +106,34 @@ public final class R {
     public static final class string {
         public static final int about=0x7f06001e;
         public static final int app_name=0x7f060001;
+        public static final int asrtxt=0x7f060034;
         public static final int autoCitySummary=0x7f060005;
         public static final int autoCityTitle=0x7f060004;
         public static final int autoSearch=0x7f06001b;
         public static final int autoSearchHowDisabled=0x7f060024;
         public static final int autoSearchHowEnabled=0x7f060025;
+        public static final int azandoaa=0x7f060039;
         public static final int calcMethodDlgTitle=0x7f060031;
         public static final int calcMethodTitle=0x7f060030;
         public static final int cancel=0x7f06002b;
         public static final int city=0x7f060008;
         public static final int cityDlgTitle=0x7f060009;
+        public static final int citytxt=0x7f060038;
         public static final int close=0x7f06001f;
         public static final int country=0x7f060006;
         public static final int countryDlgTitle=0x7f060007;
         public static final int dialogAutoSearchMessage=0x7f06002e;
         public static final int disableSummary=0x7f06000c;
         public static final int disableTitle=0x7f06000b;
+        public static final int duhrtxt=0x7f060033;
+        public static final int fajrtxt=0x7f060032;
         public static final int firstPreferencescreenTitle=0x7f060003;
         public static final int generalSettings=0x7f060013;
         public static final int gpsAndNetworkIsDisabled=0x7f060029;
         public static final int hello=0x7f060000;
+        public static final int ishatxt=0x7f060036;
         public static final int locationSettings=0x7f060002;
+        public static final int magribtxt=0x7f060035;
         public static final int manualSearch=0x7f06001c;
         public static final int mazhabDlgTitle=0x7f060017;
         public static final int mazhabSummary=0x7f060018;
@@ -136,6 +149,7 @@ public final class R {
         public static final int now=0x7f060023;
         public static final int ok=0x7f06002c;
         public static final int pleaseWait=0x7f06002a;
+        public static final int remaintxt=0x7f060037;
         public static final int seasonDlgTitle=0x7f06001a;
         public static final int seasonTitle=0x7f060019;
         public static final int settings=0x7f06001d;
