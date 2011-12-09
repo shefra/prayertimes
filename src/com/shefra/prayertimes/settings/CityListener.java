@@ -10,7 +10,7 @@ import android.preference.Preference;
 
 import com.shefra.prayertimes.manager.City;
 import com.shefra.prayertimes.manager.Manager;
-import com.shefra.prayertimes.manager.settingAttributes;
+import com.shefra.prayertimes.manager.SettingAttributes;
 import com.shefra.prayertimes.services.ServiceSetAlarm;
 
 // this class works as city listener
@@ -29,7 +29,7 @@ public class CityListener implements
 	// this methods is triggered by the system when the city changed
 	// it gives us the new city value , whitch is city id 
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
-		settingAttributes sa = new settingAttributes();
+		SettingAttributes sa = new SettingAttributes();
 		String cityId = (String)newValue;
 		sa.city.cityNo = -1;
 		if (cityId != null) {

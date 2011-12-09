@@ -3,7 +3,7 @@ package com.shefra.prayertimes.settings;
 import com.shefra.prayertimes.MainActivity;
 import com.shefra.prayertimes.R;
 import com.shefra.prayertimes.manager.Manager;
-import com.shefra.prayertimes.manager.settingAttributes;
+import com.shefra.prayertimes.manager.SettingAttributes;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.location.Location;
@@ -83,7 +83,7 @@ public class CityFinder extends Activity {
 		protected void onPostExecute(String result) {
 			progressDialog.setVisibility(View.GONE);
 			Manager manager = new Manager(CityFinder.this);
-			settingAttributes att = manager.xmlReader();
+			SettingAttributes att = Manager.getSettingAttributes(CityFinder.this);
 			textViewResult.setText("Done:" + att.city.cityName + " , "
 					+ att.city.longitude + " , " + att.city.latitude);
 		}

@@ -41,6 +41,10 @@
 	    	</intent-filter>
 		</receiver>
 		<activity android:name=".settings.CityFinder"></activity>
+		<service android:name=".services.PrayerService"></service>
+		<receiver android:name=".services.PrayerReceiver"></receiver>
+		
+		
 	</application>
 		<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 		<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />

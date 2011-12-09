@@ -9,7 +9,7 @@
 package com.shefra.prayertimes.services;
 
 
-import helper.TimeHelper;
+import helper.TimeHelper; 
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -115,7 +115,7 @@ public class ServiceSetAlarm extends Service{
 		editor.commit();
                  Calendar calendar = Calendar.getInstance();
                  calendar.setTimeInMillis(System.currentTimeMillis());
-                 int nextPrayer = manager.nearestPrayerTime(h, m,s, yy, mm, dd);
+                 int nextPrayer = Manager.computeNearestPrayerTime(getApplicationContext(),h, m,s, yy, mm, dd);
      			int def =  TimeHelper.diffrent((h*3600+m*60+s),nextPrayer); 
      			int field = Calendar.SECOND;
      			calendar.clear(field);

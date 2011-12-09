@@ -41,12 +41,27 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
+import com.shefra.prayertimes.R;
 import com.shefra.prayertimes.moazen.PrayerTime;
+import com.shefra.prayertimes.services.PrayerReceiver;
+import com.shefra.prayertimes.services.ServiceNot;
+import com.shefra.prayertimes.services.ServiceSetAlarm;
+import com.shefra.prayertimes.settings.AlertActivity;
+
+import android.app.AlarmManager;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.database.Cursor;
 import android.database.sqlite.*;
+import android.media.AudioManager;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 
 // Manager is the main class that works as layer  between the app and database/xml files
@@ -54,18 +69,46 @@ public class Manager {
 
 	private Context context;
 	DatabaseHelper databaseHelper;
-
+	private static Intent prayerIntet;
+	private static PendingIntent prayerPendingIntent;
+	private static AlarmManager prayerAlarmManager  ;
+	public static long interval;
+	private static PrayerStateMachine prayerStateMachine;
+	private static Service prayerService;
 	public Manager(Context applicationContext) {
 		
 		this.context = applicationContext;
 		databaseHelper = new DatabaseHelper(applicationContext);
 	}
+	
+	public static void initPrayerAlarm(Service service,Class<PrayerReceiver> receiver){
+		Manager.prayerService = service; // we may need it ?
+		Manager.prayerIntet = new Intent(service,receiver);
+		Manager.prayerPendingIntent = PendingIntent.getBroadcast(service, 1234432, Manager.prayerIntet, PendingIntent.FLAG_UPDATE_CURRENT);
+		Manager.prayerAlarmManager  = (AlarmManager) service.getSystemService(Context.ALARM_SERVICE);
+		Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000,Manager.prayerPendingIntent);
+	}
+	
+	public static void updatePrayerAlarm(long newTimeInterval){
+		Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + newTimeInterval,Manager.prayerPendingIntent);
+		
+	}
+	
 
+	public static void initPrayerStateMachine(Context context) {
+		Manager.prayerStateMachine = new PrayerStateMachine(context);
+		
+	}
+	
+	public static PrayerStateMachine getPrayerStateMachine() {
+		return prayerStateMachine;
+	}
+	
 	// get nearest prayer time based on current time
-
-	public int nearestPrayerTime(int hour, int min, int sec, int year,
+	
+	public static int computeNearestPrayerTime(Context context,int hour, int min, int sec, int year,
 			int month, int day) throws IOException {
-		ArrayList<String> prayerTimes = getPrayerTimes(day, month, year);
+		ArrayList<String> prayerTimes = getPrayerTimes(context,day, month, year);
 		int[] prayerTimeInSeconds = new int[5];
 
 		// Convert prayer times to seconds
@@ -106,17 +149,17 @@ public class Manager {
 	}
 
 	// -----------set method-----------//
-	public void setSetting(settingAttributes sa) {
+	public void setSetting(SettingAttributes sa) {
 		azanAttribute aA = databaseHelper.getData(sa.city.cityNo);
 		sa.city.latitude = aA.latitude;
 		sa.city.longitude = aA.longitude;
 		sa.city.timeZone = aA.timeZone;
 		sa.country.countryNo = Integer.parseInt(aA.countryNo);
-		this.xmlWriter(sa);
+		this.setSettingAttributes(sa);
 	}
 
 	// -----------XML methods-----------//
-	public void xmlWriter(settingAttributes sa) {
+	public void setSettingAttributes(SettingAttributes sa) {
 		SharedPreferences pref = PreferenceManager
 				.getDefaultSharedPreferences(this.context);
 		Editor editor = pref.edit();
@@ -129,10 +172,10 @@ public class Manager {
 		editor.commit();
 	}
 
-	public settingAttributes xmlReader() {
-		settingAttributes sa = new settingAttributes();
+	public static SettingAttributes getSettingAttributes(Context context) {
+		SettingAttributes sa = new SettingAttributes();
 		SharedPreferences pref = PreferenceManager
-				.getDefaultSharedPreferences(this.context);
+				.getDefaultSharedPreferences(context);
 		// Mecca values
 		sa.city.timeZone = pref.getString("timeZone", "3");
 		sa.city.latitude = pref.getString("latitude", "21.43");
@@ -145,11 +188,11 @@ public class Manager {
 
 	
 
-	public ArrayList<String> getPrayerTimes(int dd, int mm, int yy)
+	public static ArrayList<String> getPrayerTimes(Context context,int dd, int mm, int yy)
 			throws IOException {
 
 		ArrayList<String> prayerList = new ArrayList<String>();
-		settingAttributes sa = this.xmlReader();
+		SettingAttributes sa = Manager.getSettingAttributes(context);
 		PrayerTime prayerTime = new PrayerTime(
 				Double.parseDouble(sa.city.longitude),
 				Double.parseDouble(sa.city.latitude),
@@ -201,7 +244,7 @@ public class Manager {
 				i++;
 			}
 			if (pos < cityList.size() && cityList.get(pos) != null) {
-				settingAttributes sa = new settingAttributes();
+				SettingAttributes sa = new SettingAttributes();
 				String cityId = (String) Integer
 						.toString(cityList.get(pos).cityNo);
 				sa.city.cityNo = -1;
@@ -215,4 +258,36 @@ public class Manager {
 		} catch (Exception e) {
 		}
 	}
+	
+	public static void playAzanNotification( Context context){
+		Intent intent;
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		String azanMode = pref.getString("notSound", "full") ;
+		AudioManager am = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+		
+		if(azanMode.equals("full") && am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
+			//Start AlertActivity class for full azan 
+			 intent = new Intent(context, AlertActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(intent);
+		}
+		else if( !(azanMode.equals("disable")) && (azanMode.equals("short") || (am.getRingerMode() == AudioManager.RINGER_MODE_SILENT || am.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE))){
+			String ns = Context.NOTIFICATION_SERVICE;
+			NotificationManager mNotificationManager = (NotificationManager)context.getSystemService(ns);
+			CharSequence tickerText = "pray";
+			long when = System.currentTimeMillis();
+			Notification notification = new Notification(com.shefra.prayertimes.R.drawable.icon, tickerText, when);
+			CharSequence contentTitle = context.getString(R.string.notTitle);
+			CharSequence contentText = context.getString(R.string.notContent);
+			Intent notificationIntent = new Intent(context, ServiceNot.class);
+			PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+			notification.sound = Uri.parse("android.resource://com.shefra.prayertimes/raw/notification");
+			notification.flags |= notification.FLAG_AUTO_CANCEL ;
+			notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+			mNotificationManager.notify(1, notification);
+		}
+		
+		
+	}
+
 }

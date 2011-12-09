@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.main);
-
+		try{
 		// create Manager object and use it to :
 		// - load database into system folder at the first time
 		// - get some data from database (prayer times .. )
@@ -72,7 +72,7 @@ public class MainActivity extends Activity {
 		this.init();
 		
 		// run the app service , read ServiceSetAlarm for more info 
-		Intent intent = new Intent(this, ServiceSetAlarm.class);
+		Intent intent = new Intent(this, PrayerService.class);
 		startService(intent);
 		
 		// check xml preference file to check if this is the first run for the app
@@ -93,7 +93,9 @@ public class MainActivity extends Activity {
         	edit.putBoolean("firstStart", false);
         	edit.commit();
         }
-       
+		}catch(Exception e){
+			
+		} 
 		
 		
 	}
@@ -122,7 +124,7 @@ public class MainActivity extends Activity {
 			// index 0 : Fajr time
 			// index 1 : Dhur time 
 			// and so on , until index 4 witch is Isha time
-			List<String> prayersList = manager.getPrayerTimes(dd, mm, yy);
+			List<String> prayersList = Manager.getPrayerTimes(getApplicationContext(),dd, mm, yy);
 			TextView fajrTime = (TextView) findViewById(R.id.fajrTime);
 			TextView duhrTime = (TextView) findViewById(R.id.duhrTime);
 			TextView asrTime = (TextView) findViewById(R.id.asrTime);
@@ -135,7 +137,7 @@ public class MainActivity extends Activity {
 			ishaTime.setText(prayersList.get(4));
 		
 			// Timer used to decrease the remaining time to next prayer
-			TimerMethod(manager,yy, mm, dd); //to calculate the nearest  pray 
+			updateRemainingTime(yy, mm, dd); //to calculate the nearest  pray 
 			Timer myTimer =new Timer();
 			TimerTask scanTask ;
 			final Handler handler = new Handler();
@@ -146,10 +148,10 @@ public class MainActivity extends Activity {
 						handler.post(new Runnable() {
 			                    public void run() {
 			                    		try {
-											TimerMethod(manager,yy, mm, dd);
+			                    			updateRemainingTime(yy, mm, dd);
 			                    		} catch (IOException e) {
 			    							// TODO Auto-generated catch block
-			    							e.printStackTrace();
+			    							
 			    						} 
 			                        }
 			               });
@@ -169,7 +171,7 @@ public class MainActivity extends Activity {
 		
 	}
 	
-	public void TimerMethod(Manager manager ,int yy, int mm, int dd ) throws IOException
+	public void updateRemainingTime(int yy, int mm, int dd ) throws IOException
 	{
 		Date date = new Date();
 		 
@@ -181,7 +183,7 @@ public class MainActivity extends Activity {
 		// nearest prayer time ,
 		// for example :Asr : 3:10
 		// difference : Current time - Asr time == Current Time - 3:10 = remaining time
-		int time = manager.nearestPrayerTime(h, m,s, yy, mm, dd);
+		int time = Manager.computeNearestPrayerTime(getApplicationContext(),h, m,s, yy, mm, dd);
 		int def =  TimeHelper.diffrent((h*3600+m*60+s),time);
 		remainingTime.setText(TimeHelper.secondsToTime(def));	
 	}

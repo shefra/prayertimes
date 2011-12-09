@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.shefra.prayertimes.*;
 import com.shefra.prayertimes.manager.City;
 import com.shefra.prayertimes.manager.Manager;
-import com.shefra.prayertimes.manager.settingAttributes;
+import com.shefra.prayertimes.manager.SettingAttributes;
 
 import android.app.ProgressDialog;
 import android.content.Context;
