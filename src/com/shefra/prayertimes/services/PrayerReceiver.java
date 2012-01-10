@@ -35,17 +35,29 @@ import android.util.Log;
 public class PrayerReceiver extends BroadcastReceiver {
 
 	private PrayerStateMachine prayerState;
-	private AudioManager am;
+	private AudioManager am; 
 	private Context context;
 	private SharedPreferences pref;
 	private Editor editor;
+	private int silentDuration = 3 * 60 * 1000;
+	// the time range is start from -30 to +30 seconds
+	// so if the Azan time was on 12:10:20
+	// and our app checked on 12:10:28 , then it should do Azan even if it's not
+	// exactly the same time.
+	// but if the app checked on 12:10:55 then it should not do Azan. since it's
+	// out of azan time.
+	private int azanTimeRange = 30 * 1000;
+
+	private int intervalTime = 1000 * 60; // each x seconds check to see if the
+											// Azan time is coming or not .
+
+	private int soundTrackDuration = 40 * 1000; // Azan sound track duration
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		this.context = context;
-		 pref = PreferenceManager
-		.getDefaultSharedPreferences(this.context);
-		 editor = pref.edit();
+		pref = PreferenceManager.getDefaultSharedPreferences(this.context);
+		editor = pref.edit();
 		try {
 
 			prayerState = Manager.getPrayerStateMachine();
@@ -79,105 +91,132 @@ public class PrayerReceiver extends BroadcastReceiver {
 	}
 
 	private void onWaitingAzan() {
+		try{
 		Log.i("WAITING_AZAN", Long.toString(System.currentTimeMillis()));
-		
+
 		// don't change to Normal until you have already changed it to silent
-		boolean isRingerModeChangedToSilent = pref.getBoolean("isRingerModeChangedToSilent", false);
-		if(isRingerModeChangedToSilent == true){
+		boolean isRingerModeChangedToSilent = pref.getBoolean(
+				"isRingerModeChangedToSilent", false);
+		if (isRingerModeChangedToSilent == true) {
 			am.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
 			editor.putBoolean("isRingerModeChangedToSilent", false);
 			editor.commit();
 		}
 
-		/*
-		 * Date date = new Date(); int dd = date.getDate(); int mm =
-		 * date.getMonth() + 1; int yy = date.getYear() + 1900; int h =
-		 * date.getHours(); int m = date.getMinutes(); int s =
-		 * date.getSeconds(); long nearestPrayerTime =
-		 * Manager.computeNearestPrayerTime( context, h, m, s, yy, mm,
-		 * dd);
-		 */
-		long nearestPrayerTime = 25;
-		// less then 60 seconds
-		if (nearestPrayerTime < 10) {
+		Date date = new Date();
+		int dd = date.getDate();
+		int mm = date.getMonth() + 1;
+		int yy = date.getYear() + 1900;
+		int h = date.getHours();
+		int m = date.getMinutes();
+		int s = date.getSeconds();
+		long nearestPrayerTime = Manager.computeNearestPrayerTime(context, h,
+				m, s, yy, mm, dd);
+		nearestPrayerTime = nearestPrayerTime * 1000; // to millieseconds
+		// Suppose AzanTimeRange = 30 seconds
+
+		// case 1 : AzanTime = 12:10:12 , currentTime 12:10:16 Or currentTime
+		// 12:10:06 => Do the Azan now since we in the range
+		if (nearestPrayerTime <= azanTimeRange
+				&& nearestPrayerTime >= -azanTimeRange) {// almost there
 			prayerState.setPrayerState(PrayerStateMachine.PRE_DOING_AZAN);
-			// check again after X milliseconds
-			Manager.updatePrayerAlarm(nearestPrayerTime * 1000);
-
-		} else if (nearestPrayerTime < 5) { // almost there
 			onPreDoingAzan();
-		} else {
-			// check again after 1 minute milliseconds
-			prayerState.setPrayerState(PrayerStateMachine.WAITING_AZAN);
-			Manager.updatePrayerAlarm(1 * 1000);
-			
 		}
-		
-	}
+		// case 2 : AzanTime = 12:10:55 , currentTime 12:10:00 then recheck
+		// again after 55 milliseconds
+		else if (nearestPrayerTime <= intervalTime) {
+			prayerState.setPrayerState(PrayerStateMachine.PRE_DOING_AZAN);
+			Manager.updatePrayerAlarm(intervalTime - nearestPrayerTime);
+		} else {
+			// check again after x milliseconds
+			prayerState.setPrayerState(PrayerStateMachine.WAITING_AZAN);
+			Manager.updatePrayerAlarm(intervalTime);
 
+		}
+		}catch(Exception e){
+			Log.e("OnReceive Error", e.getMessage());
+		}
+	}
 
 	private void onPreDoingAzan() {
 		Log.i("PRE_DOING_AZAN", Long.toString(System.currentTimeMillis()));
 
+		// when the state was changed .
 		long stateChangeTime = pref.getLong("stateChangeTime", 0);
+
+		// deltatime : useful to know when the Azan happened.
+		// based on that we can make a decision :
+		// - Is it time of the Azan ?
+		// - Is it time of waiting the prayer?
+		// - Anything else ?
+		// e.g. if deltatime > 30 seconds then don't do the Azan.But wait the
+		// prayer
+		// if deltatime > 30 minutes , don't wait the prayer , but wait the next
+		// Azan.
 		long deltaTime = System.currentTimeMillis() - stateChangeTime;
 
 		// TODO : make it DOING_AZAN , and in DOING_AZAN block check to see if
 		// the Azan finished
 		// since I don't know how to know if the mp3 track is done? I will
-		// assume it will finish
-		// after 3 minutes always, so just move directly to WAITING_PRAYER
-		
-		// is the RingerMode in Silent ? if yes then we don't need to make it silent!even more, don't play the Azan sound! Logic ?
-		// also , if the Azan time was gone , then just move to the next state. this might happens when the mobile was turned off.
-		if(am.getRingerMode() == AudioManager.RINGER_MODE_SILENT || am.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE || deltaTime > 30 * 1000)
-		{
+		// assume it always finishes after 3 minutes , so just move directly to
+		// WAITING_PRAYER
+
+		// is the RingerMode in Silent ? if yes then we don't need to make it
+		// silent!even more, don't play the Azan sound! Logic ?
+		// also , if the prayer time was gone , then just move to the next state
+		// ( no need to make it silent ). this might happens when the mobile was
+		// turned off.
+		if (am.getRingerMode() == AudioManager.RINGER_MODE_SILENT
+				|| am.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE
+				|| deltaTime >= silentDuration) {
 			prayerState.setPrayerState(PrayerStateMachine.WAITING_AZAN);
 			// wait for the next prayer.
-			Manager.updatePrayerAlarm( 1000);
-		}
-		else
-		{
-			prayerState.setPrayerState(PrayerStateMachine.WAITING_PRAYER);
-			// check again after three minutes (I think the 3 minutes are enough to
+			Manager.updatePrayerAlarm(intervalTime);
+		} else {
+
+			// check again after three minutes (I think 3 minutes are enough to
 			// complete the Azan)
-			
-			// run the Azan sound track
-			Manager.playAzanNotification(context);
+			if (deltaTime <= azanTimeRange) {
+				prayerState.setPrayerState(PrayerStateMachine.WAITING_PRAYER);
+				Manager.updatePrayerAlarm(soundTrackDuration);
+				// run the Azan sound track
+				Manager.playAzanNotification(context);
+			} else {
+				// we run out of time , so just wait for the prayer without
+				// doing Azan
+				prayerState.setPrayerState(PrayerStateMachine.WAITING_PRAYER);
+			}
 
 		}
 
-	
 	}
-	
+
 	private void onWaitingPrayer() {
 		Log.i("WAITING_PRAYER", Long.toString(System.currentTimeMillis()));
 
 		long stateChangeTime = pref.getLong("stateChangeTime", 0);
 		long deltaTime = System.currentTimeMillis() - stateChangeTime;
-		long silentDuration = 30*60*1000;
-		
-		boolean isRingerModeChangedToSilent = pref.getBoolean("isRingerModeChangedToSilent", false);
-		if(isRingerModeChangedToSilent == false){
+
+		// we have not to change the mobile mode
+		// if the azan time - current time > silent duration
+		if (deltaTime > silentDuration) {
+			prayerState.setPrayerState(PrayerStateMachine.WAITING_AZAN);
+
+		}else{
+		// just change it to silent once. the user might not want to make it
+		// silent.
+		boolean isRingerModeChangedToSilent = pref.getBoolean(
+				"isRingerModeChangedToSilent", false);
+		if (isRingerModeChangedToSilent == false) {
 			am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 			editor.putBoolean("isRingerModeChangedToSilent", true);
 			editor.commit();
 		}
-		
-		// if state == waiting prayer & the waiting time was > 30 minutes. just move to the next state
-		// save last change time of the 
-		
-		
-		
-		// wait for the next prayer.
-		if(deltaTime > silentDuration ){
-			prayerState.setPrayerState(PrayerStateMachine.WAITING_AZAN);
-			
 		}
-		
-		Manager.updatePrayerAlarm(1000);
+
+
+		Manager.updatePrayerAlarm(intervalTime);
 
 	}
-
 
 }
