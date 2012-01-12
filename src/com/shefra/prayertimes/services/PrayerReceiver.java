@@ -1,5 +1,7 @@
 package com.shefra.prayertimes.services;
 
+import helper.TimeHelper;
+
 import java.io.IOException;
 import java.util.Date;
 
@@ -110,23 +112,24 @@ public class PrayerReceiver extends BroadcastReceiver {
 		int h = date.getHours();
 		int m = date.getMinutes();
 		int s = date.getSeconds();
-		long nearestPrayerTime = Manager.computeNearestPrayerTime(context, h,
+		int nearestPrayerTime = Manager.computeNearestPrayerTime(context, h,
 				m, s, yy, mm, dd);
-		nearestPrayerTime = nearestPrayerTime * 1000; // to millieseconds
+		int deffTime =  TimeHelper.diffrent((h*3600+m*60+s),nearestPrayerTime);
+		deffTime = deffTime * 1000; // to millieseconds
 		// Suppose AzanTimeRange = 30 seconds
 
 		// case 1 : AzanTime = 12:10:12 , currentTime 12:10:16 Or currentTime
 		// 12:10:06 => Do the Azan now since we in the range
-		if (nearestPrayerTime <= azanTimeRange
-				&& nearestPrayerTime >= -azanTimeRange) {// almost there
+		if (deffTime <= azanTimeRange
+				&& deffTime >= -azanTimeRange) {// almost there
 			prayerState.setPrayerState(PrayerStateMachine.PRE_DOING_AZAN);
 			onPreDoingAzan();
 		}
 		// case 2 : AzanTime = 12:10:55 , currentTime 12:10:00 then recheck
 		// again after 55 milliseconds
-		else if (nearestPrayerTime <= intervalTime) {
+		else if (deffTime <= intervalTime) {
 			prayerState.setPrayerState(PrayerStateMachine.PRE_DOING_AZAN);
-			Manager.updatePrayerAlarm(intervalTime - nearestPrayerTime);
+			Manager.updatePrayerAlarm(intervalTime - deffTime);
 		} else {
 			// check again after x milliseconds
 			prayerState.setPrayerState(PrayerStateMachine.WAITING_AZAN);
