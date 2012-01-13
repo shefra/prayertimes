@@ -54,7 +54,7 @@ public class PrayerReceiver extends BroadcastReceiver {
 											// Azan time is coming or not .
 
 	private int soundTrackDuration = 40 * 1000; // Azan sound track duration
-
+ 
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		this.context = context;
@@ -96,7 +96,9 @@ public class PrayerReceiver extends BroadcastReceiver {
 		try{
 		Log.i("WAITING_AZAN", Long.toString(System.currentTimeMillis()));
 
-		// don't change to Normal until you have already changed it to silent
+ 
+		// change it to normal mode only if you are not waiting the prayer ( out of the prayer time)
+		// don't change it to Normal until you have already have changed it to silent
 		boolean isRingerModeChangedToSilent = pref.getBoolean(
 				"isRingerModeChangedToSilent", false);
 		if (isRingerModeChangedToSilent == true) {
@@ -104,8 +106,7 @@ public class PrayerReceiver extends BroadcastReceiver {
 			editor.putBoolean("isRingerModeChangedToSilent", false);
 			editor.commit();
 		}
-
-		Date date = new Date();
+		Date date = new Date(); 
 		int dd = date.getDate();
 		int mm = date.getMonth() + 1;
 		int yy = date.getYear() + 1900;
@@ -131,6 +132,7 @@ public class PrayerReceiver extends BroadcastReceiver {
 			prayerState.setPrayerState(PrayerStateMachine.PRE_DOING_AZAN);
 			Manager.updatePrayerAlarm(intervalTime - deffTime);
 		} else {
+
 			// check again after x milliseconds
 			prayerState.setPrayerState(PrayerStateMachine.WAITING_AZAN);
 			Manager.updatePrayerAlarm(intervalTime);
