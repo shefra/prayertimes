@@ -5,7 +5,8 @@
  */
 package com.shefra.prayertimes.settings;
 
-import com.AzizHuss.ArabicRehaper.ArabicReshape;
+
+//import com.AzizHuss.ArabicRehaper.ArabicReshape;
 import com.shefra.prayertimes.*;
 import android.app.Activity;
 import android.graphics.Typeface;
@@ -25,7 +26,7 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 		this.setContentView(R.layout.alert);
 		Typeface droidBold = Typeface.createFromAsset(getAssets(),"fonts/DroidSans-Bold.ttf");
 		 
-		String ardroid = ArabicReshape.reshape(getString(R.string.azandoaa));
+		String ardroid = getString(R.string.azandoaa);
 		
 		TextView azanDoaa = (TextView) findViewById(R.id.azandoaa);
 		azanDoaa.setText(ardroid);

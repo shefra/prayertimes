@@ -189,6 +189,7 @@ public class PrayerReceiver extends BroadcastReceiver {
 			} else {
 				// we run out of time , so just wait for the prayer without
 				// doing Azan
+				Manager.updatePrayerAlarm(intervalTime);
 				prayerState.setPrayerState(PrayerStateMachine.WAITING_PRAYER);
 			}
 
@@ -202,10 +203,12 @@ public class PrayerReceiver extends BroadcastReceiver {
 		long stateChangeTime = pref.getLong("stateChangeTime", 0);
 		long deltaTime = System.currentTimeMillis() - stateChangeTime;
 
-		// we have not to change the mobile mode
-		// if the azan time - current time > silent duration
+		//no need to change the mobile mode
+		// if the azan time - current time > silent duration ==> After the prayer
 		if (deltaTime > silentDuration) {
+			
 			prayerState.setPrayerState(PrayerStateMachine.WAITING_AZAN);
+			
 
 		}else{
 		// just change it to silent once. the user might not want to make it
