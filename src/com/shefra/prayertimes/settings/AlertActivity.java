@@ -9,7 +9,6 @@ package com.shefra.prayertimes.settings;
 //import com.AzizHuss.ArabicRehaper.ArabicReshape;
 import com.shefra.prayertimes.*;
 import android.app.Activity;
-import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
@@ -24,13 +23,12 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.alert);
-		Typeface droidBold = Typeface.createFromAsset(getAssets(),"fonts/DroidSans-Bold.ttf");
 		 
 		String ardroid = getString(R.string.azandoaa);
 		
 		TextView azanDoaa = (TextView) findViewById(R.id.azandoaa);
 		azanDoaa.setText(ardroid);
-		azanDoaa.setTypeface(droidBold);
+		
 		try {
 			
 			mPlayer = MediaPlayer.create(AlertActivity.this, R.raw.majed); 

@@ -1,11 +1,11 @@
 package com.shefra.prayertimes.settings;
 
 
-import helper.DatabaseHelper;
 
 import java.util.List;
 
 import com.shefra.prayertimes.*;
+import com.shefra.prayertimes.helper.DatabaseHelper;
 import com.shefra.prayertimes.manager.*;
 import com.shefra.prayertimes.services.ServiceSetAlarm;
 

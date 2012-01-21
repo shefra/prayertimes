@@ -9,12 +9,12 @@
 package com.shefra.prayertimes.services;
 
 
-import helper.TimeHelper; 
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.shefra.prayertimes.helper.TimeHelper;
 import com.shefra.prayertimes.manager.Manager;
 
 

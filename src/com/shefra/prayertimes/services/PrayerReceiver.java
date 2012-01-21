@@ -1,11 +1,11 @@
 package com.shefra.prayertimes.services;
 
-import helper.TimeHelper;
 
 import java.io.IOException;
 import java.util.Date;
 
 import com.shefra.prayertimes.R;
+import com.shefra.prayertimes.helper.TimeHelper;
 import com.shefra.prayertimes.manager.Manager;
 import com.shefra.prayertimes.manager.PrayerStateMachine;
 import com.shefra.prayertimes.settings.AlertActivity;
@@ -50,7 +50,7 @@ public class PrayerReceiver extends BroadcastReceiver {
 	// out of azan time.
 	private int azanTimeRange = 30 * 1000;
 
-	private int intervalTime = 1000 * 60; // each x seconds check to see if the
+	private int intervalTime = 1000 * 10; // each x seconds check to see if the
 											// Azan time is coming or not .
 
 	private int soundTrackDuration = 40 * 1000; // Azan sound track duration
@@ -88,14 +88,14 @@ public class PrayerReceiver extends BroadcastReceiver {
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			Log.e("OnReceive Error", e.getMessage());
+			Log.e("com.shefrah.prayertimes", e.getMessage());
 		}
 	}
 
 	private void onWaitingAzan() {
 		try{
-		Log.i("WAITING_AZAN", Long.toString(System.currentTimeMillis()));
-
+		Log.i("com.shefrah.prayertimes","WAITING_AZAN:" + Long.toString(System.currentTimeMillis()));
+		System.out.print("com.shefrah.prayertimes" + " WAITING_AZAN:");
  
 		// change it to normal mode only if you are not waiting the prayer ( out of the prayer time)
 		// don't change it to Normal until you have already have changed it to silent
@@ -139,12 +139,12 @@ public class PrayerReceiver extends BroadcastReceiver {
 
 		}
 		}catch(Exception e){
-			Log.e("OnReceive Error", e.getMessage());
+			Log.e("com.shefrah.prayertimes", e.getMessage());
 		}
 	}
 
 	private void onPreDoingAzan() {
-		Log.i("PRE_DOING_AZAN", Long.toString(System.currentTimeMillis()));
+		Log.i("com.shefrah.prayertimes","PRE_DOING_AZAN:" + Long.toString(System.currentTimeMillis()));
 
 		// when the state was changed .
 		long stateChangeTime = pref.getLong("stateChangeTime", 0);
@@ -198,7 +198,7 @@ public class PrayerReceiver extends BroadcastReceiver {
 	}
 
 	private void onWaitingPrayer() {
-		Log.i("WAITING_PRAYER", Long.toString(System.currentTimeMillis()));
+		Log.i("com.shefrah.prayertimes","WAITING_PRAYER:"+Long.toString(System.currentTimeMillis()));
 
 		long stateChangeTime = pref.getLong("stateChangeTime", 0);
 		long deltaTime = System.currentTimeMillis() - stateChangeTime;

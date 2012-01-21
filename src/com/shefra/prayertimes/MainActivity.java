@@ -1,8 +1,6 @@
 package com.shefra.prayertimes;
 
 
-import helper.DatabaseHelper;
-import helper.TimeHelper;
 
 import java.io.IOException;
 import java.util.Date;
@@ -15,6 +13,8 @@ import com.shefra.prayertimes.settings.About;
 import com.shefra.prayertimes.settings.AutoCityMainActivity;
 import com.shefra.prayertimes.settings.CityFinder;
 import com.shefra.prayertimes.settings.SettingsActivity;
+import com.shefra.prayertimes.helper.DatabaseHelper;
+import com.shefra.prayertimes.helper.TimeHelper;
 import com.shefra.prayertimes.manager.*;
 
 import android.app.Activity;

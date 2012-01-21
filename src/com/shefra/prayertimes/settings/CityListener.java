@@ -1,6 +1,5 @@
 package com.shefra.prayertimes.settings;
 
-import helper.DatabaseHelper;
 
 import java.util.List;
 
@@ -8,6 +7,7 @@ import android.content.Intent;
 import android.preference.ListPreference;
 import android.preference.Preference;
 
+import com.shefra.prayertimes.helper.DatabaseHelper;
 import com.shefra.prayertimes.manager.City;
 import com.shefra.prayertimes.manager.Manager;
 import com.shefra.prayertimes.manager.SettingAttributes;

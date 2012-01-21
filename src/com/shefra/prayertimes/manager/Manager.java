@@ -30,8 +30,6 @@
  */
 package com.shefra.prayertimes.manager;
 
-import helper.DatabaseHelper;
-import helper.TimeHelper;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -42,6 +40,8 @@ import java.util.Arrays;
 import java.util.Locale;
 
 import com.shefra.prayertimes.R;
+import com.shefra.prayertimes.helper.DatabaseHelper;
+import com.shefra.prayertimes.helper.TimeHelper;
 import com.shefra.prayertimes.moazen.PrayerTime;
 import com.shefra.prayertimes.services.PrayerReceiver;
 import com.shefra.prayertimes.services.ServiceNot;
