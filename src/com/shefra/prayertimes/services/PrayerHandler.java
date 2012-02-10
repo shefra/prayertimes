@@ -7,7 +7,7 @@ import java.util.Date;
 import com.shefra.prayertimes.R;
 import com.shefra.prayertimes.helper.TimeHelper;
 import com.shefra.prayertimes.manager.Manager;
-import com.shefra.prayertimes.manager.PrayerStateMachine;
+import com.shefra.prayertimes.manager.PrayerState;
 import com.shefra.prayertimes.settings.AlertActivity;
 
 import android.app.AlarmManager;
@@ -39,7 +39,7 @@ import android.util.Log;
 public class PrayerHandler extends Handler{
 
 
-	private PrayerStateMachine prayerState;
+	private PrayerState prayerState;
 	private AudioManager am; 
 	private Context context;
 	private SharedPreferences pref;
@@ -77,24 +77,24 @@ public class PrayerHandler extends Handler{
 		editor = pref.edit();
 		try {
 
-			prayerState = Manager.getPrayerStateMachine();
+			prayerState = Manager.getPrayerState();
 			am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-			switch (prayerState.getPrayerState()) {
+			switch (prayerState.getCurrentState()) {
 
-			case PrayerStateMachine.WAITING_AZAN:
+			case PrayerState.WAITING_AZAN:
 				onWaitingAzan();
 
 				break;
-			case PrayerStateMachine.PRE_DOING_AZAN:
+			case PrayerState.PRE_DOING_AZAN:
 
 				onPreDoingAzan();
 
 				break;
-			case PrayerStateMachine.DOING_AZAN:
+			case PrayerState.DOING_AZAN:
 
 				break;
 
-			case PrayerStateMachine.WAITING_PRAYER:
+			case PrayerState.WAITING_PRAYER:
 				onWaitingPrayer();
 
 				break;
@@ -138,18 +138,18 @@ public class PrayerHandler extends Handler{
 		// 12:10:06 => Do the Azan now since we in the range
 		if (deffTime <= azanTimeRange
 				&& deffTime >= -azanTimeRange) {// almost there
-			prayerState.setPrayerState(PrayerStateMachine.PRE_DOING_AZAN);
+			prayerState.setNextState(PrayerState.PRE_DOING_AZAN);
 			onPreDoingAzan();
 		}
 		// case 2 : AzanTime = 12:10:55 , currentTime 12:10:00 then recheck
 		// again after 55 milliseconds
 		else if (deffTime <= intervalTime) {
-			prayerState.setPrayerState(PrayerStateMachine.PRE_DOING_AZAN);
+			prayerState.setNextState(PrayerState.PRE_DOING_AZAN);
 			this.delayMilliSeconds = (intervalTime - deffTime);
 		} else {
 
 			// check again after x milliseconds
-			prayerState.setPrayerState(PrayerStateMachine.WAITING_AZAN);
+			prayerState.setNextState(PrayerState.WAITING_AZAN);
 			this.delayMilliSeconds = (intervalTime);
 
 		}
@@ -189,7 +189,7 @@ public class PrayerHandler extends Handler{
 		if (am.getRingerMode() == AudioManager.RINGER_MODE_SILENT
 				|| am.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE
 				|| deltaTime >= silentDuration) {
-			prayerState.setPrayerState(PrayerStateMachine.WAITING_AZAN);
+			prayerState.setNextState(PrayerState.WAITING_AZAN);
 			// wait for the next prayer.
 			this.delayMilliSeconds = (intervalTime);
 		} else {
@@ -197,7 +197,7 @@ public class PrayerHandler extends Handler{
 			// check again after three minutes (I think 3 minutes are enough to
 			// complete the Azan)
 			if (deltaTime <= azanTimeRange) {
-				prayerState.setPrayerState(PrayerStateMachine.WAITING_PRAYER);
+				prayerState.setNextState(PrayerState.WAITING_PRAYER);
 				this.delayMilliSeconds = (soundTrackDuration);
 				// run the Azan sound track
 				Manager.playAzanNotification(context);
@@ -205,7 +205,7 @@ public class PrayerHandler extends Handler{
 				// we run out of time , so just wait for the prayer without
 				// doing Azan
 				this.delayMilliSeconds = (intervalTime);
-				prayerState.setPrayerState(PrayerStateMachine.WAITING_PRAYER);
+				prayerState.setNextState(PrayerState.WAITING_PRAYER);
 			}
 
 		}
@@ -222,7 +222,7 @@ public class PrayerHandler extends Handler{
 		// if the azan time - current time > silent duration ==> After the prayer
 		if (deltaTime > silentDuration) {
 			
-			prayerState.setPrayerState(PrayerStateMachine.WAITING_AZAN);
+			prayerState.setNextState(PrayerState.WAITING_AZAN);
 			
 
 		}else{

@@ -14,7 +14,7 @@ import android.util.Log;
 public class PrayerService extends Service {
 
 	long mStartTime;
-	private PrayerHandler prayerHandler;
+	private PrayerHandler2 prayerHandler;
 	
 	@Override
 	public IBinder onBind(Intent arg0) {
@@ -26,9 +26,9 @@ public class PrayerService extends Service {
 	public void onCreate() {
 		try {
 			super.onCreate();
-			Manager.initPrayerStateMachine(this);
+			Manager.initPrayerState(this);
 			//Manager.initPrayerAlarm(this, PrayerReceiver.class);
-			prayerHandler = new PrayerHandler(this);
+			prayerHandler = new PrayerHandler2(this);
 			mStartTime = SystemClock.uptimeMillis();
 			prayerHandler.postDelayed(mUpdateTimeTask, 10000); // as soon as possible ( 10 seconds )
 
@@ -46,7 +46,7 @@ public class PrayerService extends Service {
 			long millis = SystemClock.uptimeMillis() - start;
 			seconds = (int) (millis / 1000);
 			Message msg = new Message();
-			msg.what = seconds;
+			//msg.what = seconds; // no need
 			prayerHandler.sendMessage(msg);
 			prayerHandler.postDelayed(this, prayerHandler.getDelayMilliSeconds());
 		}

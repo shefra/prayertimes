@@ -39,11 +39,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
+import com.shefra.prayertimes.MainActivity;
 import com.shefra.prayertimes.R;
 import com.shefra.prayertimes.helper.DatabaseHelper;
 import com.shefra.prayertimes.helper.TimeHelper;
 import com.shefra.prayertimes.moazen.PrayerTime;
-import com.shefra.prayertimes.services.PrayerReceiver;
+
 import com.shefra.prayertimes.services.ServiceNot;
 import com.shefra.prayertimes.services.ServiceSetAlarm;
 import com.shefra.prayertimes.settings.AlertActivity;
@@ -73,22 +74,23 @@ public class Manager {
 	private static PendingIntent prayerPendingIntent;
 	private static AlarmManager prayerAlarmManager  ;
 	public static long interval;
-	private static PrayerStateMachine prayerStateMachine;
+	private static PrayerState prayerState;
 	private static Service prayerService;
+	private static int UNIQUE_ID = 32289;
 	public Manager(Context applicationContext) {
 		
 		this.context = applicationContext;
 		databaseHelper = new DatabaseHelper(applicationContext);
 	}
 	
-	public static void initPrayerAlarm(Service service,Class<PrayerReceiver> receiver){
-		Manager.prayerService = service; // we may need it ?
-		Manager.prayerIntet = new Intent(service,receiver);
-		Manager.prayerPendingIntent = PendingIntent.getBroadcast(service, 1234432, Manager.prayerIntet, PendingIntent.FLAG_UPDATE_CURRENT);
-		Manager.prayerAlarmManager  = (AlarmManager) service.getSystemService(Context.ALARM_SERVICE);
-		Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000,Manager.prayerPendingIntent);
-		
-	}
+//	public static void initPrayerAlarm(Service service,Class<PrayerReceiver> receiver){
+//		Manager.prayerService = service; // we may need it ?
+//		Manager.prayerIntet = new Intent(service,receiver);
+//		Manager.prayerPendingIntent = PendingIntent.getBroadcast(service, 1234432, Manager.prayerIntet, PendingIntent.FLAG_UPDATE_CURRENT);
+//		Manager.prayerAlarmManager  = (AlarmManager) service.getSystemService(Context.ALARM_SERVICE);
+//		Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000,Manager.prayerPendingIntent);
+//		
+//	}
 	
 	public static void updatePrayerAlarm(long newTimeInterval){
 		Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + newTimeInterval,Manager.prayerPendingIntent);
@@ -96,13 +98,13 @@ public class Manager {
 	}
 	
 
-	public static void initPrayerStateMachine(Context context) {
-		Manager.prayerStateMachine = new PrayerStateMachine(context);
+	public static void initPrayerState(Context context) {
+		Manager.prayerState = new PrayerState(context);
 		
 	}
 	
-	public static PrayerStateMachine getPrayerStateMachine() {
-		return prayerStateMachine;
+	public static PrayerState getPrayerState() {
+		return prayerState;
 	}
 	
 	// get nearest prayer time based on current time
@@ -267,25 +269,26 @@ public class Manager {
 		AudioManager am = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
 		
 		if(azanMode.equals("full") && am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
-			//Start AlertActivity class for full azan 
-			 intent = new Intent(context, AlertActivity.class);
+			intent = new Intent(context, AlertActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(intent);
 		}
 		else if( !(azanMode.equals("disable")) && (azanMode.equals("short") || (am.getRingerMode() == AudioManager.RINGER_MODE_SILENT || am.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE))){
-			String ns = Context.NOTIFICATION_SERVICE;
-			NotificationManager mNotificationManager = (NotificationManager)context.getSystemService(ns);
-			CharSequence tickerText = "pray";
-			long when = System.currentTimeMillis();
-			Notification notification = new Notification(com.shefra.prayertimes.R.drawable.icon, tickerText, when);
+			
 			CharSequence contentTitle = context.getString(R.string.notTitle);
 			CharSequence contentText = context.getString(R.string.notContent);
-			Intent notificationIntent = new Intent(context, ServiceNot.class);
-			PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+			long when = System.currentTimeMillis();
+			
+			NotificationManager mNotificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+				
+			Intent notificationIntent = new Intent(context, MainActivity.class);
+			PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);			
+			
+			Notification notification = new Notification(com.shefra.prayertimes.R.drawable.icon, contentText, when);
 			notification.sound = Uri.parse("android.resource://com.shefra.prayertimes/raw/notification");
-			notification.flags |= notification.FLAG_AUTO_CANCEL ;
+			notification.flags |= Notification.FLAG_AUTO_CANCEL ;
 			notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-			mNotificationManager.notify(1, notification);
+			mNotificationManager.notify(UNIQUE_ID, notification);
 		}
 		
 		
