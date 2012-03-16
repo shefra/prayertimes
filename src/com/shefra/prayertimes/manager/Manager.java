@@ -37,6 +37,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Locale;
 
 import com.shefra.prayertimes.MainActivity;
@@ -144,11 +146,64 @@ public class Manager {
 
 		for (Integer prayertime : prayerTimeInSeconds) {
 			int pt = prayertime;
-			if (pt > currentTime)// return first prayer after this time (
+			if (pt >= currentTime)// return first prayer after this time (
 									// nearest prayer)
 				return pt;
 		}
 		return nearestPrayer;
+	}
+	
+	public static int computePreviosPrayerTime(Context context,int hour, int min, int sec, int year,
+			int month, int day) throws IOException {
+	
+		ArrayList<String> prayerTimes = getPrayerTimes(context,day, month, year);
+		Integer[] prayerTimeInSeconds = new Integer[5];
+
+		// Convert prayer times to seconds
+		prayerTimeInSeconds[0] = new Integer(TimeHelper.getSec(
+				TimeHelper.to24(prayerTimes.get(0)),
+				TimeHelper.getMinute(prayerTimes.get(0)),
+				TimeHelper.getSecond(prayerTimes.get(0))));
+		prayerTimeInSeconds[1] = new Integer(TimeHelper.getSec(
+				TimeHelper.to24(prayerTimes.get(1)),
+				TimeHelper.getMinute(prayerTimes.get(1)),
+				TimeHelper.getSecond(prayerTimes.get(1))));
+		prayerTimeInSeconds[2] = new Integer(TimeHelper.getSec(
+				TimeHelper.to24(prayerTimes.get(2)),
+				TimeHelper.getMinute(prayerTimes.get(2)),
+				TimeHelper.getSecond(prayerTimes.get(2))));
+		prayerTimeInSeconds[3] = new Integer(TimeHelper.getSec(
+				TimeHelper.to24(prayerTimes.get(3)),
+				TimeHelper.getMinute(prayerTimes.get(3)),
+				TimeHelper.getSecond(prayerTimes.get(3))));
+		prayerTimeInSeconds[4] = new Integer(TimeHelper.getSec(
+				TimeHelper.to24(prayerTimes.get(4)),
+				TimeHelper.getMinute(prayerTimes.get(4)),
+				TimeHelper.getSecond(prayerTimes.get(4))));
+
+		// sort descending
+		Arrays.sort(prayerTimeInSeconds,new Comparator<Integer>() {
+			@Override
+			public int compare(Integer lhs, Integer rhs) {
+				return lhs.compareTo(rhs);
+			}
+		});
+		
+		// default value is the last prayer in the day ( Witch is Isha)
+		// remember , we sorted it descending
+		int previousTime = prayerTimeInSeconds[0];
+		
+		// convert current time to seconds
+		int currentTime = hour * 3600 + min * 60 + sec;
+		
+		for (Integer prayertime : prayerTimeInSeconds) {
+			int pt = prayertime;
+			// return the last prayer
+			if (pt <= currentTime)
+				return pt;
+		}
+		
+		return previousTime;
 	}
 
 	// -----------set method-----------//
