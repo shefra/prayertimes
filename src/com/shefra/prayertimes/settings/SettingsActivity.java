@@ -7,7 +7,7 @@ import java.util.List;
 import com.shefra.prayertimes.*;
 import com.shefra.prayertimes.helper.DatabaseHelper;
 import com.shefra.prayertimes.manager.*;
-import com.shefra.prayertimes.services.ServiceSetAlarm;
+import com.shefra.prayertimes.services.PrayerService;
 
 import android.content.Context;
 import android.content.Intent;
@@ -162,7 +162,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 //			.getDefaultSharedPreferences(SettingsActivity.this);
 //			Editor editor = pref.edit();
 //			editor.putString("mazhab",newValue.toString());
-			Intent intent = new Intent(SettingsActivity.this, ServiceSetAlarm.class);
+			Intent intent = new Intent(SettingsActivity.this, PrayerService.class);
 			startService(intent);
 			return true;
 		}
@@ -179,7 +179,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 //			.getDefaultSharedPreferences(getApplicationContext());
 //			Editor editor = pref.edit();
 //			editor.putString("calendar",newValue.toString());
-			Intent intent = new Intent(SettingsActivity.this, ServiceSetAlarm.class);
+			Intent intent = new Intent(SettingsActivity.this, PrayerService.class);
 			startService(intent);
 			return true;
 		}
@@ -196,7 +196,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 //			.getDefaultSharedPreferences(SettingsActivity.this);
 //			Editor editor = pref.edit();
 //			editor.putString("season",newValue.toString());
-			Intent intent = new Intent(SettingsActivity.this, ServiceSetAlarm.class);
+			Intent intent = new Intent(SettingsActivity.this, PrayerService.class);
 			startService(intent);
 			return true;
 		}

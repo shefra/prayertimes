@@ -14,7 +14,7 @@ import android.util.Log;
 
 		 public void onReceive(Context context, Intent intent) {
 			 if ("android.intent.action.BOOT_COMPLETED".equals(intent.getAction())) {
-				 Intent serviceIntent = new Intent(context, ServiceSetAlarm.class);
+				 Intent serviceIntent = new Intent(context, PrayerService.class);
 			     context.startService(serviceIntent);
 			 }else{
 				 Log.e("OnBootService", "Received unexpected intent " + intent.toString());

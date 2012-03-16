@@ -11,7 +11,8 @@ import com.shefra.prayertimes.helper.DatabaseHelper;
 import com.shefra.prayertimes.manager.City;
 import com.shefra.prayertimes.manager.Manager;
 import com.shefra.prayertimes.manager.SettingAttributes;
-import com.shefra.prayertimes.services.ServiceSetAlarm;
+import com.shefra.prayertimes.services.PrayerService;
+
 
 // this class works as city listener
 // it used by city list on Settings screen
@@ -42,7 +43,7 @@ public class CityListener implements
 		manager.setSetting(sa);
 		
 		// restart the service .. read ServiceSetAlarm for more
-		Intent intent = new Intent(manager.getContext(),ServiceSetAlarm.class);
+		Intent intent = new Intent(manager.getContext(),PrayerService.class);
 		manager.getContext().startService(intent);
 		
 		  

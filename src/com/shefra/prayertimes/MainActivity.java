@@ -71,7 +71,7 @@ public class MainActivity extends Activity {
 		// initialize the view objects with the data
 		this.init();
 		
-		// run the app service , read ServiceSetAlarm for more info 
+		// run the app service , read PrayerService for more info 
 		Intent intent = new Intent(this, PrayerService.class);
 		startService(intent);
 		
