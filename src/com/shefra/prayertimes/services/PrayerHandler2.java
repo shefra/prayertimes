@@ -43,7 +43,7 @@ public class PrayerHandler2 extends Handler {
 	private SharedPreferences pref;
 	private Editor editor;
 	// TODO , make them final
-	private int silentDuration = 5 * 60 * 1000;
+	private int silentDuration = 15 * 60 * 1000;
 	private int soundTrackDuration = 60 * 1000; // Azan sound track duration
 	private int delayMilliSeconds = 1000 * 60; // one minute by default.
 	private int timeErrorMargin = 20 * 1000; // 20 seconds: Time Error Margin ,
