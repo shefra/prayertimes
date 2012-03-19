@@ -184,7 +184,7 @@ public class MainActivity extends Activity {
 		// for example :Asr : 3:10
 		// difference : Current time - Asr time == Current Time - 3:10 = remaining time
 		int time = Manager.computeNearestPrayerTime(getApplicationContext(),h, m,s, yy, mm, dd);
-		int def =  TimeHelper.diffrent((h*3600+m*60+s),time);
+		int def =  TimeHelper.different((h*3600+m*60+s),time);
 		remainingTime.setText(TimeHelper.secondsToTime(def));	
 	}
 

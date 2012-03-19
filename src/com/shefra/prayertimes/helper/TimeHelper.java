@@ -14,13 +14,24 @@ public class TimeHelper {
 		String[] t = time.split(":");
 		return Integer.parseInt(t[1]);
 	}
-
-	public static  int diffrent(int current, int prayer) {
+	//different 
+	public static  int different(int current, int prayer) {
 		if (current <= prayer)
 			return prayer - current;
 		return (prayer + (24 * 3600)) - current;
 	}
 
+	//different between two times in 12 hour mode
+	// 3:00 - 9:00 pm = 6 hour
+	// return seconds
+	public static  int different12hour(int time1, int time2) {
+		if(time2>= 12 * 3600)
+			time2 = time2 - 12*3600;
+		if(time1>= 12 * 3600)
+			time1 = time1 - 12*3600;
+		
+		 return  Math.abs(time2 - time1);
+	}
 	public static  int getSecond(String time) {
 		String[] t = time.split(":");
 		String[] s = t[2].split(" ");

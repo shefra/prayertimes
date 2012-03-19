@@ -130,7 +130,7 @@ public class PrayerHandler extends Handler{
 		int s = date.getSeconds();
 		int nearestPrayerTime = Manager.computeNearestPrayerTime(context, h,
 				m, s, yy, mm, dd);
-		int deffTime =  TimeHelper.diffrent((h*3600+m*60+s),nearestPrayerTime);
+		int deffTime =  Math.abs((h*3600+m*60+s)-nearestPrayerTime);
 		deffTime = deffTime * 1000; // to millieseconds
 		// Suppose AzanTimeRange = 30 seconds
 

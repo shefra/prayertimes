@@ -56,7 +56,7 @@ public class PrayerHandler2 extends Handler {
 	}
 
 	public int getDelayMilliSeconds() {
-		return delayMilliSeconds;
+		return this.delayMilliSeconds;
 	}
 
 	public void setDelayMilliSeconds(int delayMilliSeconds) {
@@ -123,13 +123,12 @@ public class PrayerHandler2 extends Handler {
 
 			int nearestPrayerTime = Manager.computeNearestPrayerTime(context,
 					h, m, s, yy, mm, dd);
-			int previousPrayerTime = Manager.computePreviosPrayerTime(context,
+			int previousPrayerTime = Manager.computePreviuosPrayerTime(context,
 					h, m, s, yy, mm, dd);
 
 			int currentTime = (h * 3600 + m * 60 + s);
-			int deffTime1 = TimeHelper.diffrent(currentTime, nearestPrayerTime);
-			int deffTime2 = TimeHelper
-					.diffrent(currentTime, previousPrayerTime);
+			int deffTime1 =  TimeHelper.different12hour(nearestPrayerTime  , currentTime);
+			int deffTime2 =  TimeHelper.different12hour(currentTime , previousPrayerTime);
 			deffTime1 = Math.abs(deffTime1 * 1000); // to milliseconds
 			deffTime2 = Math.abs(deffTime2 * 1000); // to milliseconds
 			// in silent duration
@@ -160,10 +159,10 @@ public class PrayerHandler2 extends Handler {
 			int h = date.getHours();
 			int m = date.getMinutes();
 			int s = date.getSeconds();
-			int previousPrayerTime = Manager.computePreviosPrayerTime(context,
+			int previousPrayerTime = Manager.computePreviuosPrayerTime(context,
 					h, m, s, yy, mm, dd);
 			int currentTime = (h * 3600 + m * 60 + s);
-			int deffTime = TimeHelper.diffrent(currentTime, previousPrayerTime);
+			int deffTime = TimeHelper.different12hour(currentTime , previousPrayerTime);
 			deffTime = Math.abs(deffTime * 1000); // to milliseconds
 			// less then 10 seconds
 			// do the Adhan
@@ -200,10 +199,10 @@ public class PrayerHandler2 extends Handler {
 			int h = date.getHours();
 			int m = date.getMinutes();
 			int s = date.getSeconds();
-			int previousPrayerTime = Manager.computePreviosPrayerTime(context,
+			int previousPrayerTime = Manager.computePreviuosPrayerTime(context,
 					h, m, s, yy, mm, dd);
 			int currentTime = (h * 3600 + m * 60 + s);
-			int deffTime = TimeHelper.diffrent(currentTime, previousPrayerTime);
+			int deffTime =  TimeHelper.different12hour(currentTime , previousPrayerTime);
 			deffTime = Math.abs(deffTime * 1000); // to milliseconds
 
 			// we still in the prayer time ? change it to silent mode

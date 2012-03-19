@@ -151,7 +151,7 @@ public class Manager {
 		return nearestPrayer;
 	}
 	
-	public static int computePreviosPrayerTime(Context context,int hour, int min, int sec, int year,
+	public static int computePreviuosPrayerTime(Context context,int hour, int min, int sec, int year,
 			int month, int day) throws IOException {
 	
 		ArrayList<String> prayerTimes = getPrayerTimes(context,day, month, year);
@@ -183,7 +183,7 @@ public class Manager {
 		Arrays.sort(prayerTimeInSeconds,new Comparator<Integer>() {
 			@Override
 			public int compare(Integer lhs, Integer rhs) {
-				return lhs.compareTo(rhs);
+				return rhs.compareTo(lhs);
 			}
 		});
 		
