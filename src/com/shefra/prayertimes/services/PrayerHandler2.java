@@ -46,7 +46,7 @@ public class PrayerHandler2 extends Handler {
 	private int silentDuration = 15 * 60 * 1000;
 	private int soundTrackDuration = 60 * 1000; // Azan sound track duration
 	private int delayMilliSeconds = 1000 * 60; // one minute by default.
-	private int timeErrorMargin = 20 * 1000; // 20 seconds: Time Error Margin ,
+	private int timeErrorMargin = 40 * 1000; // 20 seconds: Time Error Margin ,
 												// do the Azan even if it's not
 												// on time 100%
 
@@ -123,26 +123,26 @@ public class PrayerHandler2 extends Handler {
 
 			int nearestPrayerTime = Manager.computeNearestPrayerTime(context,
 					h, m, s, yy, mm, dd);
-			int previousPrayerTime = Manager.computePreviuosPrayerTime(context,
-					h, m, s, yy, mm, dd);
-
+//			int previousPrayerTime = Manager.computePreviuosPrayerTime(context,
+//					h, m, s, yy, mm, dd);
+//
 			int currentTime = (h * 3600 + m * 60 + s);
-			int deffTime1 =  TimeHelper.different12hour(nearestPrayerTime  , currentTime);
-			int deffTime2 =  TimeHelper.different12hour(currentTime , previousPrayerTime);
-			deffTime1 = Math.abs(deffTime1 * 1000); // to milliseconds
-			deffTime2 = Math.abs(deffTime2 * 1000); // to milliseconds
-			// in silent duration
-			if (deffTime2 < silentDuration) {
-				// It has to be on silent mode ( skip the Azan )
-				prayerState.setNextState(PrayerState.WAITING_PRAYER);
-				this.delayMilliSeconds = 10 * 1000;// as soon as possible
-
-			} else {
+			int deffTime1 =  TimeHelper.different2(currentTime  , nearestPrayerTime);
+//			int deffTime2 =  TimeHelper.different2(previousPrayerTime , currentTime);
+//			deffTime1 = Math.abs(deffTime1 * 1000); // to milliseconds
+//			deffTime2 = Math.abs(deffTime2 * 1000); // to milliseconds
+//			// in silent duration
+//			if (deffTime2 < silentDuration) {
+//				// It has to be on silent mode ( skip the Azan )
+//				prayerState.setNextState(PrayerState.WAITING_PRAYER);
+//				this.delayMilliSeconds = 10 * 1000;// as soon as possible
+//
+//			} else {
 				// not in silent duration
 				// ok , come back after X seconds to do the Azan
 				prayerState.setNextState(PrayerState.DOING_AZAN);
 				this.delayMilliSeconds = deffTime1;
-			}
+			//}
 
 		} catch (Exception e) {
 			Log.e("com.shefrah.prayertimes", e.getMessage());
@@ -158,13 +158,13 @@ public class PrayerHandler2 extends Handler {
 			int yy = date.getYear() + 1900;
 			int h = date.getHours();
 			int m = date.getMinutes();
-			int s = date.getSeconds();
+			int s = date.getSeconds(); 
 			int previousPrayerTime = Manager.computePreviuosPrayerTime(context,
 					h, m, s, yy, mm, dd);
 			int currentTime = (h * 3600 + m * 60 + s);
-			int deffTime = TimeHelper.different12hour(currentTime , previousPrayerTime);
+			int deffTime = TimeHelper.different2(previousPrayerTime , currentTime);
 			deffTime = Math.abs(deffTime * 1000); // to milliseconds
-			// less then 10 seconds
+			// less then 40 seconds
 			// do the Adhan
 			if (deffTime < timeErrorMargin) {
 				Log.i("com.shefrah.prayertimes",
@@ -202,7 +202,7 @@ public class PrayerHandler2 extends Handler {
 			int previousPrayerTime = Manager.computePreviuosPrayerTime(context,
 					h, m, s, yy, mm, dd);
 			int currentTime = (h * 3600 + m * 60 + s);
-			int deffTime =  TimeHelper.different12hour(currentTime , previousPrayerTime);
+			int deffTime =  TimeHelper.different2(previousPrayerTime , currentTime);
 			deffTime = Math.abs(deffTime * 1000); // to milliseconds
 
 			// we still in the prayer time ? change it to silent mode
@@ -217,14 +217,14 @@ public class PrayerHandler2 extends Handler {
 					am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 					editor.putBoolean("isRingerModeChangedToSilent", true);
 					editor.commit();
-					this.delayMilliSeconds = 10 * 1000 ; // as soon as possible
+					this.delayMilliSeconds = silentDuration - deffTime  ; // as soon as possible
 					prayerState.setNextState(PrayerState.WAITING_AZAN);
 				}
 				else
 				{
 					// it's already in the silent mode, 
 					// no need to change it to silent mode
-					this.delayMilliSeconds = Math.abs(deffTime - silentDuration);
+					this.delayMilliSeconds = 10 * 1000 ; // as soon as possible
 					prayerState.setNextState(PrayerState.WAITING_AZAN);
 				}
 				

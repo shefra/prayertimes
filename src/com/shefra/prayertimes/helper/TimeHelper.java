@@ -21,17 +21,24 @@ public class TimeHelper {
 		return (prayer + (24 * 3600)) - current;
 	}
 
+	//different 2
+	public static  int different2(int time1, int time2) {
+		if (time1 <= time2)
+			return time2 - time1;
+		return (time2 + (24 * 3600)) - time1;
+	}
+	
 	//different between two times in 12 hour mode
 	// 3:00 - 9:00 pm = 6 hour
 	// return seconds
-	public static  int different12hour(int time1, int time2) {
-		if(time2>= 12 * 3600)
-			time2 = time2 - 12*3600;
-		if(time1>= 12 * 3600)
-			time1 = time1 - 12*3600;
-		
-		 return  Math.abs(time2 - time1);
-	}
+//	public static  int different12hour(int time1, int time2) {
+//		if(time2>= 12 * 3600)
+//			time2 = time2 - 12*3600;
+//		if(time1>= 12 * 3600)
+//			time1 = time1 - 12*3600;
+//		
+//		 return  Math.abs(time2 - time1);
+//	}
 	public static  int getSecond(String time) {
 		String[] t = time.split(":");
 		String[] s = t[2].split(" ");

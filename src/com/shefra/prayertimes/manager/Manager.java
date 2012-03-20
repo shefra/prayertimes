@@ -30,7 +30,6 @@
  */
 package com.shefra.prayertimes.manager;
 
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -72,46 +71,53 @@ public class Manager {
 	DatabaseHelper databaseHelper;
 	private static Intent prayerIntet;
 	private static PendingIntent prayerPendingIntent;
-	private static AlarmManager prayerAlarmManager  ;
+	private static AlarmManager prayerAlarmManager;
 	public static long interval;
 	private static PrayerState prayerState;
 	private static Service prayerService;
 	private static int UNIQUE_ID = 32289;
+
 	public Manager(Context applicationContext) {
-		
+
 		this.context = applicationContext;
 		databaseHelper = new DatabaseHelper(applicationContext);
 	}
-	
-//	public static void initPrayerAlarm(Service service,Class<PrayerReceiver> receiver){
-//		Manager.prayerService = service; // we may need it ?
-//		Manager.prayerIntet = new Intent(service,receiver);
-//		Manager.prayerPendingIntent = PendingIntent.getBroadcast(service, 1234432, Manager.prayerIntet, PendingIntent.FLAG_UPDATE_CURRENT);
-//		Manager.prayerAlarmManager  = (AlarmManager) service.getSystemService(Context.ALARM_SERVICE);
-//		Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000,Manager.prayerPendingIntent);
-//		
-//	}
-	
-	public static void updatePrayerAlarm(long newTimeInterval){
-		Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + newTimeInterval,Manager.prayerPendingIntent);
-		
+
+	// public static void initPrayerAlarm(Service service,Class<PrayerReceiver>
+	// receiver){
+	// Manager.prayerService = service; // we may need it ?
+	// Manager.prayerIntet = new Intent(service,receiver);
+	// Manager.prayerPendingIntent = PendingIntent.getBroadcast(service,
+	// 1234432, Manager.prayerIntet, PendingIntent.FLAG_UPDATE_CURRENT);
+	// Manager.prayerAlarmManager = (AlarmManager)
+	// service.getSystemService(Context.ALARM_SERVICE);
+	// Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP,
+	// System.currentTimeMillis() + 1000,Manager.prayerPendingIntent);
+	//
+	// }
+
+	public static void updatePrayerAlarm(long newTimeInterval) {
+		Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP,
+				System.currentTimeMillis() + newTimeInterval,
+				Manager.prayerPendingIntent);
+
 	}
-	
 
 	public static void initPrayerState(Context context) {
 		Manager.prayerState = new PrayerState(context);
-		
+
 	}
-	
+
 	public static PrayerState getPrayerState() {
 		return prayerState;
 	}
-	
+
 	// get nearest prayer time based on current time
-	
-	public static int computeNearestPrayerTime(Context context,int hour, int min, int sec, int year,
-			int month, int day) throws IOException {
-		ArrayList<String> prayerTimes = getPrayerTimes(context,day, month, year);
+
+	public static int computeNearestPrayerTime(Context context, int hour,
+			int min, int sec, int year, int month, int day) throws IOException {
+		ArrayList<String> prayerTimes = getPrayerTimes(context, day, month,
+				year);
 		int[] prayerTimeInSeconds = new int[5];
 
 		// Convert prayer times to seconds
@@ -150,11 +156,12 @@ public class Manager {
 		}
 		return nearestPrayer;
 	}
-	
-	public static int computePreviuosPrayerTime(Context context,int hour, int min, int sec, int year,
-			int month, int day) throws IOException {
-	
-		ArrayList<String> prayerTimes = getPrayerTimes(context,day, month, year);
+
+	public static int computePreviuosPrayerTime(Context context, int hour,
+			int min, int sec, int year, int month, int day) throws IOException {
+
+		ArrayList<String> prayerTimes = getPrayerTimes(context, day, month,
+				year);
 		Integer[] prayerTimeInSeconds = new Integer[5];
 
 		// Convert prayer times to seconds
@@ -180,28 +187,34 @@ public class Manager {
 				TimeHelper.getSecond(prayerTimes.get(4))));
 
 		// sort descending
-		Arrays.sort(prayerTimeInSeconds,new Comparator<Integer>() {
+		Arrays.sort(prayerTimeInSeconds, new Comparator<Integer>() {
 			@Override
 			public int compare(Integer lhs, Integer rhs) {
 				return rhs.compareTo(lhs);
 			}
 		});
-		
+
 		// default value is the last prayer in the day ( Witch is Isha)
 		// remember , we sorted it descending
 		int previousTime = prayerTimeInSeconds[0];
-		
+		int firstTime = prayerTimeInSeconds[4];
 		// convert current time to seconds
 		int currentTime = hour * 3600 + min * 60 + sec;
-		
+		int i=0;
 		for (Integer prayertime : prayerTimeInSeconds) {
 			int pt = prayertime;
+			i++;
 			// return the last prayer
 			if (pt <= currentTime)
 				return pt;
 		}
+		// in case if the current time is less then all the prayers time
+
+		if(i == 5)
+			return firstTime;
+		else
+			return previousTime;
 		
-		return previousTime;
 	}
 
 	// -----------set method-----------//
@@ -242,10 +255,8 @@ public class Manager {
 		return sa;
 	}
 
-	
-
-	public static ArrayList<String> getPrayerTimes(Context context,int dd, int mm, int yy)
-			throws IOException {
+	public static ArrayList<String> getPrayerTimes(Context context, int dd,
+			int mm, int yy) throws IOException {
 
 		ArrayList<String> prayerList = new ArrayList<String>();
 		SettingAttributes sa = Manager.getSettingAttributes(context);
@@ -314,37 +325,45 @@ public class Manager {
 		} catch (Exception e) {
 		}
 	}
-	
-	public static void playAzanNotification( Context context){
+
+	public static void playAzanNotification(Context context) {
 		Intent intent;
-		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
-		String azanMode = pref.getString("notSound", "full") ;
-		AudioManager am = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
-		
-		if(azanMode.equals("full") && am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
+		SharedPreferences pref = PreferenceManager
+				.getDefaultSharedPreferences(context);
+		String azanMode = pref.getString("notSound", "full");
+		AudioManager am = (AudioManager) context
+				.getSystemService(Context.AUDIO_SERVICE);
+
+		if (azanMode.equals("full")
+				&& am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
 			intent = new Intent(context, AlertActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			context.startActivity(intent);
-		}
-		else if( !(azanMode.equals("disable")) && (azanMode.equals("short") || (am.getRingerMode() == AudioManager.RINGER_MODE_SILENT || am.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE))){
-			
+		} else if (!(azanMode.equals("disable"))
+				&& (azanMode.equals("short") || (am.getRingerMode() == AudioManager.RINGER_MODE_SILENT || am
+						.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE))) {
+
 			CharSequence contentTitle = context.getString(R.string.notTitle);
 			CharSequence contentText = context.getString(R.string.notContent);
 			long when = System.currentTimeMillis();
-			
-			NotificationManager mNotificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-				
+
+			NotificationManager mNotificationManager = (NotificationManager) context
+					.getSystemService(Context.NOTIFICATION_SERVICE);
+
 			Intent notificationIntent = new Intent(context, MainActivity.class);
-			PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);			
-			
-			Notification notification = new Notification(com.shefra.prayertimes.R.drawable.icon, contentText, when);
-			notification.sound = Uri.parse("android.resource://com.shefra.prayertimes/raw/notification");
-			notification.flags |= Notification.FLAG_AUTO_CANCEL ;
-			notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+			PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
+					notificationIntent, 0);
+
+			Notification notification = new Notification(
+					com.shefra.prayertimes.R.drawable.icon, contentText, when);
+			notification.sound = Uri
+					.parse("android.resource://com.shefra.prayertimes/raw/notification");
+			notification.flags |= Notification.FLAG_AUTO_CANCEL;
+			notification.setLatestEventInfo(context, contentTitle, contentText,
+					contentIntent);
 			mNotificationManager.notify(UNIQUE_ID, notification);
 		}
-		
-		
+
 	}
 
 }
