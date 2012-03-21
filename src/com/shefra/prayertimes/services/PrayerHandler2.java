@@ -42,13 +42,9 @@ public class PrayerHandler2 extends Handler {
 	private Context context;
 	private SharedPreferences pref;
 	private Editor editor;
-	// TODO , make them final
-	private int silentDuration = 15 * 60 * 1000;
+	private int silentDuration = 5 * 60 * 1000;
 	private int soundTrackDuration = 60 * 1000; // Azan sound track duration
-	private int delayMilliSeconds = 1000 * 60; // one minute by default.
-	private int timeErrorMargin = 40 * 1000; // 20 seconds: Time Error Margin ,
-												// do the Azan even if it's not
-												// on time 100%
+	private int delayMilliSeconds = 1000 * 60;  // one minute by default.
 
 	public PrayerHandler2(Context context) {
 		this.context = context;
@@ -56,7 +52,7 @@ public class PrayerHandler2 extends Handler {
 	}
 
 	public int getDelayMilliSeconds() {
-		return this.delayMilliSeconds;
+		return delayMilliSeconds;
 	}
 
 	public void setDelayMilliSeconds(int delayMilliSeconds) {
@@ -74,7 +70,7 @@ public class PrayerHandler2 extends Handler {
 			switch (prayerState.getCurrentState()) {
 
 			case PrayerState.WAITING_AZAN:
-				onWaitingAzan();
+				onWaitingAzan(); 
 
 				break;
 			case PrayerState.DOING_AZAN:
@@ -92,7 +88,7 @@ public class PrayerHandler2 extends Handler {
 			// TODO Auto-generated catch block
 			Log.e("com.shefrah.prayertimes", e.getMessage());
 		}
-
+		
 	}
 
 	private void onWaitingAzan() {
@@ -120,29 +116,15 @@ public class PrayerHandler2 extends Handler {
 			int h = date.getHours();
 			int m = date.getMinutes();
 			int s = date.getSeconds();
-
 			int nearestPrayerTime = Manager.computeNearestPrayerTime(context,
 					h, m, s, yy, mm, dd);
-//			int previousPrayerTime = Manager.computePreviuosPrayerTime(context,
-//					h, m, s, yy, mm, dd);
-//
-			int currentTime = (h * 3600 + m * 60 + s);
-			int deffTime1 =  TimeHelper.different2(currentTime  , nearestPrayerTime);
-//			int deffTime2 =  TimeHelper.different2(previousPrayerTime , currentTime);
-//			deffTime1 = Math.abs(deffTime1 * 1000); // to milliseconds
-//			deffTime2 = Math.abs(deffTime2 * 1000); // to milliseconds
-//			// in silent duration
-//			if (deffTime2 < silentDuration) {
-//				// It has to be on silent mode ( skip the Azan )
-//				prayerState.setNextState(PrayerState.WAITING_PRAYER);
-//				this.delayMilliSeconds = 10 * 1000;// as soon as possible
-//
-//			} else {
-				// not in silent duration
-				// ok , come back after X seconds to do the Azan
-				prayerState.setNextState(PrayerState.DOING_AZAN);
-				this.delayMilliSeconds = deffTime1;
-			//}
+			int deffTime = TimeHelper.different((h * 3600 + m * 60 + s),
+					nearestPrayerTime);
+			deffTime = deffTime * 1000; // to milliseconds
+
+			// ok , come back after X seconds to do the Azan
+			prayerState.setNextState(PrayerState.DOING_AZAN);
+			this.delayMilliSeconds = deffTime;
 
 		} catch (Exception e) {
 			Log.e("com.shefrah.prayertimes", e.getMessage());
@@ -150,95 +132,25 @@ public class PrayerHandler2 extends Handler {
 	}
 
 	private void onDoingAzan() {
-		try {
-			// What is the last prayer time ?
-			Date date = new Date();
-			int dd = date.getDate();
-			int mm = date.getMonth() + 1;
-			int yy = date.getYear() + 1900;
-			int h = date.getHours();
-			int m = date.getMinutes();
-			int s = date.getSeconds(); 
-			int previousPrayerTime = Manager.computePreviuosPrayerTime(context,
-					h, m, s, yy, mm, dd);
-			int currentTime = (h * 3600 + m * 60 + s);
-			int deffTime = TimeHelper.different2(previousPrayerTime , currentTime);
-			deffTime = Math.abs(deffTime * 1000); // to milliseconds
-			// less then 40 seconds
-			// do the Adhan
-			if (deffTime < timeErrorMargin) {
-				Log.i("com.shefrah.prayertimes",
-						"DOING_AZAN:"
-								+ Long.toString(System.currentTimeMillis()));
+		Log.i("com.shefrah.prayertimes",
+				"DOING_AZAN:" + Long.toString(System.currentTimeMillis()));
 
-				prayerState.setNextState(PrayerState.WAITING_PRAYER);
-				this.delayMilliSeconds = soundTrackDuration;
-				Manager.playAzanNotification(context);
-			} else if (deffTime > timeErrorMargin && deffTime < silentDuration) {
-				prayerState.setNextState(PrayerState.WAITING_PRAYER);
-				this.delayMilliSeconds = 10 * 1000;// as soon as possible
-			} else {
-				prayerState.setNextState(PrayerState.WAITING_AZAN);
-				this.delayMilliSeconds = 10 * 1000;// as soon as possible
-			}
 
-		} catch (Exception e) {
-			Log.e("com.shefrah.prayertimes", e.getMessage());
-		}
+		prayerState.setNextState(PrayerState.WAITING_PRAYER);
+		this.delayMilliSeconds = soundTrackDuration;
+		Manager.playAzanNotification(context);
 
 	}
 
 	private void onWaitingPrayer() {
-
-		try {
-			// What is the last prayer time ?
-			Date date = new Date();
-			int dd = date.getDate();
-			int mm = date.getMonth() + 1;
-			int yy = date.getYear() + 1900;
-			int h = date.getHours();
-			int m = date.getMinutes();
-			int s = date.getSeconds();
-			int previousPrayerTime = Manager.computePreviuosPrayerTime(context,
-					h, m, s, yy, mm, dd);
-			int currentTime = (h * 3600 + m * 60 + s);
-			int deffTime =  TimeHelper.different2(previousPrayerTime , currentTime);
-			deffTime = Math.abs(deffTime * 1000); // to milliseconds
-
-			// we still in the prayer time ? change it to silent mode
-			if (deffTime < silentDuration) {
-
-				Log.i("com.shefrah.prayertimes",
-						"WAITING_PRAYER:"
-								+ Long.toString(System.currentTimeMillis()));
-				AudioManager am = (AudioManager) context
-						.getSystemService(Context.AUDIO_SERVICE);
-				if (am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
-					am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
-					editor.putBoolean("isRingerModeChangedToSilent", true);
-					editor.commit();
-					this.delayMilliSeconds = silentDuration - deffTime  ; // as soon as possible
-					prayerState.setNextState(PrayerState.WAITING_AZAN);
-				}
-				else
-				{
-					// it's already in the silent mode, 
-					// no need to change it to silent mode
-					this.delayMilliSeconds = 10 * 1000 ; // as soon as possible
-					prayerState.setNextState(PrayerState.WAITING_AZAN);
-				}
-				
-
-			} else {
-				// if we are out of prayer time then
-				// no need to change it to silent mode
-				prayerState.setNextState(PrayerState.WAITING_AZAN);
-				this.delayMilliSeconds = 10 * 1000;// as soon as possible
-			}
-
-		} catch (Exception e) {
-			Log.e("com.shefrah.prayertimes", e.getMessage());
+		Log.i("com.shefrah.prayertimes","WAITING_PRAYER:" + Long.toString(System.currentTimeMillis()));
+		AudioManager am = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+		if(am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
+			am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+			editor.putBoolean("isRingerModeChangedToSilent", true);
+			editor.commit();
 		}
+		this.delayMilliSeconds = silentDuration;
 
 	}
 
