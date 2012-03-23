@@ -47,8 +47,9 @@ public class PrayerService extends Service {
 			seconds = (int) (millis / 1000);
 			Message msg = new Message();
 			//msg.what = seconds; // no need
-			prayerHandler.sendMessage(msg);
-			prayerHandler.postDelayed(this, prayerHandler.getDelayMilliSeconds());
+			prayerHandler.sendMessage(msg); 
+			int delay = prayerHandler.getDelayMilliSeconds();
+			prayerHandler.postDelayed(this, delay );
 		}
 	};
 	

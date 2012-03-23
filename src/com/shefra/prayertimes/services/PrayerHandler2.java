@@ -42,7 +42,7 @@ public class PrayerHandler2 extends Handler {
 	private Context context;
 	private SharedPreferences pref;
 	private Editor editor;
-	private int silentDuration = 5 * 60 * 1000;
+	private int silentDuration = 1 * 60 * 1000;
 	private int soundTrackDuration = 60 * 1000; // Azan sound track duration
 	private int delayMilliSeconds = 1000 * 60;  // one minute by default.
 
@@ -134,7 +134,7 @@ public class PrayerHandler2 extends Handler {
 	private void onDoingAzan() {
 		Log.i("com.shefrah.prayertimes",
 				"DOING_AZAN:" + Long.toString(System.currentTimeMillis()));
-
+		
 
 		prayerState.setNextState(PrayerState.WAITING_PRAYER);
 		this.delayMilliSeconds = soundTrackDuration;
@@ -151,6 +151,7 @@ public class PrayerHandler2 extends Handler {
 			editor.commit();
 		}
 		this.delayMilliSeconds = silentDuration;
+		prayerState.setNextState(PrayerState.WAITING_AZAN);
 
 	}
 
