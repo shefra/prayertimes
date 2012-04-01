@@ -1,4 +1,3 @@
-
 package com.shefra.prayertimes.moazen;
 
 
