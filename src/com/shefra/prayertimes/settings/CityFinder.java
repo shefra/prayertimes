@@ -119,10 +119,11 @@ public class CityFinder extends Activity {
 				// LocationListener stopper.
 				// cityLoc.stopSearch();
 				Location location = params[0];
-				Manager manager = new Manager(CityFinder.this);
-				manager.findCurrentCity(location.getLatitude(),
-						location.getLongitude());
-
+				//Manager manager = new Manager(CityFinder.this);
+				Position pos = CityFinder.this.getPosition(location.getLongitude(),location.getLatitude());
+				//manager.findCurrentCity(location.getLatitude(),
+				//		location.getLongitude());
+				Log.i("H2: " , pos.City);
 			} catch (Exception e) {
 				Log.e("", e.getMessage(), e.getCause());
 			}
