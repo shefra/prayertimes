@@ -83,6 +83,7 @@ public class CityFinder extends Activity {
 		});
 
 	}
+
 	public void stopSearch(Location location) {
 		// if (cityFinderTask != null) {
 		// is it safe to change the done var from UI thread?
@@ -96,9 +97,10 @@ public class CityFinder extends Activity {
 		CityFinder.this.cityFinderTask.execute(new Location[] { location });
 
 	}
+
 	private class CityFinderTask extends AsyncTask<Location, String, String> {
 		private boolean done;
-
+		private Location loc;
 		@Override
 		protected void onPreExecute() {
 			try {
@@ -119,160 +121,184 @@ public class CityFinder extends Activity {
 				// LocationListener stopper.
 				// cityLoc.stopSearch();
 				Location location = params[0];
-				//Manager manager = new Manager(CityFinder.this);
-				Position pos = CityFinder.this.getPosition(location.getLongitude(),location.getLatitude());
-				//manager.findCurrentCity(location.getLatitude(),
-				//		location.getLongitude());
-				Log.i("H2: " , pos.City);
+				// Manager manager = new Manager(CityFinder.this);
+				this.loc = location;
+				// manager.findCurrentCity(location.getLatitude(),
+				// location.getLongitude());
+				//Log.i("H2: ", pos.City);
 			} catch (Exception e) {
 				Log.e("", e.getMessage(), e.getCause());
 			}
 			return null;
 		}
 
-		protected void onPostExecute(String result) {
-			progressDialog.setVisibility(View.GONE);
-			Manager manager = new Manager(CityFinder.this);
-			SettingAttributes att = Manager
-					.getSettingAttributes(CityFinder.this);
-			textViewResult.setText("Done:" + att.city.cityName + " , "
-					+ att.city.longitude + " , " + att.city.latitude);
+		public Position getPosition(double lon, double lat)
+				throws ClientProtocolException, IOException,
+				ParserConfigurationException, Exception {
+			Position pos = new Position();
+			url[TIME_ZONE] = "http://www.earthtools.org/timezone/" + lat + "/"
+					+ lon;
+			url[CITY_DATA] = "http://173.194.67.95/maps/api/geocode/json?latlng="
+					+ lat + "," + lon + "&sensor=true";
+			data[TIME_ZONE] = getRequest(url[TIME_ZONE]);
+			data[CITY_DATA] = getRequest(url[CITY_DATA]);
+			pos = getLocation(data[CITY_DATA]);
+			pos.TimeZone = getTimeZone(data[TIME_ZONE]);
+			// TextView tv = (TextView) findViewById(R.id.tv);
+			/*
+			 * tv.setText("City Name is:" + pos.City + "\nCountry Long Name is:"
+			 * + pos.Cuntry_long + "\nCountry Short Name is:" + pos.Cuntry_short
+			 * + "\nThe Time Zone is:" + pos.TimeZone + "\n");
+			 */
+
+			return pos;
 		}
 
-	}
+		public double getTimeZone(String TimeZoneContent)
+				throws ParserConfigurationException, ClientProtocolException,
+				Exception, SAXException {
+			
+			CharacterData cd;
+			try{
+			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbf.newDocumentBuilder();
+			InputSource is = new InputSource();
+			is.setCharacterStream(new StringReader(TimeZoneContent));
+			Document doc = db.parse(is);
 
-	public Position getPosition(double lon, double lat)
-			throws ClientProtocolException, IOException,
-			ParserConfigurationException, SAXException {
-		Position pos = new Position();
-		url[TIME_ZONE] = "http://www.earthtools.org/timezone/" + lat + "/"
-				+ lon;
-		url[CITY_DATA] = "http://maps.googleapis.com/maps/api/geocode/json?latlng="
-				+ lat + "," + lon + "&sensor=true";
-		data[TIME_ZONE] = getRequest(url[TIME_ZONE]);
-		data[CITY_DATA] = getRequest(url[CITY_DATA]);
-		pos = getLocation(data[CITY_DATA]);
-		pos.TimeZone = getTimeZone(data[TIME_ZONE]);
-		//TextView tv = (TextView) findViewById(R.id.tv);
-		/*tv.setText("City Name is:" + pos.City + "\nCountry Long Name is:"
-				+ pos.Cuntry_long + "\nCountry Short Name is:"
-				+ pos.Cuntry_short + "\nThe Time Zone is:" + pos.TimeZone
-				+ "\n");*/
+			NodeList nodeList = doc.getElementsByTagName("offset");
+			 Element n = (Element) nodeList.item(0);
+			String data = getCharacterDataFromElement(n);
+			return Double.valueOf(data);
+			}
+	        catch(Exception e){
+	        	throw e;
+	        }
+	        	
+		}
 
-		return pos;
-	}
+		public Position getLocation(String s) throws ClientProtocolException {
+			Position temp = new Position();
 
-	public double getTimeZone(String TimeZoneContent) throws ParserConfigurationException, ClientProtocolException, IOException, SAXException{
-		//String str = getRequest("http://www.earthtools.org/timezone/-24.6700/-46.6900");
-		//TextView tv = (TextView) findViewById(R.id.tv);	
-           
-		DocumentBuilderFactory dbf =
-	            DocumentBuilderFactory.newInstance();
-	        DocumentBuilder db = dbf.newDocumentBuilder();
-	        InputSource is = new InputSource();
-	        //tv.setText("Name:");
-	        is.setCharacterStream(new StringReader(TimeZoneContent));
-	    // normalize text representation
-	        Document doc = db.parse(is);
-	        
-	        NodeList nodes = doc.getElementsByTagName("timezone");
-	        Element element = (Element) nodes.item(0);
-	        
-	        NodeList name = element.getElementsByTagName("offset");
-	        Element line = (Element) name.item(0);
-	    //    return Integer.getInteger(getCharacterDataFromElement(line));
-		return Double.valueOf(getCharacterDataFromElement(line));
-	}
-	
-	public static String getCharacterDataFromElement(Element e) {
-		 Node child = e.getFirstChild();
-		    if (child instanceof CharacterData) {
-		       CharacterData cd = (CharacterData) child;
-		       return cd.getData();
-	    }
-		    return "?" ;
-	}
-	public Position getLocation(String s) throws ClientProtocolException{
-		Position temp = new Position();
+			try {
 
-		try {
-    		
-			JSONObject jArray = new JSONObject (s);
-    		
-    		JSONArray jResult = jArray.getJSONArray("results");
-    		JSONObject jAddCom = jResult.getJSONObject(0);
-    		
-    		JSONArray jResult1 = jAddCom.getJSONArray("address_components");
-    		List<JSONObject> AddCombList = new ArrayList<JSONObject>();
-    		for(int i=0;i<jResult1.length();i++){
-    			AddCombList.add(jResult1.getJSONObject(i));
-    			if(AddCombList.get(i).getString("types").contains("country")){
-    				temp.Cuntry_long=AddCombList.get(i).getString("long_name");
-    				temp.Cuntry_short=AddCombList.get(i).getString("short_name");
-    			}
-    			else if (AddCombList.get(i).getString("types").contains("administrative_area_level_1"))
-    				temp.City=AddCombList.get(i).getString("long_name");
-    		}
-    
-    	} catch (JSONException e) {
-		 Toast msg = Toast.makeText(getApplicationContext(), "Error thrown: "+e.getMessage(), Toast.LENGTH_LONG);
-     		msg.setGravity(Gravity.CENTER, msg.getXOffset() / 2, msg.getYOffset() / 2);
-     		msg.show();
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
+				JSONObject jArray = new JSONObject(s);
 
-		return temp;
-	}
-	public String getRequest(String url) {
-		
-		String line="" ;
-	       String content = "";
-	   	 HttpGet httpRequest = new HttpGet(url);
-	       HttpParams httpParameters = new BasicHttpParams();
-	       // Set the timeout in milliseconds until a connection is established.
-	       int timeoutConnection = 3000;
-	       HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-	       // Set the default socket timeout (SO_TIMEOUT)
-	       // in milliseconds which is the timeout for waiting for data.
-	       int timeoutSocket = 5000;
-	       
-	       HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
-	      
-	       DefaultHttpClient client = new DefaultHttpClient(httpParameters);
+				JSONArray jResult = jArray.getJSONArray("results");
+				JSONObject jAddCom = jResult.getJSONObject(0);
 
-	       
+				JSONArray jResult1 = jAddCom.getJSONArray("address_components");
+				List<JSONObject> AddCombList = new ArrayList<JSONObject>();
+				for (int i = 0; i < jResult1.length(); i++) {
+					AddCombList.add(jResult1.getJSONObject(i));
+					if (AddCombList.get(i).getString("types")
+							.contains("country")) {
+						temp.Cuntry_long = AddCombList.get(i).getString(
+								"long_name");
+						temp.Cuntry_short = AddCombList.get(i).getString(
+								"short_name");
+					} else if (AddCombList.get(i).getString("types")
+							.contains("administrative_area_level_1"))
+						temp.City = AddCombList.get(i).getString("long_name");
+				}
 
-	           HttpResponse httpResponse;
+			} catch (JSONException e) {
+				Toast msg = Toast.makeText(getApplicationContext(),
+						"Error thrown: " + e.getMessage(), Toast.LENGTH_LONG);
+				msg.setGravity(Gravity.CENTER, msg.getXOffset() / 2,
+						msg.getYOffset() / 2);
+				msg.show();
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return temp;
+		}
+
+		public String getRequest(String url) {
+
+			String line = "";
+			String content = "";
+			HttpGet httpRequest = new HttpGet(url);
+			HttpParams httpParameters = new BasicHttpParams();
+			// Set the timeout in milliseconds until a connection is
+			// established.
+			int timeoutConnection = 10000;
+			HttpConnectionParams.setConnectionTimeout(httpParameters,
+					timeoutConnection);
+			// Set the default socket timeout (SO_TIMEOUT)
+			// in milliseconds which is the timeout for waiting for data.
+			int timeoutSocket = 10000;
+
+			HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
+
+			DefaultHttpClient client = new DefaultHttpClient(httpParameters);
+
+			HttpResponse httpResponse;
 			try {
 				httpResponse = client.execute(httpRequest);
-				
-	           
-	           final int statusCode = httpResponse.getStatusLine().getStatusCode();
 
-	           if (statusCode != HttpStatus.SC_OK) {
-	              System.out.print("");
-	           }
-	           
-	       HttpEntity httpEntity = httpResponse.getEntity();
-	      // InputStream in = httpEntity.getContent();
-	       
-	       
-	       //return in;
-	       
-	       BufferedReader in = new BufferedReader
-	               (new InputStreamReader(httpEntity.getContent()));
-	       while((line = in.readLine()) != null)
-	           	content+=line;
-	       in.close();
-	       
-	       
+				final int statusCode = httpResponse.getStatusLine()
+						.getStatusCode();
+
+				if (statusCode != HttpStatus.SC_OK) {
+					Log.e("tomaanina","Time Out");
+				}
+
+				HttpEntity httpEntity = httpResponse.getEntity();
+				// InputStream in = httpEntity.getContent();
+
+				// return in;
+
+				BufferedReader in = new BufferedReader(new InputStreamReader(
+						httpEntity.getContent()));
+				while ((line = in.readLine()) != null)
+					content += line;
+				in.close();
+
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return content;
-	   }
+		}
+
+		protected void onPostExecute(String result) {
+			progressDialog.setVisibility(View.GONE);
+			Position pos = null;
+			try {
+				pos = this.getPosition(
+						loc.getLongitude(), loc.getLatitude());
+				
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParserConfigurationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			textViewResult.setText("Done:" + pos.City + " , "
+					+ loc.getLongitude() + " , " + loc.getLatitude());
+		}
+
+
+	}
+	public static String getCharacterDataFromElement(Element e)
+	{
+	    Node child = e.getFirstChild();
+	    if (child instanceof CharacterData)
+	    {
+	        CharacterData cd = (CharacterData) child;
+	        return cd.getData();
+	    }
+	    return "";
+	}
 
 
 }

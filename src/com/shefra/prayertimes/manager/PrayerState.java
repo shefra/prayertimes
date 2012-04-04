@@ -16,9 +16,7 @@ public class PrayerState {
 
 	public PrayerState(Context context) {
 		this.context = context;
-		int state = getCurrentState();
-		if (state == PrayerState.UNKNOWN)
-			setNextState(WAITING_AZAN);
+		setNextState(WAITING_AZAN);
 	}
 
 	public int getCurrentState() {

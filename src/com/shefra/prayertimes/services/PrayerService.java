@@ -29,7 +29,6 @@ public class PrayerService extends Service {
 			Manager.initPrayerState(this);
 			//Manager.initPrayerAlarm(this, PrayerReceiver.class);
 			prayerHandler = new PrayerHandler2(this);
-			mStartTime = SystemClock.uptimeMillis();
 			prayerHandler.postDelayed(mUpdateTimeTask, 10000); // as soon as possible ( 10 seconds )
 
 		} catch (Exception e) {
@@ -46,10 +45,10 @@ public class PrayerService extends Service {
 			long millis = SystemClock.uptimeMillis() - start;
 			seconds = (int) (millis / 1000);
 			Message msg = new Message();
-			//msg.what = seconds; // no need
+			msg.obj = this;
 			prayerHandler.sendMessage(msg); 
-			int delay = prayerHandler.getDelayMilliSeconds();
-			prayerHandler.postDelayed(this, delay );
+			
+			
 		}
 	};
 	

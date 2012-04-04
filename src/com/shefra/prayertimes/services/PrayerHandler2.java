@@ -45,7 +45,7 @@ public class PrayerHandler2 extends Handler {
 	private int silentDuration = 1 * 60 * 1000;
 	private int soundTrackDuration = 60 * 1000; // Azan sound track duration
 	private int delayMilliSeconds = 1000 * 60;  // one minute by default.
-
+	private Object obj;
 	public PrayerHandler2(Context context) {
 		this.context = context;
 
@@ -63,8 +63,9 @@ public class PrayerHandler2 extends Handler {
 	public void handleMessage(Message msg) {
 		pref = PreferenceManager.getDefaultSharedPreferences(this.context);
 		editor = pref.edit();
+		this.obj = msg.obj;
 		try {
-
+			
 			prayerState = Manager.getPrayerState();
 			am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 			switch (prayerState.getCurrentState()) {
@@ -125,6 +126,7 @@ public class PrayerHandler2 extends Handler {
 			// ok , come back after X seconds to do the Azan
 			prayerState.setNextState(PrayerState.DOING_AZAN);
 			this.delayMilliSeconds = deffTime;
+			this.postDelayed((Runnable)obj, delayMilliSeconds );
 
 		} catch (Exception e) {
 			Log.e("com.shefrah.prayertimes", e.getMessage());
@@ -139,6 +141,7 @@ public class PrayerHandler2 extends Handler {
 		prayerState.setNextState(PrayerState.WAITING_PRAYER);
 		this.delayMilliSeconds = soundTrackDuration;
 		Manager.playAzanNotification(context);
+		this.postDelayed((Runnable)obj, delayMilliSeconds );
 
 	}
 
@@ -152,6 +155,7 @@ public class PrayerHandler2 extends Handler {
 		}
 		this.delayMilliSeconds = silentDuration;
 		prayerState.setNextState(PrayerState.WAITING_AZAN);
+		this.postDelayed((Runnable)obj, delayMilliSeconds );
 
 	}
 
