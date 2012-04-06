@@ -7,9 +7,9 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import com.shefra.prayertimes.manager.City;
-import com.shefra.prayertimes.manager.Country;
-import com.shefra.prayertimes.manager.azanAttribute;
+import com.shefra.prayertimes.activity.manager.City;
+import com.shefra.prayertimes.activity.manager.Country;
+import com.shefra.prayertimes.activity.manager.azanAttribute;
 
 import android.content.Context;
 import android.content.SharedPreferences;

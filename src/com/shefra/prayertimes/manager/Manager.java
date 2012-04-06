@@ -40,13 +40,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Locale;
 
-import com.shefra.prayertimes.MainActivity;
 import com.shefra.prayertimes.R;
+import com.shefra.prayertimes.activity.AlertActivity;
+import com.shefra.prayertimes.activity.MainActivity;
 import com.shefra.prayertimes.helper.DatabaseHelper;
 import com.shefra.prayertimes.helper.TimeHelper;
 import com.shefra.prayertimes.moazen.PrayerTime;
 
-import com.shefra.prayertimes.settings.AlertActivity;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -229,10 +229,9 @@ public class Manager {
 
 	// -----------XML methods-----------//
 	public void setSettingAttributes(SettingAttributes sa) {
-		SharedPreferences pref = PreferenceManager
-				.getDefaultSharedPreferences(this.context);
-		Editor editor = pref.edit();
-		editor.putString("country", Integer.toString(sa.country.countryNo));
+
+		Preference preference = this.getPreference();
+		preference.countryNo = Integer.toString(sa.country.countryNo);
 		editor.putString("city", Integer.toString(sa.city.cityNo));
 		editor.putString("latitude", sa.city.latitude);
 		editor.putString("longitude", sa.city.longitude);
@@ -259,14 +258,16 @@ public class Manager {
 			int mm, int yy) throws IOException {
 
 		ArrayList<String> prayerList = new ArrayList<String>();
-		SettingAttributes sa = Manager.getSettingAttributes(context);
+		Manager manager = new Manager(context);
+		Preference preference = manager.getPreference();
+		
 		PrayerTime prayerTime = new PrayerTime(
-				Double.parseDouble(sa.city.longitude),
-				Double.parseDouble(sa.city.latitude),
-				Integer.parseInt(sa.city.timeZone), dd, mm, yy);
-		prayerTime.setSeason(sa.season);
-		prayerTime.setCalender(sa.calender);
-		prayerTime.setMazhab(sa.mazhab);
+				Double.parseDouble(preference.longitude),
+				Double.parseDouble(preference.latitude),
+				(int)preference.timeZone, dd, mm, yy);
+		prayerTime.setSeason(preference.season);
+		prayerTime.setCalender(preference.calender);
+		prayerTime.setMazhab(preference.mazhab);
 		prayerTime.calculate();
 		prayerList.add(prayerTime.fajrTime().text());
 		prayerList.add(prayerTime.zuhrTime().text());
@@ -365,5 +366,12 @@ public class Manager {
 		}
 
 	}
+
+	public Preference getPreference() {
+		
+		return new Preference(this.context);
+	}
+	
+	
 
 }

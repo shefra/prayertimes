@@ -6,20 +6,7 @@
 		<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
 			android:key="first_preferencescreen" android:title="@string/firstPreferencescreenTitle">
 
-			<PreferenceCategory android:title="@string/autoSearch">
-				<com.shefra.prayertimes.settings.AutoCityDialogPreference
-					android:key="autocity" android:title="@string/autoCityTitle"
-					android:dialogMessage="@string/dialogAutoSearchMessage"
-					android:summary="@string/autoCitySummary" />
-			</PreferenceCategory>
-
-			<PreferenceCategory android:title="@string/manualSearch">
-				<ListPreference android:key="country" android:title="@string/country"
-					android:defaultValue="1" android:dialogTitle="@string/countryDlgTitle" />
-				<ListPreference android:key="city" android:title="@string/city"
-					android:defaultValue="10" android:dialogTitle="@string/cityDlgTitle"
-					android:summary="" />
-			</PreferenceCategory>
+			
 		</PreferenceScreen>
 
 	</PreferenceCategory>

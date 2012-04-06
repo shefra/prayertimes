@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.util.Date;
 
 import com.shefra.prayertimes.R;
+import com.shefra.prayertimes.activity.AlertActivity;
 import com.shefra.prayertimes.helper.TimeHelper;
 import com.shefra.prayertimes.manager.Manager;
 import com.shefra.prayertimes.manager.PrayerState;
-import com.shefra.prayertimes.settings.AlertActivity;
 
 import android.app.AlarmManager;
 import android.app.Notification;
