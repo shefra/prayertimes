@@ -225,13 +225,14 @@ public class Manager {
 		sa.city.timeZone = aA.timeZone;
 		sa.country.countryNo = Integer.parseInt(aA.countryNo);
 		this.setSettingAttributes(sa);
-	}
+	} 
 
 	// -----------XML methods-----------//
 	public void setSettingAttributes(SettingAttributes sa) {
-
-		Preference preference = this.getPreference();
-		preference.countryNo = Integer.toString(sa.country.countryNo);
+		SharedPreferences pref = PreferenceManager
+				.getDefaultSharedPreferences(this.context);
+		Editor editor = pref.edit();
+		editor.putString("country", Integer.toString(sa.country.countryNo));
 		editor.putString("city", Integer.toString(sa.city.cityNo));
 		editor.putString("latitude", sa.city.latitude);
 		editor.putString("longitude", sa.city.longitude);
@@ -339,7 +340,7 @@ public class Manager {
 				&& am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
 			intent = new Intent(context, AlertActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			context.startActivity(intent);
+			context.startActivity(intent); 
 		} else if (!(azanMode.equals("disable"))
 				&& (azanMode.equals("short") || (am.getRingerMode() == AudioManager.RINGER_MODE_SILENT || am
 						.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE))) {

@@ -271,7 +271,7 @@ public class CityFinder extends Activity {
 				
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				e.printStackTrace(); 
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

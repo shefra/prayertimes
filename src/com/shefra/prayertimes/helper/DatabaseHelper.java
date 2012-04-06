@@ -125,7 +125,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 		db = SQLiteDatabase.openOrCreateDatabase(DB_PATH + DB_NAME, null);
 		db.setVersion(1);
 		db.setLocale(Locale.getDefault());
-		db.setLockingEnabled(true);
+		db.setLockingEnabled(true); 
 
 		Cursor cur = db.query("country", null, "country_id=" + countrId, null,
 				null, null, null);

@@ -49,7 +49,7 @@ public class CityListener implements
 		  
 		
 		
-		return true;
+		return true; 
 	}
 	
 	// used to fill the ListPreference view that appears in setting screen

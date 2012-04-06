@@ -19,7 +19,7 @@ public class Preference {
 	public static String  DEFAULT_CITY_ID = "14244";
 	public static String  DEFAULT_CITY_NAME = "Makkah";
 	public static Integer DEFAULT_TIMEZONE = 3;
-	public static String  DEFAULT_CALENDAR = "UmmAlQuraUniv";
+	public static String  DEFAULT_CALENDAR = "UmmAlQuraUniv"; 
 	public Preference(Context context) {
 		this.context = context;
 	}

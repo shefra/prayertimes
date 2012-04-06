@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
-
+ 
 public class PrayerState {
 	public static final int UNKNOWN = 1000;
 	public static final int WAITING_AZAN = 0;
