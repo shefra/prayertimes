@@ -61,6 +61,7 @@ public class MainActivity extends Activity {
 			// it copies the database file from assets folder to data folder
 			// this step is necessary since that way Android system works :)
 			databaseHelper.createDatabase();
+			databaseHelper.close();
 		} catch (IOException e) {
 			Log.e("tomaanina",e.getCause() + ":" + e.getMessage());
 		}
@@ -69,15 +70,13 @@ public class MainActivity extends Activity {
 		this.init();
 		
 		// run the app service , read PrayerService for more info 
-		Intent intent = new Intent(this, PrayerService.class);
-		startService(intent);
+		m.restartPrayerService(this);
 		
 		// check xml preference file to check if this is the first run for the app
 		// in the user device.
 		
-		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean firstStart = pref.getBoolean("firstStart",true);
-        if(firstStart)
+		Preference pref = m.getPreference();
+        if(!pref.isFirstStart())
         {
         	// run some stuff at first time
         	// e.g. search for the use city 
@@ -86,9 +85,7 @@ public class MainActivity extends Activity {
         	this.onFirstStart();
         	
         	// ok , change the flag to false , by this way we prevent onFirstStart method from running again
-        	Editor edit = pref.edit();
-        	edit.putBoolean("firstStart", false);
-        	edit.commit();
+        	pref.setFirstStart(false);
         }
 		}catch(Exception e){
 			
@@ -100,17 +97,14 @@ public class MainActivity extends Activity {
 	public void init() {
 		
 		final Manager manager = new Manager(getApplicationContext());
-		final DatabaseHelper databaseHelper = new DatabaseHelper(getApplicationContext());
 		Preference preference = manager.getPreference();
-		
-		
+
 		preference.fetchCurrentPreferences();
-		
 		TextView cityTextView = (TextView) findViewById(R.id.cityName);
-		cityTextView.setText(preference.cityName);
+		cityTextView.setText(preference.city.name);
 		
 		 // get current date
-		// read Android/Java documentation for more info
+		 // read Android/Java documentation for more info
 		 Date date = new Date();
 		 final int dd = date.getDate();//calendar.get(Calendar.DAY_OF_MONTH);
 		 final int mm = date.getMonth()+1;//7;//calendar.get(Calendar.MONTH+1);
@@ -216,9 +210,9 @@ public class MainActivity extends Activity {
 			//new AutoCityMainActivity(this, dialog).startSearch();
 			//return true;
 		case 5:
-			// run About screen 
-			Intent MyIntent2 = new Intent (this , CityFinder.class);
-			startActivity(MyIntent2);
+			// run City Finder Activity
+			Intent cityFinderActivity = new Intent (this , CityFinder.class);
+			startActivity(cityFinderActivity);
 			
 			return true;
 		}
@@ -238,8 +232,8 @@ public class MainActivity extends Activity {
 	
 	public void onFirstStart(){
 		
-		Intent MyIntent2 = new Intent (this , CityFinder.class);
-		startActivity(MyIntent2);
+		Intent cityFinderActivity = new Intent (this , CityFinder.class);
+		startActivity(cityFinderActivity);
 		
 	}
 	

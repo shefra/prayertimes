@@ -72,9 +72,9 @@ public class TimeHelper {
 		}
 
 		if (minutes > 9) {
-			remTime += remTime + minutes;
+			remTime += minutes;
 		} else {
-			remTime += remTime + "0" + minutes;
+			remTime += "0" + minutes;
 		}
 
 		return remTime;

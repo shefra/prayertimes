@@ -7,8 +7,6 @@ import java.util.List;
 import com.shefra.prayertimes.R;
 import com.shefra.prayertimes.activity.*;
 import com.shefra.prayertimes.helper.DatabaseHelper;
-import com.shefra.prayertimes.listener.CityListener;
-import com.shefra.prayertimes.listener.CountryListener;
 import com.shefra.prayertimes.manager.*;
 import com.shefra.prayertimes.manager.Preference;
 import com.shefra.prayertimes.services.PrayerService;
@@ -46,7 +44,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	public void init(){
 		m = new Manager(getApplicationContext());
 		databaseHelper = new DatabaseHelper(getApplicationContext());
-
+		databaseHelper.close();
 		try {
 			
 			Preference preference = m.getPreference();
@@ -54,36 +52,38 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			// country List preference assigned with Country listener 
 			// to get know when the country is changed
 			// the same thing with city preference
-			ListPreference countryPreference = (ListPreference) findPreference("country");
-			ListPreference cityPreference = (ListPreference) findPreference("city");
-			CountryListener countryListener = new CountryListener(cityPreference,m);
-			countryPreference.setOnPreferenceChangeListener(countryListener);
-			CityListener cityListener = new CityListener(cityPreference,m);
-			cityPreference.setOnPreferenceChangeListener(cityListener);
-			
-			// fill country preference list with country list 
-			fillCountryPreference(countryPreference);
-			String v = countryPreference.getValue();
-			if(v == null)
-				v = DEFAULT_COUNTRY_ID;//TODO 
-			CityListener.fillCityPreference(cityPreference,v ,databaseHelper);
-
+//			ListPreference countryPreference = (ListPreference) findPreference("country");
+//			ListPreference cityPreference = (ListPreference) findPreference("city");
+//			CountryListener countryListener = new CountryListener(cityPreference,m);
+//			countryPreference.setOnPreferenceChangeListener(countryListener);
+//			CityListener cityListener = new CityListener(cityPreference,m);
+//			cityPreference.setOnPreferenceChangeListener(cityListener);
+//			
+//			// fill country preference list with country list 
+//			fillCountryPreference(countryPreference);
+//			String v = countryPreference.getValue();
+//			if(v == null)
+//				v = DEFAULT_COUNTRY_ID;//TODO 
+//			CityListener.fillCityPreference(cityPreference,v ,databaseHelper);
+//
 			// ok , now let us set summary sections for each preference
 			
-			String countryId = preference.getString("country", DEFAULT_COUNTRY_ID); //TODO: check default value/ the second parameter		
-			countryPreference.setSummary(databaseHelper.getCountry(Integer.parseInt(countryId)).countryName);
-			
-			
-			String cityId = pref.getString("city", "1"); // TODO : check default value/ second parameter			
-			cityPreference.setSummary(databaseHelper.getCity(Integer.parseInt(cityId)).cityName);
+			String countryName = preference.city.country.longName; //TODO: check default value/ the second parameter		
+			String cityName = preference.city.name; //TODO: check default value/ the second parameter		
 
+			//			countryPreference.setSummary(countryName);
+//			
+//			
+//			String cityId = pref.getString("city", "1"); // TODO : check default value/ second parameter			
+//			cityPreference.setSummary(databaseHelper.getCity(Integer.parseInt(cityId)).cityName);
+//
 			// set Summary text for each element in the setting screen
 			// Read more about summary code on Android Docs!
 			// It used to display the selected value ( current value ) under the element
 			// e.g. if the current country "XYZ" the it displays XYZ under the element
 			// it reads the value from xml ( preference file) and uses Manager helper functions as well
 			PreferenceScreen ps = (PreferenceScreen) findPreference("first_preferencescreen");			
-			ps.setSummary(databaseHelper.getCountry(Integer.parseInt(countryId)).countryName + "/" + databaseHelper.getCity(Integer.parseInt(cityId)).cityName);
+			ps.setSummary(countryName + "/" + cityName);
 			
 			ListPreference ssLP = (ListPreference) findPreference("silentStart");
 			String silentStart = ssLP.getEntry().toString(); 
@@ -122,27 +122,23 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 		}
 	}
 	
-	protected void on(android.widget.ListView l, android.view.View v,
-			int position, long id) {
-
-	};
  
-	// read data from database into preference list 
-	private void fillCountryPreference(ListPreference countryPref) {
-		List<Country> countryList = databaseHelper.getCountryList();
-		CharSequence[] countryEntries = new CharSequence[countryList.size()];
-		CharSequence[] countryEntryValues = new CharSequence[countryList.size()];
-		int i = 0;
-		for (Country c : countryList) {
-			countryEntries[i] = c.countryName;
-			countryEntryValues[i] = Integer.toString(c.countryNo);
-			i++;
-		}
-		countryPref.setEntries(countryEntries);
-		countryPref.setDefaultValue("211");
-		countryPref.setEntryValues(countryEntryValues);
-
-	}
+//	// read data from database into preference list 
+//	private void fillCountryPreference(ListPreference countryPref) {
+//		List<Country> countryList = databaseHelper.getCountryList();
+//		CharSequence[] countryEntries = new CharSequence[countryList.size()];
+//		CharSequence[] countryEntryValues = new CharSequence[countryList.size()];
+//		int i = 0;
+//		for (Country c : countryList) {
+//			countryEntries[i] = c.countryName;
+//			countryEntryValues[i] = Integer.toString(c.countryNo);
+//			i++;
+//		}
+//		countryPref.setEntries(countryEntries);
+//		countryPref.setDefaultValue("211");
+//		countryPref.setEntryValues(countryEntryValues);
+//
+//	}
 	
 	protected void onResume() {
 	    super.onResume();
@@ -161,24 +157,22 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 	
 	private class MazhabListener implements OnPreferenceChangeListener
 	{
-		public boolean onPreferenceChange(Preference preference, Object newValue) {
+		public boolean onPreferenceChange(android.preference.Preference preference, Object newValue) {
 			
 			// restart the service when the value changed, by this way
 			// the service will calculate the remaining time to the next prayer 
 			// based on the new prayer time
-//			SharedPreferences pref = PreferenceManager
-//			.getDefaultSharedPreferences(SettingsActivity.this);
-//			Editor editor = pref.edit();
-//			editor.putString("mazhab",newValue.toString());
 			Intent intent = new Intent(SettingsActivity.this, PrayerService.class);
 			startService(intent);
 			return true;
 		}
+
+		
 	}
 
 	private class CalendarListener implements OnPreferenceChangeListener
 	{
-		public boolean onPreferenceChange(Preference preference, Object newValue) {
+		public boolean onPreferenceChange(android.preference.Preference preference, Object newValue) {
 			
 			// restart the service when the value changed, by this way
 			// the service will calculate the remaining time to the next prayer 
@@ -191,11 +185,12 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			startService(intent);
 			return true;
 		}
+
 	}
 	
 	private class SeasonListener implements OnPreferenceChangeListener
 	{
-		public boolean onPreferenceChange(Preference preference, Object newValue) {
+		public boolean onPreferenceChange(android.preference.Preference preference, Object newValue) {
 			
 			// restart the service when the value changed, by this way
 			// the service will calculate the remaining time to the next prayer 

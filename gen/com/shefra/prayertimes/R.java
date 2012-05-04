@@ -79,7 +79,7 @@ public final class R {
         public static final int dlgMsg=0x7f080002;
         public static final int duhrTime=0x7f08000c;
         public static final int fajrTime=0x7f08000b;
-        public static final int findCity=0x7f080007;
+        public static final int findCity=0x7f080006;
         public static final int ishaTime=0x7f08000f;
         public static final int language=0x7f080012;
         public static final int linearLayout1=0x7f080003;
@@ -89,7 +89,7 @@ public final class R {
         public static final int remainingText=0x7f080009;
         public static final int remainingTime=0x7f08000a;
         public static final int state=0x7f080014;
-        public static final int textViewResult=0x7f080006;
+        public static final int textViewResult=0x7f080007;
     }
     public static final class layout {
         public static final int about=0x7f030000;

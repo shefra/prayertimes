@@ -4,6 +4,7 @@ import java.util.Map;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
 public class Preference {
@@ -17,9 +18,14 @@ public class Preference {
 	public static String  DEFAULT_COUNTRY_ID   = "221" ; // SA
 	public static String  DEFAULT_COUNTRY_NAME = "SA" ; // SA
 	public static String  DEFAULT_CITY_ID = "14244";
-	public static String  DEFAULT_CITY_NAME = "Makkah";
-	public static Integer DEFAULT_TIMEZONE = 3;
+	public static String  DEFAULT_CITY_NAME = "Riyadh";
+	public static Integer DEFAULT_TIMEZONE  = 3;
+	public static String  DEFAULT_LATITUDE  = "24.6700";
+	public static String  DEFAULT_LONGITUDE = "46.6900";
 	public static String  DEFAULT_CALENDAR = "UmmAlQuraUniv"; 
+	public static String  DEFAULT_MAZHAB = "Default"; 
+	public static String  DEFAULT_SEASON = "Winter"; 
+	public static Integer DEFAULT_SILENT_DURATION = 20 * 60 * 1000;
 	public Preference(Context context) {
 		this.context = context;
 	}
@@ -28,16 +34,72 @@ public class Preference {
 
 		SharedPreferences preferences = PreferenceManager
 				.getDefaultSharedPreferences(context);
-		Map<String, ?> preferenceValues = preferences.getAll();
 		this.city = new City();
 		this.city.name = (String) preferences.getString("cityName",DEFAULT_CITY_NAME);
 		this.city.id = (String) preferences.getString("cityNo",DEFAULT_CITY_ID);
 		this.city.country.name = (String) preferences.getString("countryName",DEFAULT_COUNTRY_NAME);
 		this.city.country.id = (String) preferences.getString("countryNo",DEFAULT_COUNTRY_ID);
 		this.city.timeZone = (Integer) preferences.getInt("timeZone",DEFAULT_TIMEZONE);
-		this.calender = (String) preferences.getString("calendar",);
-		this.mazhab = (String) preferences.getString("mazhab");
-		this.season = (String) preferences.getString("season");
+		this.city.latitude = (String) preferences.getString("latitude", DEFAULT_LATITUDE);
+		this.city.longitude = (String) preferences.getString("longitude", DEFAULT_LONGITUDE);
+		this.calender = (String) preferences.getString("calendar",DEFAULT_CALENDAR);
+		this.mazhab = (String) preferences.getString("mazhab",DEFAULT_MAZHAB);
+		this.season = (String) preferences.getString("season",DEFAULT_SEASON);
 
 	}
+	
+	public boolean isFirstStart(){
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		boolean firstStart = pref.getBoolean("firstStart",true);
+		return firstStart;
+	}
+
+	public void setFirstStart(boolean firstStart) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		Editor edit = pref.edit();
+    	edit.putBoolean("firstStart", firstStart);
+    	edit.commit();		
+	}
+
+	public void setCityName(String name) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		Editor edit = pref.edit();
+    	edit.putString("cityName", name);
+    	edit.commit();			
+	}
+
+	public void setLongitude(String longitude) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		Editor edit = pref.edit();
+    	edit.putString("longitude", longitude);
+    	edit.commit();		
+	}
+
+	public void setLatitude(String latitude) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		Editor edit = pref.edit();
+    	edit.putString("latitude", latitude);
+    	edit.commit();	
+	}
+
+	public void setCountryName(String name) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		Editor edit = pref.edit();
+    	edit.putString("countryName", name);
+    	edit.commit();			
+	}
+	
+
+	public void setTimeZone(Integer timeZone) {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		Editor edit = pref.edit();
+    	edit.putInt("timeZone", timeZone);
+    	edit.commit();			
+	}
+
+	public int getSilentDuration() {
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		return Integer.parseInt(pref.getString("silentDuration",Integer.toString(DEFAULT_SILENT_DURATION))) * 60 * 1000;
+	}
+	
 }

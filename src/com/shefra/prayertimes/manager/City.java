@@ -7,4 +7,7 @@ public class City {
 	public String longitude;
 	public String latitude ;
 	public Country country;
+	public City(){
+		this.country = new Country();
+	}
 }

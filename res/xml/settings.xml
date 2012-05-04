@@ -25,7 +25,7 @@
 			android:title="@string/silentDurationTitle" android:dialogTitle="@string/silentDurationDlgTitle"
 			android:entries="@array/silentDurationEntry" android:summary="@string/silentDurationSummary"
 			android:entryValues="@array/silentDurationEntryValues"
-			android:defaultValue="20" />
+			android:defaultValue="20"/>
 	</PreferenceCategory>
 
 	<PreferenceCategory android:title="@string/generalSettings">

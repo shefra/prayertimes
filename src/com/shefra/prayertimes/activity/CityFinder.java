@@ -32,8 +32,10 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.shefra.prayertimes.R;
-import com.shefra.prayertimes.listener.CityLocationListener;
+import com.shefra.prayertimes.manager.City;
+import com.shefra.prayertimes.manager.CityLocationListener;
 import com.shefra.prayertimes.manager.Manager;
+import com.shefra.prayertimes.manager.Preference;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -58,6 +60,7 @@ public class CityFinder extends Activity {
 	int TIME_ZONE = 0, CITY_DATA = 1;
 	String[] url = new String[2];
 	String[] data = new String[2];
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -131,29 +134,24 @@ public class CityFinder extends Activity {
 			return null;
 		}
 
-		public Position getPosition(double lon, double lat)
+		public City getPosition(double lon, double lat)
 				throws ClientProtocolException, IOException,
 				ParserConfigurationException, Exception {
-			Position pos = new Position();
+			City city = new City();
 			url[TIME_ZONE] = "http://www.earthtools.org/timezone/" + lat + "/"
 					+ lon;
 			url[CITY_DATA] = "http://173.194.67.95/maps/api/geocode/json?latlng="
 					+ lat + "," + lon + "&sensor=true";
 			data[TIME_ZONE] = getRequest(url[TIME_ZONE]);
 			data[CITY_DATA] = getRequest(url[CITY_DATA]);
-			pos = getLocation(data[CITY_DATA]);
-			pos.TimeZone = getTimeZone(data[TIME_ZONE]);
-			// TextView tv = (TextView) findViewById(R.id.tv);
-			/*
-			 * tv.setText("City Name is:" + pos.City + "\nCountry Long Name is:"
-			 * + pos.Cuntry_long + "\nCountry Short Name is:" + pos.Cuntry_short
-			 * + "\nThe Time Zone is:" + pos.TimeZone + "\n");
-			 */
+			city = getLocation(data[CITY_DATA]);
+			city.timeZone = getTimeZone(data[TIME_ZONE]);
+	
 
-			return pos;
+			return city;
 		}
 
-		public double getTimeZone(String TimeZoneContent)
+		public int getTimeZone(String TimeZoneContent)
 				throws ParserConfigurationException, ClientProtocolException,
 				Exception, SAXException {
 			
@@ -168,7 +166,7 @@ public class CityFinder extends Activity {
 			NodeList nodeList = doc.getElementsByTagName("offset");
 			 Element n = (Element) nodeList.item(0);
 			String data = getCharacterDataFromElement(n);
-			return Double.valueOf(data);
+			return Integer.valueOf(data);
 			}
 	        catch(Exception e){
 	        	throw e;
@@ -176,8 +174,8 @@ public class CityFinder extends Activity {
 	        	
 		}
 
-		public Position getLocation(String s) throws ClientProtocolException {
-			Position temp = new Position();
+		public City getLocation(String s) throws ClientProtocolException {
+			City temp = new City();
 
 			try {
 
@@ -192,13 +190,14 @@ public class CityFinder extends Activity {
 					AddCombList.add(jResult1.getJSONObject(i));
 					if (AddCombList.get(i).getString("types")
 							.contains("country")) {
-						temp.Cuntry_long = AddCombList.get(i).getString(
+						temp.country.longName = AddCombList.get(i).getString(
 								"long_name");
-						temp.Cuntry_short = AddCombList.get(i).getString(
+						temp.country.name = temp.country.longName ;
+						temp.country.shortName = AddCombList.get(i).getString(
 								"short_name");
 					} else if (AddCombList.get(i).getString("types")
 							.contains("administrative_area_level_1"))
-						temp.City = AddCombList.get(i).getString("long_name");
+						temp.name = AddCombList.get(i).getString("long_name");
 				}
 
 			} catch (JSONException e) {
@@ -264,9 +263,9 @@ public class CityFinder extends Activity {
 
 		protected void onPostExecute(String result) {
 			progressDialog.setVisibility(View.GONE);
-			Position pos = null;
+			City city = null;
 			try {
-				pos = this.getPosition(
+				city = this.getPosition(
 						loc.getLongitude(), loc.getLatitude());
 				
 			} catch (ClientProtocolException e) {
@@ -282,8 +281,10 @@ public class CityFinder extends Activity {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			textViewResult.setText("Done:" + pos.City + " , "
+			textViewResult.setText("Done:" + city.name + " , "
 					+ loc.getLongitude() + " , " + loc.getLatitude());
+			Manager manager = new Manager(CityFinder.this);
+			manager.updateCity(city,CityFinder.this);
 		}
 
 

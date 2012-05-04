@@ -7,9 +7,9 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import com.shefra.prayertimes.activity.manager.City;
-import com.shefra.prayertimes.activity.manager.Country;
-import com.shefra.prayertimes.activity.manager.azanAttribute;
+import com.shefra.prayertimes.manager.City;
+import com.shefra.prayertimes.manager.Manager;
+import com.shefra.prayertimes.manager.Preference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -18,6 +18,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class DatabaseHelper  extends SQLiteOpenHelper {
 	private static String DB_PATH = "/data/data/com.shefra.prayertimes/databases/";
@@ -42,18 +43,25 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 	// used to know if the database is installed or not
 	private boolean checkDataBase() {
 		SQLiteDatabase checkDB = null;
-
-		try {
-			String myPath = DB_PATH + DB_NAME;
-			checkDB = SQLiteDatabase.openDatabase(myPath, null,
-					SQLiteDatabase.OPEN_READONLY);
-		} catch (SQLiteException e) {
-			// database does't exist yet.
-		}
-		if (checkDB != null) {
-			checkDB.close();
+		try{
+				
+			try{
+				String myPath = DB_PATH + DB_NAME;
+				checkDB = SQLiteDatabase.openDatabase(myPath, null,
+						SQLiteDatabase.OPEN_READONLY);
+			} catch (SQLiteException e) {
+				// database does't exist yet.
+			}
+		
+			if (checkDB != null) {
+				checkDB.close();
+			}
+		
+		}catch(Exception e){
+			Log.e("Tomaanina", e.getMessage(),e.getCause());
 		}
 		return checkDB != null ? true : false;
+
 	}
 
 	// copy the database from assets folder to data folder (system folder)
@@ -118,7 +126,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 	// get country details based on country id 
 	// useful when read country id frrom xml preference
 	
-	public Country getCountry(int countrId) {
+	/*public Country getCountry(int countrId) {
 		SQLiteDatabase db;
 		Country country = new Country();
 
@@ -146,11 +154,11 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 		cur.close();
 		db.close();
 		return country;
-	}
+	}*/
 
 	/// get city details based on city id
 	// useful when read city id from preference file ( xml file/ setting file)
-	public City getCity(int cityId) {
+	/*public City getCity(int cityId) {
 		City city = new City();
 
 		db = SQLiteDatabase.openOrCreateDatabase(DB_PATH + DB_NAME, null);
@@ -177,21 +185,19 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 		cur.close();
 		db.close();
 		return city;
-	}
+	}*/
 	
 	// read the preference file( xml file)
 	// to get the selected city id 
 	// then get city detailed based on that id
 	public City getCurrentCity() {
-		SharedPreferences pref = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		String cityId = pref.getString("city", "1");
-		City city = this.getCity(Integer.parseInt(cityId));
-		return city;
-
+		Manager m = new Manager(this.context);
+		Preference pref = m.getPreference();
+		pref.fetchCurrentPreferences();
+		return pref.city;
 	}
 
-	public azanAttribute getData(int id) {
+	/*public azanAttribute getData(int id) {
 		db = SQLiteDatabase.openOrCreateDatabase(DB_PATH + DB_NAME, null);
 		db.setVersion(1);
 		db.setLocale(Locale.getDefault());
@@ -212,12 +218,12 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 		cur.close();
 		db.close();
 		return aA;
-	}
+	}*/
 	
 	// -----------get methods-----------//
 	// git city list based on country id
 	// if id = -1 => means return all cities in the database
-	public ArrayList<City> getCityList(int id) {
+	/*public ArrayList<City> getCityList(int id) {
 		ArrayList<City> city = new ArrayList<City>();
 
 		db = SQLiteDatabase.openOrCreateDatabase(DB_PATH + DB_NAME, null);
@@ -254,10 +260,10 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 		cur.close();
 		db.close();
 		return city;
-	}
+	}*/
 
 	// get all country from the database
-	public ArrayList<Country> getCountryList() {
+	/*public ArrayList<Country> getCountryList() {
 		SQLiteDatabase db;
 		ArrayList<Country> country = new ArrayList<Country>();
 
@@ -287,6 +293,6 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 		cur.close();
 		db.close();
 		return country;
-	}
+	}*/
 	
 }

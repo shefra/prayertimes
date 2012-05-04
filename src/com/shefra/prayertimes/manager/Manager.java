@@ -46,8 +46,11 @@ import com.shefra.prayertimes.activity.MainActivity;
 import com.shefra.prayertimes.helper.DatabaseHelper;
 import com.shefra.prayertimes.helper.TimeHelper;
 import com.shefra.prayertimes.moazen.PrayerTime;
+import com.shefra.prayertimes.services.PrayerReceiver;
+import com.shefra.prayertimes.services.PrayerService;
 
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -83,24 +86,20 @@ public class Manager {
 		databaseHelper = new DatabaseHelper(applicationContext);
 	}
 
-	// public static void initPrayerAlarm(Service service,Class<PrayerReceiver>
-	// receiver){
-	// Manager.prayerService = service; // we may need it ?
-	// Manager.prayerIntet = new Intent(service,receiver);
-	// Manager.prayerPendingIntent = PendingIntent.getBroadcast(service,
-	// 1234432, Manager.prayerIntet, PendingIntent.FLAG_UPDATE_CURRENT);
-	// Manager.prayerAlarmManager = (AlarmManager)
-	// service.getSystemService(Context.ALARM_SERVICE);
-	// Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP,
-	// System.currentTimeMillis() + 1000,Manager.prayerPendingIntent);
-	//
-	// }
+	public static void initPrayerAlarm(Service service,Class<PrayerReceiver> receiver){
+		Manager.prayerService = service; // we may need it ?
+		Manager.prayerIntet = new Intent(service,receiver);
+		Manager.prayerPendingIntent = PendingIntent.getBroadcast(service, 1234432, Manager.prayerIntet, PendingIntent.FLAG_UPDATE_CURRENT);
+		Manager.prayerAlarmManager  = (AlarmManager) service.getSystemService(Context.ALARM_SERVICE);
+		Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000,Manager.prayerPendingIntent);
+	}
 
-	public static void updatePrayerAlarm(long newTimeInterval) {
-		Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP,
-				System.currentTimeMillis() + newTimeInterval,
-				Manager.prayerPendingIntent);
-
+	public static void updatePrayerAlarm(long newTimeInterval){
+		Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + newTimeInterval,Manager.prayerPendingIntent);
+	}
+	
+	public static void cancelPrayerAlarm(){
+		Manager.prayerAlarmManager.cancel(prayerPendingIntent);
 	}
 
 	public static void initPrayerState(Context context) {
@@ -119,7 +118,7 @@ public class Manager {
 		ArrayList<String> prayerTimes = getPrayerTimes(context, day, month,
 				year);
 		int[] prayerTimeInSeconds = new int[5];
-
+		prayerTimes.get(0);
 		// Convert prayer times to seconds
 		prayerTimeInSeconds[0] = TimeHelper.getSec(
 				TimeHelper.to24(prayerTimes.get(0)),
@@ -157,7 +156,7 @@ public class Manager {
 		return nearestPrayer;
 	}
 
-	public static int computePreviuosPrayerTime(Context context, int hour,
+	/*public static int computePreviuosPrayerTime(Context context, int hour,
 			int min, int sec, int year, int month, int day) throws IOException {
 
 		ArrayList<String> prayerTimes = getPrayerTimes(context, day, month,
@@ -215,10 +214,10 @@ public class Manager {
 		else
 			return previousTime;
 		
-	}
+	}*/
 
 	// -----------set method-----------//
-	public void setSetting(SettingAttributes sa) {
+	/*public void setSetting(SettingAttributes sa) {
 		azanAttribute aA = databaseHelper.getData(sa.city.cityNo);
 		sa.city.latitude = aA.latitude;
 		sa.city.longitude = aA.longitude;
@@ -253,7 +252,7 @@ public class Manager {
 		sa.mazhab = pref.getString("mazhab", "Default");
 		sa.season = pref.getString("season", "Winter");
 		return sa;
-	}
+	}*/
 
 	public static ArrayList<String> getPrayerTimes(Context context, int dd,
 			int mm, int yy) throws IOException {
@@ -261,11 +260,11 @@ public class Manager {
 		ArrayList<String> prayerList = new ArrayList<String>();
 		Manager manager = new Manager(context);
 		Preference preference = manager.getPreference();
-		
+		preference.fetchCurrentPreferences();
 		PrayerTime prayerTime = new PrayerTime(
-				Double.parseDouble(preference.longitude),
-				Double.parseDouble(preference.latitude),
-				(int)preference.timeZone, dd, mm, yy);
+				Double.parseDouble(preference.city.longitude),
+				Double.parseDouble(preference.city.latitude),
+				(int)preference.city.timeZone, dd, mm, yy);
 		prayerTime.setSeason(preference.season);
 		prayerTime.setCalender(preference.calender);
 		prayerTime.setMazhab(preference.mazhab);
@@ -284,7 +283,7 @@ public class Manager {
 
 	// find the current city based on its latitude and longtiude
 	// I DON'T KNOW HOW THE METHOD WORKS !?
-	public void findCurrentCity(double latitude, double longitude) {
+	/*public void findCurrentCity(double latitude, double longitude) {
 		try {
 			double min = 0;
 			int i = 0, pos = 0;
@@ -326,7 +325,7 @@ public class Manager {
 			}
 		} catch (Exception e) {
 		}
-	}
+	}*/
 
 	public static void playAzanNotification(Context context) {
 		Intent intent;
@@ -373,6 +372,20 @@ public class Manager {
 		return new Preference(this.context);
 	}
 	
+	public void updateCity(City city,Activity activity){
+		Preference pref = this.getPreference();
+		pref.setCityName(city.name);
+		pref.setCountryName(city.country.name);
+		pref.setLongitude(city.longitude);
+		pref.setLatitude(city.latitude);
+		pref.setTimeZone(city.timeZone);
+		this.restartPrayerService(activity);
+	}
+
+	public void restartPrayerService(Activity activty) {
+		Intent intent = new Intent(activty, PrayerService.class);
+		context.startService(intent);		
+	}
 	
 
 }
