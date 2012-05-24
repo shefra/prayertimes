@@ -134,7 +134,7 @@ public class MainActivity extends Activity {
 			Timer myTimer =new Timer();
 			TimerTask scanTask ;
 			final Handler handler = new Handler();
-
+    
 			scanTask = new TimerTask() {
 			    public void run() {
 			            
