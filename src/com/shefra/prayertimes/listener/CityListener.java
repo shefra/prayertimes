@@ -7,10 +7,9 @@ import android.content.Intent;
 import android.preference.ListPreference;
 import android.preference.Preference;
 
-import com.shefra.prayertimes.activity.manager.City;
+import com.shefra.prayertimes.manager.City;
 import com.shefra.prayertimes.helper.DatabaseHelper;
 import com.shefra.prayertimes.manager.Manager;
-import com.shefra.prayertimes.manager.SettingAttributes;
 import com.shefra.prayertimes.services.PrayerService;
 
 
@@ -30,7 +29,7 @@ public class CityListener implements
 	// this methods is triggered by the system when the city changed
 	// it gives us the new city value , whitch is city id 
 	public boolean onPreferenceChange(Preference preference, Object newValue) {
-		SettingAttributes sa = new SettingAttributes();
+	/*	SettingAttributes sa = new SettingAttributes();
 		String cityId = (String)newValue;
 		sa.city.cityNo = -1;
 		if (cityId != null) {
@@ -45,7 +44,7 @@ public class CityListener implements
 		// restart the service .. read ServiceSetAlarm for more
 		Intent intent = new Intent(manager.getContext(),PrayerService.class);
 		manager.getContext().startService(intent);
-		
+		*/
 		  
 		
 		
@@ -56,7 +55,7 @@ public class CityListener implements
 	// with city list that is read from the database
 	// read the cities that belong to country id 
 	public static void fillCityPreference(ListPreference cityPref, String countryId,DatabaseHelper databaseHelper) {
-		List<City> cityList = databaseHelper.getCityList(Integer.parseInt(countryId));
+		/*	List<City> cityList = databaseHelper.getCityList(Integer.parseInt(countryId));
 		CharSequence[] cityEntries = new CharSequence[cityList.size()];
 		CharSequence[] cityEntryValues = new CharSequence[cityList.size()];
 		int i = 0;
@@ -67,7 +66,7 @@ public class CityListener implements
 		}
 		cityPref.setEntries(cityEntries);
 		cityPref.setDefaultValue("1");
-		cityPref.setEntryValues(cityEntryValues);
+		cityPref.setEntryValues(cityEntryValues);*/
 	}
 	
 

@@ -18,10 +18,10 @@ public class Preference {
 	public static String  DEFAULT_COUNTRY_ID   = "221" ; // SA
 	public static String  DEFAULT_COUNTRY_NAME = "SA" ; // SA
 	public static String  DEFAULT_CITY_ID = "14244";
-	public static String  DEFAULT_CITY_NAME = "Riyadh";
+	public static String  DEFAULT_CITY_NAME = "Makkah";
 	public static Integer DEFAULT_TIMEZONE  = 3;
-	public static String  DEFAULT_LATITUDE  = "24.6700";
-	public static String  DEFAULT_LONGITUDE = "46.6900";
+	public static String  DEFAULT_LATITUDE  = "21.4300003051758";
+	public static String  DEFAULT_LONGITUDE = "39.8199996948242";
 	public static String  DEFAULT_CALENDAR = "UmmAlQuraUniv"; 
 	public static String  DEFAULT_MAZHAB = "Default"; 
 	public static String  DEFAULT_SEASON = "Winter"; 

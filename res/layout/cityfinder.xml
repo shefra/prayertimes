@@ -43,8 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Start Search" >
-        </Button>
+            android:text="Start Search" />
     </LinearLayout>
 
     <LinearLayout
@@ -60,5 +59,24 @@
             android:textColor="#000" />
     </LinearLayout>
 
-     
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/correctButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Correct"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/notCorrectButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NotCorrect"
+            android:visibility="invisible" />
+    </LinearLayout>
+
 </LinearLayout>

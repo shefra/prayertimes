@@ -68,7 +68,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 //
 			// ok , now let us set summary sections for each preference
 			
-			String countryName = preference.city.country.longName; //TODO: check default value/ the second parameter		
+			String countryName = preference.city.country.name; 	
 			String cityName = preference.city.name; //TODO: check default value/ the second parameter		
 
 			//			countryPreference.setSummary(countryName);

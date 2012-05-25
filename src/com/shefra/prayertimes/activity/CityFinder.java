@@ -51,6 +51,8 @@ import android.widget.*;
 public class CityFinder extends Activity {
 
 	private Button findCityButton;
+	private Button notCorrectButton;
+	private Button correctButton;
 	ProgressBar progressDialog;
 	// private CityFinderTask cityFinderTask;
 	private TextView textViewResult;
@@ -60,7 +62,7 @@ public class CityFinder extends Activity {
 	int TIME_ZONE = 0, CITY_DATA = 1;
 	String[] url = new String[2];
 	String[] data = new String[2];
-	
+	public City city;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,8 @@ public class CityFinder extends Activity {
 		progressDialog.setVisibility(View.GONE);
 		findCityButton = (Button) findViewById(R.id.findCity);
 		textViewResult = (TextView) findViewById(R.id.textViewResult);
+		notCorrectButton = (Button) findViewById(R.id.notCorrectButton);
+		correctButton = (Button) findViewById(R.id.correctButton);
 
 		findCityButton.setOnClickListener(new OnClickListener() {
 
@@ -78,8 +82,31 @@ public class CityFinder extends Activity {
 					cityLoc = new CityLocationListener(CityFinder.this);
 					cityLoc.startSearch();
 					progressDialog.setVisibility(View.VISIBLE);
+
+
 				} catch (Exception e) {
 					e = e;
+				}
+			}
+		});
+
+		notCorrectButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+			}
+		});
+
+		correctButton.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				try {
+					Manager manager = new Manager(CityFinder.this);
+					manager.updateCity(city,CityFinder.this);
+				} catch (Exception e) {
+					Log.e("tomaanina", e.getMessage(), e.getCause());
 				}
 			}
 		});
@@ -103,6 +130,7 @@ public class CityFinder extends Activity {
 	private class CityFinderTask extends AsyncTask<Location, String, String> {
 		private boolean done;
 		private Location loc;
+
 		@Override
 		protected void onPreExecute() {
 			try {
@@ -127,7 +155,7 @@ public class CityFinder extends Activity {
 				this.loc = location;
 				// manager.findCurrentCity(location.getLatitude(),
 				// location.getLongitude());
-				//Log.i("H2: ", pos.City);
+				// Log.i("H2: ", pos.City);
 			} catch (Exception e) {
 				Log.e("", e.getMessage(), e.getCause());
 			}
@@ -146,32 +174,33 @@ public class CityFinder extends Activity {
 			data[CITY_DATA] = getRequest(url[CITY_DATA]);
 			city = getLocation(data[CITY_DATA]);
 			city.timeZone = getTimeZone(data[TIME_ZONE]);
-	
-
+			city.latitude = Double.toString(lat);
+			city.longitude = Double.toString(lon);
+			
 			return city;
 		}
 
 		public int getTimeZone(String TimeZoneContent)
 				throws ParserConfigurationException, ClientProtocolException,
 				Exception, SAXException {
-			
-			CharacterData cd;
-			try{
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			DocumentBuilder db = dbf.newDocumentBuilder();
-			InputSource is = new InputSource();
-			is.setCharacterStream(new StringReader(TimeZoneContent));
-			Document doc = db.parse(is);
 
-			NodeList nodeList = doc.getElementsByTagName("offset");
-			 Element n = (Element) nodeList.item(0);
-			String data = getCharacterDataFromElement(n);
-			return Integer.valueOf(data);
+			CharacterData cd;
+			try {
+				DocumentBuilderFactory dbf = DocumentBuilderFactory
+						.newInstance();
+				DocumentBuilder db = dbf.newDocumentBuilder();
+				InputSource is = new InputSource();
+				is.setCharacterStream(new StringReader(TimeZoneContent));
+				Document doc = db.parse(is);
+
+				NodeList nodeList = doc.getElementsByTagName("offset");
+				Element n = (Element) nodeList.item(0);
+				String data = getCharacterDataFromElement(n);
+				return Integer.valueOf(data);
+			} catch (Exception e) {
+				throw e;
 			}
-	        catch(Exception e){
-	        	throw e;
-	        }
-	        	
+
 		}
 
 		public City getLocation(String s) throws ClientProtocolException {
@@ -192,9 +221,12 @@ public class CityFinder extends Activity {
 							.contains("country")) {
 						temp.country.longName = AddCombList.get(i).getString(
 								"long_name");
-						temp.country.name = temp.country.longName ;
+						temp.country.name = temp.country.longName;
 						temp.country.shortName = AddCombList.get(i).getString(
 								"short_name");
+						if (temp.country.name == null) {
+							temp.country.name = temp.country.shortName;
+						}
 					} else if (AddCombList.get(i).getString("types")
 							.contains("administrative_area_level_1"))
 						temp.name = AddCombList.get(i).getString("long_name");
@@ -240,7 +272,7 @@ public class CityFinder extends Activity {
 						.getStatusCode();
 
 				if (statusCode != HttpStatus.SC_OK) {
-					Log.e("tomaanina","Time Out");
+					Log.e("tomaanina", "Time Out");
 				}
 
 				HttpEntity httpEntity = httpResponse.getEntity();
@@ -265,40 +297,27 @@ public class CityFinder extends Activity {
 			progressDialog.setVisibility(View.GONE);
 			City city = null;
 			try {
-				city = this.getPosition(
-						loc.getLongitude(), loc.getLatitude());
-				
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace(); 
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ParserConfigurationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				city = this.getPosition(loc.getLongitude(), loc.getLatitude());
+
+				textViewResult.setText("Done:" + city.name + " , "
+						+ loc.getLongitude() + " , " + loc.getLatitude());
+				CityFinder.this.city = city;
+				CityFinder.this.notCorrectButton.setVisibility(View.VISIBLE);
+				CityFinder.this.correctButton.setVisibility(View.VISIBLE);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.e("tomaanina", e.getMessage(), e.getCause());
 			}
-			textViewResult.setText("Done:" + city.name + " , "
-					+ loc.getLongitude() + " , " + loc.getLatitude());
-			Manager manager = new Manager(CityFinder.this);
-			manager.updateCity(city,CityFinder.this);
 		}
 
-
-	}
-	public static String getCharacterDataFromElement(Element e)
-	{
-	    Node child = e.getFirstChild();
-	    if (child instanceof CharacterData)
-	    {
-	        CharacterData cd = (CharacterData) child;
-	        return cd.getData();
-	    }
-	    return "";
 	}
 
+	public static String getCharacterDataFromElement(Element e) {
+		Node child = e.getFirstChild();
+		if (child instanceof CharacterData) {
+			CharacterData cd = (CharacterData) child;
+			return cd.getData();
+		}
+		return "";
+	}
 
 }
