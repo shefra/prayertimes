@@ -57,6 +57,7 @@
         
         <service android:name=".services.PrayerService" >
         </service>
+        <activity android:name=".activity.CityFinderDatabase"></activity>
     </application>
     
     <uses-permission android:name="android.permission.SET_DEBUG_APP"></uses-permission>

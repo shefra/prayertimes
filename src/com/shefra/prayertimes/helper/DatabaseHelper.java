@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import com.shefra.prayertimes.manager.City;
+import com.shefra.prayertimes.manager.Country;
 import com.shefra.prayertimes.manager.Manager;
 import com.shefra.prayertimes.manager.Preference;
 
@@ -126,7 +127,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 	// get country details based on country id 
 	// useful when read country id frrom xml preference
 	
-	/*public Country getCountry(int countrId) {
+	public Country getCountry(int countrId) {
 		SQLiteDatabase db;
 		Country country = new Country();
 
@@ -140,25 +141,25 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
 
-			country.countryNo = cur.getInt(0);
+			country.id = Integer.toString(cur.getInt(0));
 			// not all the country has Arabic name
 			// so use English name instead
 			// prevents NULL error that happens when put NULL
 			// into a view object ( e.g. ListView )
 			if (cur.getString(2) != null)
-				country.countryName = cur.getString(2);
+				country.name = cur.getString(2);
 			else
-				country.countryName = cur.getString(1);
+				country.name = cur.getString(1);
 			cur.moveToNext();
 		}
 		cur.close();
 		db.close();
 		return country;
-	}*/
+	}
 
 	/// get city details based on city id
 	// useful when read city id from preference file ( xml file/ setting file)
-	/*public City getCity(int cityId) {
+	public City getCity(int cityId) {
 		City city = new City();
 
 		db = SQLiteDatabase.openOrCreateDatabase(DB_PATH + DB_NAME, null);
@@ -166,26 +167,30 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
 
-		Cursor cur = db.query("citiesTable", new String[] { "cityNO",
-				"cityName", "cityNameAr" }, "cityNO=" + cityId, null, null,
+		Cursor cur = db.query("citiesTable", null , "cityNO=" + cityId, null, null,
 				null, null);
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
-			city.cityNo = cur.getInt(0);
+			city.id = Integer.toString(cur.getInt(0));
 			// not all the city has Arabic name
 			// so use English name instead
 			// prevents NULL error that happens when put NULL
 			// into a view object ( e.g. ListView )
 			if (cur.getString(2) != null)
-				city.cityName = cur.getString(2);
+				city.name = cur.getString(2);
 			else
-				city.cityName = cur.getString(1);
+				city.name = cur.getString(1);
+			
+			city.latitude = cur.getString(3);
+			city.longitude = cur.getString(4);
+			city.timeZone = cur.getInt(5);
+			
 			cur.moveToNext();
 		}
 		cur.close();
 		db.close();
 		return city;
-	}*/
+	}
 	
 	// read the preference file( xml file)
 	// to get the selected city id 
@@ -223,7 +228,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 	// -----------get methods-----------//
 	// git city list based on country id
 	// if id = -1 => means return all cities in the database
-	/*public ArrayList<City> getCityList(int id) {
+	public ArrayList<City> getCityList(int id) {
 		ArrayList<City> city = new ArrayList<City>();
 
 		db = SQLiteDatabase.openOrCreateDatabase(DB_PATH + DB_NAME, null);
@@ -241,16 +246,16 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
 			City c = new City();
-			c.cityNo = cur.getInt(0);
+			c.id = Integer.toString(cur.getInt(0));
 
 			// not all the city has Arabic name
 			// so use English name instead
 			// prevents NULL error that happens when put NULL
 			// into a view object ( e.g. ListView )
 			if (cur.getString(2) != null)
-				c.cityName = cur.getString(2);
+				c.name  = cur.getString(2);
 			else
-				c.cityName = cur.getString(1);
+				c.name = cur.getString(1);
 
 			c.latitude = cur.getString(3);
 			c.longitude = cur.getString(4);
@@ -260,7 +265,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 		cur.close();
 		db.close();
 		return city;
-	}*/
+	}
 
 	// get all country from the database
 	/*public ArrayList<Country> getCountryList() {

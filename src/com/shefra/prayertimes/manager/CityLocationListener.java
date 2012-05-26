@@ -1,6 +1,7 @@
 package com.shefra.prayertimes.manager;
 
 import com.shefra.prayertimes.activity.CityFinder;
+import com.shefra.prayertimes.activity.CityFinderDatabase;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -15,10 +16,12 @@ import android.os.Handler;
 public class CityLocationListener implements LocationListener {
 	LocationManager locManager;
 	Context context;
+	private Integer objectType;
 
 
-	public CityLocationListener(Context context) {
+	public CityLocationListener(Context context,Integer objectType) {
 		this.context = context;
+		this.objectType = objectType;
 	}
 	public void startSearch() {
 		try{
@@ -94,9 +97,16 @@ public class CityLocationListener implements LocationListener {
 		// ok , we don't need this listener anymore :) 
 		locManager.removeUpdates(this);
 		// and hide the waiting dialog
-
-		CityFinder finder= (CityFinder) context;
-		finder.stopSearch(location);
+		if(this.objectType == null || this.objectType == 1){
+			CityFinder finder= (CityFinder) context;
+			finder.stopSearch(location);
+			
+		}
+		else {
+			CityFinderDatabase finder= (CityFinderDatabase) context;
+			finder.stopSearch(location);
+			
+		}
 	}
 
 	// read Android Docs

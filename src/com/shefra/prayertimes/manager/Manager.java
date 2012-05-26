@@ -283,7 +283,7 @@ public class Manager {
 
 	// find the current city based on its latitude and longtiude
 	// I DON'T KNOW HOW THE METHOD WORKS !?
-	/*public void findCurrentCity(double latitude, double longitude) {
+	public City findCurrentCity(double latitude, double longitude) {
 		try {
 			double min = 0;
 			int i = 0, pos = 0;
@@ -312,20 +312,24 @@ public class Manager {
 				i++;
 			}
 			if (pos < cityList.size() && cityList.get(pos) != null) {
-				SettingAttributes sa = new SettingAttributes();
-				String cityId = (String) Integer
-						.toString(cityList.get(pos).cityNo);
-				sa.city.cityNo = -1;
+				String cityId = cityList.get(pos).id;
+				Integer cityNo = -1;
 				if (cityId != null) {
-					sa.city.cityNo = Integer.parseInt(cityId);
+					cityNo = Integer.parseInt(cityId);
 				}
-				if (sa.city.cityNo == -1)
-					sa.city.cityNo = 1;
-				this.setSetting(sa);
+				if (cityNo == -1)
+					cityNo = 1;
+				
+				City city = databaseHelper.getCity(cityNo);
+				return city;
+				
 			}
+			
 		} catch (Exception e) {
 		}
-	}*/
+		return null;
+
+	}
 
 	public static void playAzanNotification(Context context) {
 		Intent intent;

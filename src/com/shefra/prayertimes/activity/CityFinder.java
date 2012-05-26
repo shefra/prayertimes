@@ -39,6 +39,7 @@ import com.shefra.prayertimes.manager.Preference;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -79,7 +80,7 @@ public class CityFinder extends Activity {
 
 			public void onClick(View v) {
 				try {
-					cityLoc = new CityLocationListener(CityFinder.this);
+					cityLoc = new CityLocationListener(CityFinder.this,1);
 					cityLoc.startSearch();
 					progressDialog.setVisibility(View.VISIBLE);
 
@@ -92,19 +93,25 @@ public class CityFinder extends Activity {
 
 		notCorrectButton.setOnClickListener(new OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
-
+				try{
+				Intent intent = new Intent(CityFinder.this,CityFinderDatabase.class);
+				startActivity(intent);
+				}catch(Exception e){
+					Log.e("tomaanina",e.getMessage(),e.getCause());
+				}
 			}
 		});
 
 		correctButton.setOnClickListener(new OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				try {
 					Manager manager = new Manager(CityFinder.this);
 					manager.updateCity(city,CityFinder.this);
+					Intent intent = new Intent(CityFinder.this,MainActivity.class);
+					startActivity(intent);
+		    	
 				} catch (Exception e) {
 					Log.e("tomaanina", e.getMessage(), e.getCause());
 				}

@@ -68,30 +68,32 @@ public final class R {
         public static final int table4=0x7f020028;
     }
     public static final class id {
-        public static final int asrTime=0x7f080010;
+        public static final int asrTime=0x7f080012;
         public static final int azandoaa=0x7f080000;
-        public static final int button1=0x7f080018;
+        public static final int button1=0x7f08001a;
         public static final int button2=0x7f080001;
-        public static final int city=0x7f080014;
-        public static final int cityName=0x7f08000b;
+        public static final int city=0x7f080016;
+        public static final int cityName=0x7f08000d;
         public static final int correctButton=0x7f080009;
-        public static final int country=0x7f080013;
-        public static final int ditore=0x7f080016;
+        public static final int country=0x7f080015;
+        public static final int ditore=0x7f080018;
         public static final int dlgMsg=0x7f080002;
-        public static final int duhrTime=0x7f08000f;
-        public static final int fajrTime=0x7f08000e;
+        public static final int duhrTime=0x7f080011;
+        public static final int fajrTime=0x7f080010;
         public static final int findCity=0x7f080006;
-        public static final int ishaTime=0x7f080012;
-        public static final int language=0x7f080015;
+        public static final int ishaTime=0x7f080014;
+        public static final int language=0x7f080017;
         public static final int linearLayout1=0x7f080003;
         public static final int linearLayout2=0x7f080004;
         public static final int linearLayout3=0x7f080008;
-        public static final int magribTime=0x7f080011;
+        public static final int magribTime=0x7f080013;
         public static final int notCorrectButton=0x7f08000a;
         public static final int progressBar1=0x7f080005;
-        public static final int remainingText=0x7f08000c;
-        public static final int remainingTime=0x7f08000d;
-        public static final int state=0x7f080017;
+        public static final int remainingText=0x7f08000e;
+        public static final int remainingTime=0x7f08000f;
+        public static final int resultTextView=0x7f08000c;
+        public static final int state=0x7f080019;
+        public static final int textView1=0x7f08000b;
         public static final int textViewResult=0x7f080007;
     }
     public static final class layout {
@@ -99,8 +101,9 @@ public final class R {
         public static final int alert=0x7f030001;
         public static final int city=0x7f030002;
         public static final int cityfinder=0x7f030003;
-        public static final int main=0x7f030004;
-        public static final int test=0x7f030005;
+        public static final int cityfinderdatabase=0x7f030004;
+        public static final int main=0x7f030005;
+        public static final int test=0x7f030006;
     }
     public static final class raw {
         public static final int majed=0x7f050000;
