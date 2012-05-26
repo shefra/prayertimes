@@ -132,6 +132,9 @@ public class CityFinderDatabase extends Activity {
 			resultTextView.setText("Done:" + city.name + " , "
 					+ loc.getLongitude() + " , " + loc.getLatitude());
 			CityFinderDatabase.this.city = city;
+			CityFinderDatabase.this.notCorrectButton.setVisibility(View.VISIBLE);
+			CityFinderDatabase.this.correctButton.setVisibility(View.VISIBLE);
+
 		}
 
 

@@ -33,13 +33,13 @@
         android:id="@+id/correctButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Correct" />
+        android:text="Correct" android:visibility="invisible"/>
 
     <Button
         android:id="@+id/notCorrectButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Not Correct" />
+        android:text="Not Correct" android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/resultTextView"
