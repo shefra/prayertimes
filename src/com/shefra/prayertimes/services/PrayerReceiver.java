@@ -154,8 +154,10 @@ public class PrayerReceiver extends BroadcastReceiver {
 
 	private void onWaitingPrayer() {
 		Log.i("com.shefrah.prayertimes","WAITING_PRAYER:" + Long.toString(System.currentTimeMillis()));
+		Manager manager = new Manager(this.context);
+		Preference preference = manager.getPreference();
 		AudioManager am = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
-		if(am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL){
+		if(am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL && preference.isAutoSilentDisabled()==false ){
 			am.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 			editor.putBoolean("isRingerModeChangedToSilent", true);
 			editor.commit();

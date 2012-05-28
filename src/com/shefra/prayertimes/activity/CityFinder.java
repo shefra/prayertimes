@@ -95,7 +95,7 @@ public class CityFinder extends Activity {
 
 			public void onClick(View v) {
 				try{
-				Intent intent = new Intent(CityFinder.this,CityFinderDatabase.class);
+				Intent intent = new Intent(CityFinder.this,CityFinderManual.class);
 				startActivity(intent);
 				}catch(Exception e){
 					Log.e("tomaanina",e.getMessage(),e.getCause());

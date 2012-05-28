@@ -159,7 +159,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 
 	/// get city details based on city id
 	// useful when read city id from preference file ( xml file/ setting file)
-	public City getCity(int cityId) {
+	public City getCity(long cityId) {
 		City city = new City();
 
 		db = SQLiteDatabase.openOrCreateDatabase(DB_PATH + DB_NAME, null);
@@ -167,8 +167,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
 
-		Cursor cur = db.query("citiesTable", null , "cityNO=" + cityId, null, null,
-				null, null);
+		Cursor cur = db.rawQuery("select cit.*,cnt.name from citiesTable cit,country cnt where cit.country_id == cnt.country_id and cityNO=?" ,new String[]{ Long.toString(cityId)});
 		cur.moveToFirst();
 		while (cur.isAfterLast() == false) {
 			city.id = Integer.toString(cur.getInt(0));
@@ -184,6 +183,8 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 			city.latitude = cur.getString(3);
 			city.longitude = cur.getString(4);
 			city.timeZone = cur.getInt(5);
+			city.country.id = cur.getString(6);
+			city.country.name = cur.getString(7);
 			
 			cur.moveToNext();
 		}
@@ -267,37 +268,50 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 		return city;
 	}
 
-	// get all country from the database
-	/*public ArrayList<Country> getCountryList() {
-		SQLiteDatabase db;
-		ArrayList<Country> country = new ArrayList<Country>();
-
+	public Cursor getCityCursor(long id) {
 		db = SQLiteDatabase.openOrCreateDatabase(DB_PATH + DB_NAME, null);
 		db.setVersion(1);
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
 
-		Cursor cur = db.query("country", null, null, null, null, null, null);
+		
+		Cursor cur = db.rawQuery("SELECT cityNO as _id , cityName from citiesTable WHERE country_id = ? ORDER BY cityNO",new String[]{Long.toString(id)});
+		
+		return cur;
+	}
+
+	// get all country from the database
+	public Cursor getCountryList() {
+		SQLiteDatabase db;
+		db = SQLiteDatabase.openOrCreateDatabase(DB_PATH + DB_NAME, null);
+		db.setVersion(1);
+		db.setLocale(Locale.getDefault());
+		db.setLockingEnabled(true);
+		Cursor cur = db.rawQuery("SELECT country_id as _id , name as country_name from country ORDER BY country_id",null);
+		// Cursor cur = db.query("country", new String[]{"name"}, null, null, null, null, null);
+		return cur;
+		
+		/*
 		cur.moveToFirst();
 
 		while (cur.isAfterLast() == false) {
 			Country c = new Country();
-			c.countryNo = cur.getInt(0);
+			c.id = Integer.toString(cur.getInt(0));
 			// not all the country has Arabic name
 			// so use English name instead
 			// prevents NULL error that happens when put NULL
 			// into a view object ( e.g. ListView )
 			if (cur.getString(2) != null)
-				c.countryName = cur.getString(2);
+				c.name = cur.getString(2);
 			else
-				c.countryName = cur.getString(1);
+				c.name = cur.getString(1);
 
 			country.add(c);
 			cur.moveToNext();
 		}
 		cur.close();
 		db.close();
-		return country;
-	}*/
+		return country;*/
+	}
 	
 }

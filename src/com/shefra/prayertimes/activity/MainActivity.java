@@ -211,7 +211,7 @@ public class MainActivity extends Activity {
 			//return true;
 		case 5:
 			// run City Finder Activity
-			Intent cityFinderActivity = new Intent (this , CityFinder.class);
+			Intent cityFinderActivity = new Intent (this , CityFinderDatabase.class);
 			startActivity(cityFinderActivity);
 			
 			return true;

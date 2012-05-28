@@ -84,7 +84,17 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 			// it reads the value from xml ( preference file) and uses Manager helper functions as well
 			PreferenceScreen ps = (PreferenceScreen) findPreference("first_preferencescreen");			
 			ps.setSummary(countryName + "/" + cityName);
-			
+			ps.setOnPreferenceClickListener(new OnPreferenceClickListener(){
+
+				public boolean onPreferenceClick(
+						android.preference.Preference arg0) {
+					Intent intent = new Intent(SettingsActivity.this,CityFinderDatabase.class);
+					SettingsActivity.this.startActivity(intent);
+					return false;
+				}
+				
+			});
+
 			ListPreference ssLP = (ListPreference) findPreference("silentStart");
 			String silentStart = ssLP.getEntry().toString(); 
 			ssLP.setSummary(silentStart);

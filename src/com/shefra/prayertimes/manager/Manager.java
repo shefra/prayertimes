@@ -379,7 +379,9 @@ public class Manager {
 	public void updateCity(City city,Activity activity){
 		Preference pref = this.getPreference();
 		pref.setCityName(city.name);
+		pref.setCityNo(city.id);
 		pref.setCountryName(city.country.name);
+		pref.setCountryNo(city.country.id);
 		pref.setLongitude(city.longitude);
 		pref.setLatitude(city.latitude);
 		pref.setTimeZone(city.timeZone);

@@ -15,8 +15,8 @@ public class Preference {
 	public String season = null;
 	public City city = null;
 
-	public static String  DEFAULT_COUNTRY_ID   = "221" ; // SA
-	public static String  DEFAULT_COUNTRY_NAME = "SA" ; // SA
+	public static String  DEFAULT_COUNTRY_ID   = "211" ; // SA
+	public static String  DEFAULT_COUNTRY_NAME = "Saudi Arabia" ; // SA
 	public static String  DEFAULT_CITY_ID = "14244";
 	public static String  DEFAULT_CITY_NAME = "Makkah";
 	public static Integer DEFAULT_TIMEZONE  = 3;
@@ -100,6 +100,31 @@ public class Preference {
 	public int getSilentDuration() {
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 		return Integer.parseInt(pref.getString("silentDuration",Integer.toString(DEFAULT_SILENT_DURATION))) * 60 * 1000;
+	}
+
+	public void setCityNo(String id) {
+		if(id == null)
+			return;
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		Editor edit = pref.edit();
+    	edit.putString("cityNo", id);
+    	edit.commit();			
+		
+	}
+	
+	public void setCountryNo(String id) {
+		if(id == null)
+			return;
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		Editor edit = pref.edit();
+    	edit.putString("countryNo", id);
+    	edit.commit();			
+		
+	}
+	
+	public boolean isAutoSilentDisabled(){
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		return pref.getBoolean("disable",false);
 	}
 	
 }

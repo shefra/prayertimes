@@ -14,7 +14,8 @@
 	<PreferenceCategory android:title="@string/silentSettings">
 
 		<CheckBoxPreference android:key="disable"
-			android:title="@string/disableTitle" android:enabled="true"
+			android:title="@string/disableTitle"  android:defaultValue="false"
+
 			android:summary="@string/disableSummary" />
 		<ListPreference android:key="silentStart"
 			android:title="@string/silentStartTitle" android:dialogTitle="@string/silentStartDlgTitle"

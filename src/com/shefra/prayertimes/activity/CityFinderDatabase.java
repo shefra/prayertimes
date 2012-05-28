@@ -70,7 +70,7 @@ public class CityFinderDatabase extends Activity {
 	    notCorrectButton.setOnClickListener(new OnClickListener(){
 	    	
 	    	public void onClick(View v){
-				Intent intent = new Intent(CityFinderDatabase.this,MainActivity.class);
+				Intent intent = new Intent(CityFinderDatabase.this,CityFinder.class);
 				startActivity(intent);
 	    	}
 	    });
