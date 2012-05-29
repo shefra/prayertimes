@@ -123,14 +123,14 @@ public class CityFinderDatabase extends Activity {
 				
 				Manager manager = new Manager(CityFinderDatabase.this);
 				
-				city = manager.findCurrentCity(loc.getLongitude(), loc.getLatitude());
+				city = manager.findCurrentCity(loc.getLatitude(), loc.getLongitude());
 					
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			resultTextView.setText("Done:" + city.name + " , "
-					+ loc.getLongitude() + " , " + loc.getLatitude());
+					+ loc.getLatitude() + " , " + loc.getLongitude());
 			CityFinderDatabase.this.city = city;
 			CityFinderDatabase.this.notCorrectButton.setVisibility(View.VISIBLE);
 			CityFinderDatabase.this.correctButton.setVisibility(View.VISIBLE);
