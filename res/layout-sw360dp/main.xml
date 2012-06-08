@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_marginBottom="40dp" android:orientation="vertical"
+android:layout_width="fill_parent" android:layout_height="fill_parent"
+android:background="@drawable/background">
+<TableLayout android:layout_width="fill_parent"
+android:weightSum="7" android:layout_marginLeft="15dp"
+android:layout_marginRight="15dp" android:layout_height="wrap_content"
+android:layout_marginTop="125dp" android:shrinkColumns="*"
+android:stretchColumns="*">
+
+<TableRow android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+android:layout_weight="1" android:weightSum="2" android:background="#b2d74f"
+android:layout_marginBottom="10dp" android:layout_width="fill_parent">
+
+<TextView android:layout_marginBottom="2dp" android:layout_marginTop="2dp" android:layout_width="0px" android:width="0px"
+android:layout_weight="1" android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_height="wrap_content" android:text=""
+android:textStyle="bold" android:textColor="#FFFFFF" android:textSize="16sp"
+android:gravity="center" android:id="@+id/cityName" />
+
+<TextView android:layout_marginBottom="2dp" android:layout_marginTop="2dp" android:text="@string/citytxt" android:textSize="17dp" android:layout_width="0px" android:width="0px"
+android:layout_weight="1" android:layout_height="wrap_content" android:textColor="#FFFFFF"
+android:id="@+id/remainingText" android:layout_gravity="center_vertical|center_horizontal" android:gravity="center"/>
+
+</TableRow>
+
+<TableRow android:layout_height="wrap_content" android:layout_marginLeft="10dp" android:layout_marginRight="10dp"
+android:layout_weight="1" android:weightSum="2" android:background="#b2d74f"
+android:layout_marginBottom="10dp" android:layout_width="fill_parent">
+
+<TextView android:layout_marginBottom="2dp" android:layout_marginTop="2dp" android:layout_width="0px" android:width="0px"
+android:layout_weight="1" android:layout_gravity="center_vertical|center_horizontal"
+android:layout_height="wrap_content" android:text=""
+android:textStyle="bold" android:textColor="#FFFFFF" android:textSize="16sp"
+android:gravity="center" android:id="@+id/remainingTime" />
+
+<TextView android:layout_marginBottom="2dp" android:layout_marginTop="2dp" android:text="@string/remaintxt" android:textSize="17dp" android:layout_width="0px" android:width="0px"
+android:layout_weight="1" android:layout_height="wrap_content" android:textColor="#FFFFFF"
+android:id="@+id/remainingText" android:gravity="center" android:layout_gravity="center_vertical|center_horizontal"
+/>
+
+
+</TableRow>
+
+
+<TableRow android:layout_height="wrap_content"
+android:layout_weight="1" android:weightSum="2"
+android:layout_marginBottom="10dp" android:layout_width="fill_parent">
+
+<TextView  android:layout_marginBottom="2dp" android:layout_marginTop="2dp" android:layout_width="0px" android:width="0px"
+android:background="#b2d74f"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_height="fill_parent" android:text=""
+android:layout_weight="1" android:textStyle="bold"
+android:textColor="#2f3d0a" android:gravity="center" android:id="@+id/fajrTime" />
+
+
+<TextView android:layout_marginBottom="2dp" android:layout_marginTop="2dp" android:textSize="25dp" android:text="@string/fajrtxt" android:layout_width="0px" android:width="0px"
+android:layout_height="fill_parent" android:background="#b2d74f"
+android:layout_gravity="center_vertical|center_horizontal" android:textColor="#2f3d0a"
+android:layout_weight="1" android:gravity="center"/>
+</TableRow>
+<TableRow android:layout_height="wrap_content"
+android:layout_weight="1" android:weightSum="2"
+android:layout_marginBottom="10dp" android:layout_width="fill_parent">
+
+<TextView  android:layout_marginBottom="2dp" android:layout_marginTop="2dp" android:layout_width="0px" android:width="0px"
+android:background="#b2d74f"
+android:layout_gravity="center"
+android:layout_height="fill_parent" android:text=""
+android:layout_weight="1" android:textStyle="bold"
+android:textColor="#2f3d0a" android:gravity="center" android:id="@+id/duhrTime" />
+
+<TextView  android:layout_marginBottom="2dp" android:layout_marginTop="2dp" android:textSize="25dp" android:text="@string/duhrtxt" android:layout_width="0px" android:width="0px"
+android:layout_height="fill_parent" android:background="#b2d74f" android:textColor="#2f3d0a"
+android:layout_gravity="center"
+android:layout_weight="1" android:gravity="center"/>
+</TableRow>
+<TableRow android:layout_height="wrap_content"
+android:layout_weight="1" android:weightSum="2"
+android:layout_marginBottom="10dp" android:layout_width="fill_parent">
+
+<TextView  android:layout_marginBottom="2dp" android:layout_marginTop="2dp" android:layout_width="0px" android:width="0px"
+android:background="#b2d74f"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_height="fill_parent" android:text=""
+android:layout_weight="1" android:textStyle="bold"
+android:textColor="#2f3d0a" android:gravity="center" android:id="@+id/asrTime" />
+<TextView  android:layout_marginBottom="2dp" android:layout_marginTop="2dp" android:textSize="25dp" android:text="@string/asrtxt"  android:layout_width="0px" android:width="0px"
+android:layout_height="fill_parent" android:background="#b2d74f" android:textColor="#2f3d0a"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_weight="1" android:gravity="center"/>
+</TableRow>
+
+<TableRow  android:layout_height="wrap_content"
+android:layout_weight="1" android:weightSum="2"
+android:layout_marginBottom="10dp" android:layout_width="fill_parent">
+
+<TextView  android:layout_marginBottom="2dp" android:layout_marginTop="2dp" android:layout_width="0px" android:width="0px"
+android:background="#b2d74f"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_height="fill_parent" android:text=""
+android:layout_weight="1" android:textStyle="bold"
+android:textColor="#2f3d0a" android:gravity="center" android:id="@+id/magribTime" />
+<TextView  android:layout_marginBottom="2dp" android:layout_marginTop="2dp" android:text="@string/magribtxt"  android:textSize="25dp" android:layout_width="0px" android:width="0px"
+android:layout_height="fill_parent" android:background="#b2d74f" android:textColor="#2f3d0a"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_weight="1" android:gravity="center" />
+</TableRow>
+<TableRow android:layout_height="wrap_content"
+android:layout_weight="1" android:weightSum="2"
+android:layout_marginBottom="10dp" android:layout_width="fill_parent">
+
+<TextView  android:layout_marginBottom="2dp" android:layout_marginTop="2dp" android:layout_width="0px" android:width="0px"
+android:background="#b2d74f"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_height="fill_parent" android:text=""
+android:layout_weight="1" android:textStyle="bold"
+android:textColor="#2f3d0a" android:gravity="center" android:id="@+id/ishaTime" />
+<TextView  android:layout_marginBottom="2dp" android:layout_marginTop="2dp" android:textSize="25dp" android:text="@string/ishatxt" android:layout_width="0px" android:width="0px"
+android:layout_height="fill_parent" android:background="#b2d74f" android:textColor="#2f3d0a"
+android:layout_gravity="center_vertical|center_horizontal|center"
+android:layout_weight="1" android:gravity="center"/>
+</TableRow>
+
+
+</TableLayout>
+</LinearLayout>
