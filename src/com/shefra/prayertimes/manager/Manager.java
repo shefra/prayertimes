@@ -52,6 +52,8 @@ import com.shefra.prayertimes.services.PrayerService;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.KeyguardManager;
+import android.app.KeyguardManager.KeyguardLock;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -65,6 +67,8 @@ import android.database.Cursor;
 import android.database.sqlite.*;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.preference.PreferenceManager;
 
 // Manager is the main class that works as layer  between the app and database/xml files
@@ -86,6 +90,18 @@ public class Manager {
 		databaseHelper = new DatabaseHelper(applicationContext);
 	}
 
+	public static void acquireScreen(Context context){
+       PowerManager pm = (PowerManager) context.getApplicationContext().getSystemService(Context.POWER_SERVICE);
+       WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+       wakeLock.acquire();
+	}
+	
+	public static void releaseScreen(Context context){
+        KeyguardManager keyguardManager = (KeyguardManager) context.getApplicationContext().getSystemService(Context.KEYGUARD_SERVICE); 
+        KeyguardLock keyguardLock =  keyguardManager.newKeyguardLock("TAG");
+        keyguardLock.disableKeyguard();
+	}
+	
 	public static void initPrayerAlarm(Service service,Class<PrayerReceiver> receiver){
 		Manager.prayerService = service; // we may need it ?
 		Manager.prayerIntet = new Intent(service,receiver);
@@ -342,7 +358,7 @@ public class Manager {
 		if (azanMode.equals("full")
 				&& am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
 			intent = new Intent(context, AlertActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
 			context.startActivity(intent); 
 		} else if (!(azanMode.equals("disable"))
 				&& (azanMode.equals("short") || (am.getRingerMode() == AudioManager.RINGER_MODE_SILENT || am
