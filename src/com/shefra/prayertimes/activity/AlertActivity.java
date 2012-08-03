@@ -16,6 +16,7 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 
 public class AlertActivity extends Activity implements OnCompletionListener {
 	private MediaPlayer mPlayer;
+	WakeLock wakeLock ;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -33,8 +35,10 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 		 * This code together with the one in onDestroy() will make the screen
 		 * be always on until this Activity gets destroyed.
 		 */
-
-		Manager.acquireScreen(this);
+		 PowerManager pm = (PowerManager) this.getApplicationContext().getSystemService(Context.POWER_SERVICE);
+	        wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
+	       wakeLock.acquire();
+		//Manager.acquireScreen(this);
 
 		String ardroid = getString(R.string.azandoaa);
 
@@ -63,7 +67,8 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 
 	@Override
 	public void onDestroy() {
-		Manager.releaseScreen(this);
+		//Manager.releaseScreen(this);
+		wakeLock.release();
 		this.mPlayer.stop();
 		super.onDestroy();
 	}
