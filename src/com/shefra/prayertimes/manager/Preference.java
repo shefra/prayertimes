@@ -127,4 +127,9 @@ public class Preference {
 		return pref.getBoolean("disable",false);
 	}
 	
+	public Map<String, ?> getAll(){
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		return pref.getAll();
+	}
+	
 }

@@ -97,16 +97,9 @@ public class CityLocationListener implements LocationListener {
 		// ok , we don't need this listener anymore :) 
 		locManager.removeUpdates(this);
 		// and hide the waiting dialog
-		if(this.objectType == null || this.objectType == 1){
-			CityFinder finder= (CityFinder) context;
-			finder.stopSearch(location);
+		CityFinderDatabase finder= (CityFinderDatabase) context;
+		finder.stopSearch(location);
 			
-		}
-		else {
-			CityFinderDatabase finder= (CityFinderDatabase) context;
-			finder.stopSearch(location);
-			
-		}
 	}
 
 	// read Android Docs

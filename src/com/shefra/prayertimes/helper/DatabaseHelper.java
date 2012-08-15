@@ -231,8 +231,8 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 	// if id = -1 => means return all cities in the database
 	public ArrayList<City> getCityList(int id) {
 		ArrayList<City> city = new ArrayList<City>();
-
-		db = SQLiteDatabase.openOrCreateDatabase(DB_PATH + DB_NAME, null);
+		try{
+		db = SQLiteDatabase.openDatabase(DB_PATH + DB_NAME, null,SQLiteDatabase.NO_LOCALIZED_COLLATORS | SQLiteDatabase.CREATE_IF_NECESSARY);
 		db.setVersion(1);
 		db.setLocale(Locale.getDefault());
 		db.setLockingEnabled(true);
@@ -265,6 +265,9 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 		}
 		cur.close();
 		db.close();
+	}catch(Exception e){
+		Log.e("tomaanina",e.getMessage(),e.getCause());
+	}
 		return city;
 	}
 
