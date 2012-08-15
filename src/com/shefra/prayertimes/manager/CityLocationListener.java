@@ -1,7 +1,7 @@
 package com.shefra.prayertimes.manager;
 
 import com.shefra.prayertimes.activity.CityFinder;
-import com.shefra.prayertimes.activity.CityFinderDatabase;
+import com.shefra.prayertimes.activity.CityFinder;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -97,7 +97,7 @@ public class CityLocationListener implements LocationListener {
 		// ok , we don't need this listener anymore :) 
 		locManager.removeUpdates(this);
 		// and hide the waiting dialog
-		CityFinderDatabase finder= (CityFinderDatabase) context;
+		CityFinder finder= (CityFinder) context;
 		finder.stopSearch(location);
 			
 	}

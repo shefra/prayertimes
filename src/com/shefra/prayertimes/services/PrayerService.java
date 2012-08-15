@@ -17,7 +17,6 @@ public class PrayerService extends Service {
 
 	private static IntentFilter s_intentFilter;
 	long mStartTime;
-	private PrayerHandler2 prayerHandler;
 	
 	static {
         s_intentFilter = new IntentFilter();
@@ -65,21 +64,7 @@ public class PrayerService extends Service {
 	        }
 	    };
 	
-	// prayer Handler , but it's not used now .
-	private Runnable mUpdateTimeTask = new Runnable() {
-		private int seconds;
-
-		public void run() {
-			final long start = mStartTime;
-			long millis = SystemClock.uptimeMillis() - start;
-			seconds = (int) (millis / 1000);
-			Message msg = new Message();
-			msg.obj = this;
-			prayerHandler.sendMessage(msg); 
-			
-			
-		}
-	};
+	
 	
 
 

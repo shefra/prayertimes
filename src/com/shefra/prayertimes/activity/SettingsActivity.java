@@ -88,7 +88,7 @@ public class SettingsActivity extends PreferenceActivity implements OnSharedPref
 
 				public boolean onPreferenceClick(
 						android.preference.Preference arg0) {
-					Intent intent = new Intent(SettingsActivity.this,CityFinderDatabase.class);
+					Intent intent = new Intent(SettingsActivity.this,CityFinder.class);
 					SettingsActivity.this.startActivity(intent);
 					return false;
 				}

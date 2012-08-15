@@ -83,6 +83,7 @@ public class Manager {
 	private static PrayerState prayerState;
 	private static Service prayerService;
 	private static int UNIQUE_ID = 32289;
+	public static boolean isPhoneIdle = true;
 
 	public Manager(Context applicationContext) {
 
@@ -356,13 +357,13 @@ public class Manager {
 				.getSystemService(Context.AUDIO_SERVICE);
 
 		if (azanMode.equals("full")
-				&& am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL) {
+				&& am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL && Manager.isPhoneIdle == true) {
 			intent = new Intent(context, AlertActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
 			context.startActivity(intent); 
 		} else if (!(azanMode.equals("disable"))
 				&& (azanMode.equals("short") || (am.getRingerMode() == AudioManager.RINGER_MODE_SILENT || am
-						.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE))) {
+						.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE)) || Manager.isPhoneIdle == false) {
 
 			CharSequence contentTitle = context.getString(R.string.notTitle);
 			CharSequence contentText = context.getString(R.string.notContent);

@@ -48,8 +48,6 @@ public class CityFinderManual extends Activity {
 			this.fillCountrySpinner();
 			countrySpinner.setSelection(Integer.valueOf(preference.city.country.id)-1);
 			this.fillCitySpinner(Long.parseLong(preference.city.country.id));
-//			int pos = getItemPosition(citySpinner, preference.city.name);
-//			citySpinner.setSelection(pos);
 
 			
 			countrySpinner
@@ -67,17 +65,6 @@ public class CityFinderManual extends Activity {
 						}
 
 					});
-			
-//			citySpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
-//
-//				public void onItemSelected(AdapterView<?> parentView,
-//						View selectedItemView, int position, long id) {
-//				}
-//
-//				public void onNothingSelected(AdapterView<?> parentView) {
-//				}
-//
-//			});
 
 
 			saveButton = (Button) findViewById(R.id.save);
