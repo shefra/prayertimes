@@ -1,3 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
+    <issue id="ParserError">
+        <ignore path="src/com/shefra/prayertimes/activity/CityFinder.java" />
+        <ignore path="src/com/shefra/prayertimes/activity/CityFinderDatabase.java" />
+    </issue>
 </lint>

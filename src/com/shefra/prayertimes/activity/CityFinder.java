@@ -32,13 +32,13 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.shefra.prayertimes.R;
+import com.shefra.prayertimes.R.id;
 import com.shefra.prayertimes.manager.City;
 import com.shefra.prayertimes.manager.CityLocationListener;
 import com.shefra.prayertimes.manager.Manager;
 import com.shefra.prayertimes.manager.Preference;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -47,77 +47,141 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class CityFinder extends Activity {
 
-	private Button findCityButton;
-	private Button notCorrectButton;
-	private Button correctButton;
-	ProgressBar progressDialog;
-	// private CityFinderTask cityFinderTask;
-	private TextView textViewResult;
+	protected static final int SEARCH_TYPE_DATABASE = 1;
+	protected static final int SEARCH_TYPE_INTERNET = 2;
 	private CityLocationListener cityLoc;
-	private CityFinderTask cityFinderTask;
-
+	private com.shefra.prayertimes.activity.CityFinder.CityFinderDatabaseTask cityFinderDatabaseTask;
+	public City city;
+	protected int searchType;
 	int TIME_ZONE = 0, CITY_DATA = 1;
 	String[] url = new String[2];
 	String[] data = new String[2];
-	public City city;
+
+	private TextView resultTextView;
+	public View progressDialog;
+
+	private Button findCityNoInternet;
+	private Button findCityUsingInternet;
+	private Button noSearchButton;
+	private Button homeButton;
+	private Button researchButton;
+	private Button correctButton;
+	private TextView descTextView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.cityfinder);
-		progressDialog = (ProgressBar) findViewById(R.id.progressBar1);
-		progressDialog.setVisibility(View.GONE);
-		findCityButton = (Button) findViewById(R.id.findCity);
-		textViewResult = (TextView) findViewById(R.id.textViewResult);
-		notCorrectButton = (Button) findViewById(R.id.notCorrectButton);
-		correctButton = (Button) findViewById(R.id.correctButton);
+		setContentView(R.layout.cityfinderdatabase);
+		try {
+			descTextView = (TextView) findViewById(R.id.dlgMsg);
+			resultTextView = (TextView) findViewById(R.id.resultTextView);
+			findCityNoInternet = (Button) findViewById(R.id.findCityNoInternet);
+			findCityUsingInternet = (Button) findViewById(R.id.findCityUsingInternet);
+			noSearchButton = (Button) findViewById(R.id.nosearch);
 
-		findCityButton.setOnClickListener(new OnClickListener() {
+			homeButton = (Button) findViewById(R.id.findCityHome);
+			correctButton = (Button) findViewById(R.id.findCityCorrect);
+			researchButton = (Button) findViewById(R.id.findCityResearcht);
 
-			public void onClick(View v) {
-				try {
-					cityLoc = new CityLocationListener(CityFinder.this,1);
-					cityLoc.startSearch();
-					progressDialog.setVisibility(View.VISIBLE);
+			progressDialog = (ProgressBar) findViewById(R.id.progressBar1);
+			progressDialog.setVisibility(View.GONE);
+			Manager m = new Manager(this);
+			Preference pref = m.getPreference();
+			pref.fetchCurrentPreferences();
+			resultTextView.setText(pref.city.name);
 
+			findCityNoInternet.setOnClickListener(new OnClickListener() {
 
-				} catch (Exception e) {
-					e = e;
+				public void onClick(View v) {
+					try {
+						CityFinder.this.searchType = CityFinder.SEARCH_TYPE_DATABASE;
+						cityLoc = new CityLocationListener(
+								CityFinder.this, 2);
+						cityLoc.startSearch();
+						progressDialog.setVisibility(View.VISIBLE);
+					} catch (Exception e) {
+						Log.e("tomaanina", e.getMessage(), e.getCause());
+					}
 				}
-			}
-		});
 
-		notCorrectButton.setOnClickListener(new OnClickListener() {
+			});
 
-			public void onClick(View v) {
-				try{
-				Intent intent = new Intent(CityFinder.this,CityFinderManual.class);
-				startActivity(intent);
-				}catch(Exception e){
-					Log.e("tomaanina",e.getMessage(),e.getCause());
+			findCityUsingInternet.setOnClickListener(new OnClickListener() {
+
+				public void onClick(View v) {
+					try {
+						CityFinder.this.searchType = CityFinder.SEARCH_TYPE_INTERNET;
+						cityLoc = new CityLocationListener(
+								CityFinder.this, 2);
+						cityLoc.startSearch();
+						progressDialog.setVisibility(View.VISIBLE);
+					} catch (Exception e) {
+						Log.e("tomaanina", e.getMessage(), e.getCause());
+					}
 				}
-			}
-		});
 
-		correctButton.setOnClickListener(new OnClickListener() {
+			});
 
-			public void onClick(View v) {
-				try {
+			researchButton.setOnClickListener(new OnClickListener() {
+
+				public void onClick(View v) {
+					CityFinder.this.city = null;
+
+					CityFinder.this.researchButton
+							.setVisibility(View.GONE);
+					CityFinder.this.homeButton.setVisibility(View.GONE);
+					CityFinder.this.correctButton
+							.setVisibility(View.GONE);
+					CityFinder.this.descTextView.setText(CityFinder.this.getString(R.string.cityfinder_desc));
+
+					CityFinder.this.findCityNoInternet
+							.setVisibility(View.VISIBLE);
+					CityFinder.this.findCityUsingInternet
+							.setVisibility(View.VISIBLE);
+					CityFinder.this.noSearchButton
+							.setVisibility(View.VISIBLE);
+				}
+			});
+
+			correctButton.setOnClickListener(new OnClickListener() {
+
+				public void onClick(View v) {
 					Manager manager = new Manager(CityFinder.this);
-					manager.updateCity(city,CityFinder.this);
-					Intent intent = new Intent(CityFinder.this,MainActivity.class);
+					manager.updateCity(city, CityFinder.this);
+					Intent intent = new Intent(CityFinder.this,
+							MainActivity.class);
 					startActivity(intent);
-		    	
-				} catch (Exception e) {
-					Log.e("tomaanina", e.getMessage(), e.getCause());
 				}
-			}
-		});
+			});
 
+			noSearchButton.setOnClickListener(new OnClickListener() {
+
+				public void onClick(View v) {
+					Intent intent = new Intent(CityFinder.this,
+							MainActivity.class);
+					startActivity(intent);
+					
+				}
+			});
+
+			homeButton.setOnClickListener(new OnClickListener() {
+
+				public void onClick(View v) {
+					Intent intent = new Intent(CityFinder.this,
+							MainActivity.class);
+					startActivity(intent);
+				}
+			});
+		} catch (Exception e) {
+			Log.e("tomaanina", e.getMessage(), e.getCause());
+		}
 	}
 
 	public void stopSearch(Location location) {
@@ -129,23 +193,19 @@ public class CityFinder extends Activity {
 		// cityFinderTask.cancel(true);
 
 		// }
-		cityFinderTask = new CityFinderTask();
-		CityFinder.this.cityFinderTask.execute(new Location[] { location });
+		cityFinderDatabaseTask = new CityFinderDatabaseTask();
+		this.cityFinderDatabaseTask.execute(new Location[] { location });
 
 	}
 
-	private class CityFinderTask extends AsyncTask<Location, String, String> {
-		private boolean done;
+	private class CityFinderDatabaseTask extends
+			AsyncTask<Location, String, String> {
 		private Location loc;
 
 		@Override
 		protected void onPreExecute() {
 			try {
-				// done = false;
 				super.onPreExecute();
-				// cityLoc = new CityLocationListener(CityFinder.this);
-				// cityLoc.startSearch();
-				// progressDialog.setVisibility(View.VISIBLE);
 			} catch (Exception e) {
 				Log.e("", e.getMessage(), e.getCause());
 			}
@@ -155,18 +215,60 @@ public class CityFinder extends Activity {
 		protected String doInBackground(Location... params) {
 			try {
 				// TODO: wait 10 seconds then stop the process and invoke
-				// LocationListener stopper.
-				// cityLoc.stopSearch();
 				Location location = params[0];
-				// Manager manager = new Manager(CityFinder.this);
 				this.loc = location;
-				// manager.findCurrentCity(location.getLatitude(),
-				// location.getLongitude());
-				// Log.i("H2: ", pos.City);
 			} catch (Exception e) {
 				Log.e("", e.getMessage(), e.getCause());
 			}
 			return null;
+		}
+
+		protected void onPostExecute(String result) {
+			progressDialog.setVisibility(View.GONE);
+			City city = null;
+			if (CityFinder.this.searchType == CityFinder.SEARCH_TYPE_DATABASE) {
+				try {
+
+					Manager manager = new Manager(CityFinder.this);
+
+					city = manager.findCurrentCity(loc.getLatitude(),
+							loc.getLongitude());
+					resultTextView.setText(city.name);
+					CityFinder.this.city = city;
+
+					
+					CityFinder.this.findCityNoInternet.setVisibility(View.GONE);
+					CityFinder.this.findCityUsingInternet.setVisibility(View.GONE);
+					CityFinder.this.noSearchButton.setVisibility(View.GONE);
+					CityFinder.this.researchButton.setVisibility(View.VISIBLE);
+					CityFinder.this.homeButton.setVisibility(View.VISIBLE);
+					CityFinder.this.correctButton.setVisibility(View.VISIBLE);
+					CityFinder.this.descTextView.setText(CityFinder.this.getString(R.string.cityfinder_desc2));
+
+				} catch (Exception e) {
+					Log.e("tomaanina", e.getMessage(), e.getCause());
+				}
+			} else {
+				try {
+					city = this.getPosition(loc.getLongitude(),
+							loc.getLatitude());
+
+					resultTextView.setText(city.name);
+					CityFinder.this.city = city;
+					
+					CityFinder.this.findCityNoInternet.setVisibility(View.GONE);
+					CityFinder.this.findCityUsingInternet.setVisibility(View.GONE);
+					CityFinder.this.noSearchButton.setVisibility(View.GONE);
+					CityFinder.this.descTextView.setText(CityFinder.this.getString(R.string.cityfinder_desc2));
+					CityFinder.this.researchButton.setVisibility(View.VISIBLE);
+					CityFinder.this.homeButton.setVisibility(View.VISIBLE);
+					CityFinder.this.correctButton.setVisibility(View.VISIBLE);
+				} catch (Exception e) {
+					Log.e("tomaanina", e.getMessage(), e.getCause());
+				}
+
+			}
+
 		}
 
 		public City getPosition(double lon, double lat)
@@ -183,7 +285,7 @@ public class CityFinder extends Activity {
 			city.timeZone = getTimeZone(data[TIME_ZONE]);
 			city.latitude = Double.toString(lat);
 			city.longitude = Double.toString(lon);
-			
+
 			return city;
 		}
 
@@ -298,22 +400,6 @@ public class CityFinder extends Activity {
 				e.printStackTrace();
 			}
 			return content;
-		}
-
-		protected void onPostExecute(String result) {
-			progressDialog.setVisibility(View.GONE);
-			City city = null;
-			try {
-				city = this.getPosition(loc.getLongitude(), loc.getLatitude());
-
-				textViewResult.setText("Done:" + city.name + " , "
-						+ loc.getLongitude() + " , " + loc.getLatitude());
-				CityFinder.this.city = city;
-				CityFinder.this.notCorrectButton.setVisibility(View.VISIBLE);
-				CityFinder.this.correctButton.setVisibility(View.VISIBLE);
-			} catch (Exception e) {
-				Log.e("tomaanina", e.getMessage(), e.getCause());
-			}
 		}
 
 	}

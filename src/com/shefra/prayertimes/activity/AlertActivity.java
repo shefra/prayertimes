@@ -50,6 +50,7 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 			mPlayer = MediaPlayer.create(AlertActivity.this, R.raw.majed);
 			mPlayer.setOnCompletionListener(AlertActivity.this);
 			mPlayer.start();
+			
 
 		} catch (Exception e) {
 

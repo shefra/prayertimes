@@ -4,10 +4,19 @@
     android:versionCode="3"
     android:versionName="1.0.5 Beta" >
 
-    <uses-sdk android:minSdkVersion="7" />
+    <uses-sdk
+        android:minSdkVersion="7"
+        android:targetSdkVersion="7" />
+
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" >
+    </uses-permission>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
 
     <application
-        android:debuggable="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name" >
         <activity
@@ -40,8 +49,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.CityFinder" >
-        </activity>
 
         <receiver
             android:name=".services.OnBootService"
@@ -52,22 +59,16 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".services.PrayerReceiver" >
+        </receiver>
 
-  		<receiver android:name=".services.PrayerReceiver"></receiver>
-        
         <service android:name=".services.PrayerService" >
         </service>
-        <activity android:name=".activity.CityFinderDatabase"></activity>
-        <activity android:name=".activity.CityFinderManual"></activity>
+
+        <activity android:name=".activity.CityFinder" >
+        </activity>
+        <activity android:name=".activity.CityFinderManual" >
+        </activity>
     </application>
-    
-    <uses-permission android:name="android.permission.SET_DEBUG_APP"></uses-permission>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
- 	<uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
-    
-    
 
 </manifest>
