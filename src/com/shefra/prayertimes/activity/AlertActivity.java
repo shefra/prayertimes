@@ -19,6 +19,7 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -38,6 +39,9 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 		 PowerManager pm = (PowerManager) this.getApplicationContext().getSystemService(Context.POWER_SERVICE);
 	        wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
 	       wakeLock.acquire();
+	       getWindow().addFlags(
+                   WindowManager.LayoutParams.FLAG_FULLSCREEN
+                           | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		//Manager.acquireScreen(this);
 
 		String ardroid = getString(R.string.azandoaa);
