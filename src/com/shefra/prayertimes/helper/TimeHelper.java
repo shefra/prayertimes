@@ -56,6 +56,12 @@ public class TimeHelper {
 		return sec;
 	}
 
+	public static String getTimeWithoutSeconds(String time){
+		String[] t = time.split(":");
+		String[] AMORPM = t[2].split(" ");
+		String newTime = t[0]+":"+t[1]+" " +AMORPM[1];
+		return newTime;
+	}
 	public static String secondsToTime(double time) {
 
 		int hours = (int) (time / 3600);

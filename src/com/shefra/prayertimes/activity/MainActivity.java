@@ -11,6 +11,7 @@ import java.util.TimerTask;
 import com.shefra.prayertimes.R;
 import com.shefra.prayertimes.helper.DatabaseHelper;
 import com.shefra.prayertimes.helper.TimeHelper;
+import com.shefra.prayertimes.helper.Typefaces;
 import com.shefra.prayertimes.manager.*;
 
 import android.app.Activity;
@@ -87,8 +88,26 @@ public class MainActivity extends Activity {
 		preference.fetchCurrentPreferences();
 		TextView cityTextView = (TextView) findViewById(R.id.cityName);
 		cityTextView.setText(preference.city.name);
+		cityTextView.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/DroidNaskh-Regular.ttf"));
 		
-		 // get current date
+		TextView remainingTV = (TextView) findViewById(R.id.remainingText);
+		TextView cityLabelTV = (TextView) findViewById(R.id.cityLabel);
+		TextView fajrTV = (TextView) findViewById(R.id.fajrTV);
+		TextView duhrTV = (TextView) findViewById(R.id.duhrTV);
+		TextView asrTV = (TextView) findViewById(R.id.asrTV);
+		TextView magribTV = (TextView) findViewById(R.id.magribTV);
+		TextView ishaTV = (TextView) findViewById(R.id.ishaTV);
+
+		remainingTV.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/DroidNaskh-Regular.ttf"));
+		cityLabelTV.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/DroidNaskh-Regular.ttf"));
+		
+		fajrTV.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/KacstTitle.ttf"));
+		duhrTV.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/KacstTitle.ttf"));
+		asrTV.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/KacstTitle.ttf"));
+		magribTV.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/KacstTitle.ttf"));
+		ishaTV.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/KacstTitle.ttf"));
+
+		// get current date
 		 // read Android/Java documentation for more info
 		 Date date = new Date();
 		 final int dd = date.getDate();//calendar.get(Calendar.DAY_OF_MONTH);
@@ -108,11 +127,21 @@ public class MainActivity extends Activity {
 			TextView asrTime = (TextView) findViewById(R.id.asrTime);
 			TextView magribTime = (TextView) findViewById(R.id.magribTime);
 			TextView ishaTime = (TextView) findViewById(R.id.ishaTime);
-			fajrTime.setText(prayersList.get(0));
-			duhrTime.setText(prayersList.get(1));
-			asrTime.setText(prayersList.get(2));
-			magribTime.setText(prayersList.get(3));
-			ishaTime.setText(prayersList.get(4));
+			
+			// Dump sol. replace AM and PM with Arabic Letters, The current font is not good enough to be used
+			// with Arabic Letters
+			//String timeFormatted = prayersList.get(0).replace("AM", this.getString(R.string.am)).replace("PM",this.getString(R.string.pm));
+
+			fajrTime.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/Roboto-Regular.ttf"));
+			fajrTime.setText(TimeHelper.getTimeWithoutSeconds(prayersList.get(0)));
+			duhrTime.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/Roboto-Regular.ttf"));
+			duhrTime.setText(TimeHelper.getTimeWithoutSeconds(prayersList.get(1)));
+			asrTime.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/Roboto-Regular.ttf"));
+			asrTime.setText(TimeHelper.getTimeWithoutSeconds(prayersList.get(2)));
+			magribTime.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/Roboto-Regular.ttf"));
+			magribTime.setText(TimeHelper.getTimeWithoutSeconds(prayersList.get(3)));
+			ishaTime.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/Roboto-Regular.ttf"));
+			ishaTime.setText(TimeHelper.getTimeWithoutSeconds(prayersList.get(4)));
 		
 			// Timer used to decrease the remaining time to next prayer
 			updateRemainingTime(yy, mm, dd); //to calculate the nearest  pray 
@@ -162,6 +191,7 @@ public class MainActivity extends Activity {
 		int time = Manager.computeNearestPrayerTime(getApplicationContext(),h, m,s, yy, mm, dd);
 		int def =  TimeHelper.different((h*3600+m*60+s),time);
 		remainingTime.setText(TimeHelper.secondsToTime(def));	
+		remainingTime.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/Roboto-Regular.ttf"));
 	}
 
 	// add main menu items
@@ -171,7 +201,6 @@ public class MainActivity extends Activity {
 		menu.add(0, 3, 3, getString(R.string.about));
 		// find the current city automatically
 		menu.add(0, 4, 4, getString(R.string.autoCityTitle));
-		menu.add(0, 5, 5, "New City Finder");
 		return true;
 	}
 

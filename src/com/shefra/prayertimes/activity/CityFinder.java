@@ -78,7 +78,7 @@ public class CityFinder extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.cityfinderdatabase);
+		setContentView(R.layout.cityfinder);
 		try {
 			descTextView = (TextView) findViewById(R.id.dlgMsg);
 			resultTextView = (TextView) findViewById(R.id.resultTextView);

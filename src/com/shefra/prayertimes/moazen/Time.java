@@ -49,17 +49,19 @@ public class Time {
 			this.m_zone = "PM";
 
 		if (ivar > 12) { // convert hour from 24 to 12
-			if(ivar % 12 > 9)
+			if (ivar % 12 > 9)
 				time += toString(ivar % 12);
 			else
-				time += "0"+toString(ivar % 12);
+				time += "0" + toString(ivar % 12);
 			this.m_hour = ivar % 12;
 		} else if (ivar == 12) {
 			time += toString(ivar);
 			this.m_hour = ivar;
 		} else {
-			
-			time += "0"+toString(ivar);
+			if (ivar <= 9)
+				time += "0" + toString(ivar);
+			else
+				time += toString(ivar);
 			this.m_hour = ivar;
 		}
 
@@ -71,7 +73,7 @@ public class Time {
 		this.m_minute = ivar;
 		if (ivar < 10) {
 			time += "0" + toString(ivar);
-		} else {	
+		} else {
 			time += toString(ivar);
 		}
 
@@ -81,7 +83,7 @@ public class Time {
 		var *= 60;
 		ivar = (int) var;// for seconds
 		this.m_second = ivar;
-	    
+
 		if (ivar < 10) {
 			time += "0" + toString(ivar);
 		} else {
