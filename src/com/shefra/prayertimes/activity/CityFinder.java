@@ -81,6 +81,8 @@ public class CityFinder extends Activity {
 	private Button correctButton;
 	private TextView descTextView;
 	private Timer myTimer;
+	public boolean searchDBError;
+	public boolean searchInternetError;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -113,8 +115,7 @@ public class CityFinder extends Activity {
 						cityLoc.startSearch();
 						progressDialog.setVisibility(View.VISIBLE);
 						CityFinder.this.waitSearch(SEARCH_TIME);
-						
-						
+
 					} catch (Exception e) {
 						Log.e("tomaanina", e.getMessage(), e.getCause());
 					}
@@ -130,7 +131,7 @@ public class CityFinder extends Activity {
 						cityLoc = new CityLocationListener(CityFinder.this, 2);
 						cityLoc.startSearch();
 						progressDialog.setVisibility(View.VISIBLE);
-						
+
 						CityFinder.this.waitSearch(SEARCH_TIME);
 
 					} catch (Exception e) {
@@ -194,25 +195,26 @@ public class CityFinder extends Activity {
 	}
 
 	private void waitSearch(int ms) {
-		 myTimer =new Timer();
-		TimerTask scanTask ;
+		myTimer = new Timer();
+		TimerTask scanTask;
 		final Handler handler = new Handler();
 
 		scanTask = new TimerTask() {
-		    public void run() {
-		            
-					handler.post(new Runnable() {
-		                    public void run() {
-		                    		try {
-		                    			CityFinder.this.cityLoc.updateWithNewLocation(null);
-		                    		} catch (Exception e) {
-		    							
-		    						} 
-		                        }
-		               });
-		        }}; 
+			public void run() {
 
-		myTimer.schedule(scanTask, ms); 		
+				handler.post(new Runnable() {
+					public void run() {
+						try {
+							CityFinder.this.cityLoc.updateWithNewLocation(null);
+						} catch (Exception e) {
+
+						}
+					}
+				});
+			}
+		};
+
+		myTimer.schedule(scanTask, ms);
 	}
 
 	public void onSearchStopped(Location location) {
@@ -249,6 +251,30 @@ public class CityFinder extends Activity {
 				// TODO: wait 10 seconds then stop the process and invoke
 				Location location = params[0];
 				this.loc = location;
+
+				if (CityFinder.this.searchType == CityFinder.SEARCH_TYPE_DATABASE) {
+					try {
+
+						Manager manager = new Manager(CityFinder.this);
+
+						city = manager.findCurrentCity(loc.getLatitude(),
+								loc.getLongitude());
+						CityFinder.this.searchDBError = false;
+
+					} catch (Exception e) {
+						CityFinder.this.searchDBError = true;
+					}
+				} else {
+					try {
+						city = this.getPosition(loc.getLongitude(),
+								loc.getLatitude());
+						CityFinder.this.searchInternetError = false;
+
+					} catch (Exception e) {
+						CityFinder.this.searchInternetError = true;
+
+					}
+				}
 			} catch (Exception e) {
 				Log.e("", e.getMessage(), e.getCause());
 			}
@@ -257,7 +283,6 @@ public class CityFinder extends Activity {
 
 		protected void onPostExecute(String result) {
 			progressDialog.setVisibility(View.GONE);
-			City city = null;
 			if (this.loc == null) {
 				AlertDialog.Builder builder = new AlertDialog.Builder(
 						CityFinder.this);
@@ -289,13 +314,12 @@ public class CityFinder extends Activity {
 			if (CityFinder.this.searchType == CityFinder.SEARCH_TYPE_DATABASE) {
 				try {
 
-					Manager manager = new Manager(CityFinder.this);
+					if (CityFinder.this.searchDBError) {
+						throw new Exception();
+					}
 
-					city = manager.findCurrentCity(loc.getLatitude(),
-							loc.getLongitude());
+					resultTextView.setText(CityFinder.this.city.name);
 
-					resultTextView.setText(city.name);
-					CityFinder.this.city = city;
 					CityFinder.this.findCityNoInternet.setVisibility(View.GONE);
 					CityFinder.this.findCityUsingInternet
 							.setVisibility(View.GONE);
@@ -319,11 +343,10 @@ public class CityFinder extends Activity {
 				}
 			} else {
 				try {
-					city = this.getPosition(loc.getLongitude(),
-							loc.getLatitude());
-
-					resultTextView.setText(city.name);
-					CityFinder.this.city = city;
+					if (CityFinder.this.searchInternetError) {
+						throw new Exception();
+					}
+					resultTextView.setText(CityFinder.this.city.name);
 					CityFinder.this.findCityNoInternet.setVisibility(View.GONE);
 					CityFinder.this.findCityUsingInternet
 							.setVisibility(View.GONE);
@@ -504,8 +527,9 @@ public class CityFinder extends Activity {
 	public void onDestroy() {
 		super.onDestroy();
 		// TODO : Double check
-		// is that thread safe ? as I know , LocationListener runs on different thread ?
-		if(this.cityLoc != null)
+		// is that thread safe ? as I know , LocationListener runs on different
+		// thread ?
+		if (this.cityLoc != null)
 			this.cityLoc.stopSearch();
 	}
 

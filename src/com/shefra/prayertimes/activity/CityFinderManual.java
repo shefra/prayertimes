@@ -32,6 +32,7 @@ public class CityFinderManual extends Activity {
 	private View caneclButton;
 	private boolean onCreateDone;
 	private Preference preference;
+	private DatabaseHelper databaseHelper;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -39,14 +40,18 @@ public class CityFinderManual extends Activity {
 		try {
 			super.onCreate(savedInstanceState);
 			this.setContentView(R.layout.cityfindermanual);
+
+			databaseHelper = new DatabaseHelper(getApplicationContext());
+
 			citySpinner = (Spinner) findViewById(R.id.citySpinner);
 			countrySpinner = (Spinner) findViewById(R.id.countrySpinner);
 			Manager manager = new Manager(this);
-		    preference = manager.getPreference();
+			preference = manager.getPreference();
 			preference.fetchCurrentPreferences();
 
 			this.fillCountrySpinner();
-			countrySpinner.setSelection(Integer.valueOf(preference.city.country.id)-1);
+			countrySpinner.setSelection(Integer
+					.valueOf(preference.city.country.id) - 1);
 			this.fillCitySpinner(Long.parseLong(preference.city.country.id));
 
 			countrySpinner
@@ -54,9 +59,11 @@ public class CityFinderManual extends Activity {
 
 						public void onItemSelected(AdapterView<?> parentView,
 								View selectedItemView, int position, long id) {
-							// don't fill the Spinner if onCreate method is working
-							// to prevent double filling , since it has been filled 
-								fillCitySpinner(id);
+							// don't fill the Spinner if onCreate method is
+							// working
+							// to prevent double filling , since it has been
+							// filled
+							fillCitySpinner(id);
 						}
 
 						public void onNothingSelected(AdapterView<?> parentView) {
@@ -65,26 +72,22 @@ public class CityFinderManual extends Activity {
 
 					});
 
-
 			saveButton = (Button) findViewById(R.id.save);
 			caneclButton = (Button) findViewById(R.id.cancel);
 
 			saveButton.setOnClickListener(new OnClickListener() {
 
 				public void onClick(View arg0) {
-					try{
-					DatabaseHelper databaseHelper = new DatabaseHelper(
-							CityFinderManual.this.getApplicationContext());
-					long id = citySpinner.getSelectedItemId();
-					City city = databaseHelper.getCity(id);
-					Manager manager = new Manager(CityFinderManual.this);
-					manager.updateCity(city, CityFinderManual.this);
-					databaseHelper.close();
-					Intent intent = new Intent(CityFinderManual.this,
-							MainActivity.class);
-					startActivity(intent);
-					}catch(Exception e){
-						Log.e("tomaanina",e.getMessage(),e.getCause());
+					try {
+						long id = citySpinner.getSelectedItemId();
+						City city = databaseHelper.getCity(id);
+						Manager manager = new Manager(CityFinderManual.this);
+						manager.updateCity(city, CityFinderManual.this);
+						Intent intent = new Intent(CityFinderManual.this,
+								MainActivity.class);
+						startActivity(intent);
+					} catch (Exception e) {
+						Log.e("tomaanina", e.getMessage(), e.getCause());
 					}
 				}
 
@@ -105,6 +108,14 @@ public class CityFinderManual extends Activity {
 		}
 	}
 
+	public void onStart() {
+		super.onStart();
+		if (databaseHelper != null) {
+			databaseHelper.close();
+		}
+		databaseHelper = new DatabaseHelper(getApplicationContext());
+	}
+
 	private int getItemPosition(Spinner spinner, String name) {
 		int i = 0;
 		SpinnerAdapter adapter = spinner.getAdapter();
@@ -119,39 +130,52 @@ public class CityFinderManual extends Activity {
 	}
 
 	private void fillCountrySpinner() {
-		DatabaseHelper databaseHelper = new DatabaseHelper(
-				getApplicationContext());
 
 		Cursor cursor = databaseHelper.getCountryList();
 
 		String[] columns = new String[] { "country_name" };
 		int[] to = new int[] { android.R.id.text1 };
 
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+		SimpleCursorAdapter countryAdapter = new SimpleCursorAdapter(this,
 				android.R.layout.simple_spinner_item, cursor, columns, to);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		countryAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		this.countrySpinner.setAdapter(adapter);
-		cursor.close();
+		this.countrySpinner.setAdapter(countryAdapter);
 
 	}
 
 	private void fillCitySpinner(long id) {
-		DatabaseHelper databaseHelper = new DatabaseHelper(
-				getApplicationContext());
 
 		Cursor cursor = databaseHelper.getCityCursor(id);
 
 		String[] columns = new String[] { "cityName" };
 		int[] to = new int[] { android.R.id.text1 };
 
-		SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
+		SimpleCursorAdapter cityAdapter = new SimpleCursorAdapter(this,
 				android.R.layout.simple_spinner_item, cursor, columns, to);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		cityAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-		this.citySpinner.setAdapter(adapter);
-		cursor.close();
+		this.citySpinner.setAdapter(cityAdapter);
 	}
 
-	
+	public void onStop() {
+		super.onStop();
+		SimpleCursorAdapter a = (SimpleCursorAdapter) this.countrySpinner
+				.getAdapter();
+		a.getCursor().close();
+		SimpleCursorAdapter b = (SimpleCursorAdapter) this.citySpinner
+				.getAdapter();
+		b.getCursor().close();
+
+		databaseHelper.close();
+
+	}
+
+	public void onDestroy() {
+		super.onDestroy();
+
+	}
+
 }

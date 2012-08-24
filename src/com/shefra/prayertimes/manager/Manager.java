@@ -49,7 +49,6 @@ import com.shefra.prayertimes.moazen.PrayerTime;
 import com.shefra.prayertimes.services.PrayerReceiver;
 import com.shefra.prayertimes.services.PrayerService;
 
-
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.KeyguardManager;
@@ -91,31 +90,45 @@ public class Manager {
 		databaseHelper = new DatabaseHelper(applicationContext);
 	}
 
-	public static void acquireScreen(Context context){
-       PowerManager pm = (PowerManager) context.getApplicationContext().getSystemService(Context.POWER_SERVICE);
-       WakeLock wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
-       wakeLock.acquire();
-	}
-	
-	public static void releaseScreen(Context context){
-        KeyguardManager keyguardManager = (KeyguardManager) context.getApplicationContext().getSystemService(Context.KEYGUARD_SERVICE); 
-        KeyguardLock keyguardLock =  keyguardManager.newKeyguardLock("TAG");
-        keyguardLock.disableKeyguard();
-	}
-	
-	public static void initPrayerAlarm(Service service,Class<PrayerReceiver> receiver){
-		Manager.prayerService = service; // we may need it ?
-		Manager.prayerIntet = new Intent(service,receiver);
-		Manager.prayerPendingIntent = PendingIntent.getBroadcast(service, 1234432, Manager.prayerIntet, PendingIntent.FLAG_UPDATE_CURRENT);
-		Manager.prayerAlarmManager  = (AlarmManager) service.getSystemService(Context.ALARM_SERVICE);
-		Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000,Manager.prayerPendingIntent);
+	public static void acquireScreen(Context context) {
+		PowerManager pm = (PowerManager) context.getApplicationContext()
+				.getSystemService(Context.POWER_SERVICE);
+		WakeLock wakeLock = pm
+				.newWakeLock(
+						(PowerManager.SCREEN_BRIGHT_WAKE_LOCK
+								| PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP),
+						"TAG");
+		wakeLock.acquire();
 	}
 
-	public static void updatePrayerAlarm(long newTimeInterval){
-		Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + newTimeInterval,Manager.prayerPendingIntent);
+	public static void releaseScreen(Context context) {
+		KeyguardManager keyguardManager = (KeyguardManager) context
+				.getApplicationContext().getSystemService(
+						Context.KEYGUARD_SERVICE);
+		KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("TAG");
+		keyguardLock.disableKeyguard();
 	}
-	
-	public static void cancelPrayerAlarm(){
+
+	public static void initPrayerAlarm(Service service,
+			Class<PrayerReceiver> receiver) {
+		Manager.prayerService = service; // we may need it ?
+		Manager.prayerIntet = new Intent(service, receiver);
+		Manager.prayerPendingIntent = PendingIntent
+				.getBroadcast(service, 1234432, Manager.prayerIntet,
+						PendingIntent.FLAG_UPDATE_CURRENT);
+		Manager.prayerAlarmManager = (AlarmManager) service
+				.getSystemService(Context.ALARM_SERVICE);
+		Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP,
+				System.currentTimeMillis() + 1000, Manager.prayerPendingIntent);
+	}
+
+	public static void updatePrayerAlarm(long newTimeInterval) {
+		Manager.prayerAlarmManager.set(AlarmManager.RTC_WAKEUP,
+				System.currentTimeMillis() + newTimeInterval,
+				Manager.prayerPendingIntent);
+	}
+
+	public static void cancelPrayerAlarm() {
 		Manager.prayerAlarmManager.cancel(prayerPendingIntent);
 	}
 
@@ -173,103 +186,77 @@ public class Manager {
 		return nearestPrayer;
 	}
 
-	/*public static int computePreviuosPrayerTime(Context context, int hour,
-			int min, int sec, int year, int month, int day) throws IOException {
-
-		ArrayList<String> prayerTimes = getPrayerTimes(context, day, month,
-				year);
-		Integer[] prayerTimeInSeconds = new Integer[5];
-
-		// Convert prayer times to seconds
-		prayerTimeInSeconds[0] = new Integer(TimeHelper.getSec(
-				TimeHelper.to24(prayerTimes.get(0)),
-				TimeHelper.getMinute(prayerTimes.get(0)),
-				TimeHelper.getSecond(prayerTimes.get(0))));
-		prayerTimeInSeconds[1] = new Integer(TimeHelper.getSec(
-				TimeHelper.to24(prayerTimes.get(1)),
-				TimeHelper.getMinute(prayerTimes.get(1)),
-				TimeHelper.getSecond(prayerTimes.get(1))));
-		prayerTimeInSeconds[2] = new Integer(TimeHelper.getSec(
-				TimeHelper.to24(prayerTimes.get(2)),
-				TimeHelper.getMinute(prayerTimes.get(2)),
-				TimeHelper.getSecond(prayerTimes.get(2))));
-		prayerTimeInSeconds[3] = new Integer(TimeHelper.getSec(
-				TimeHelper.to24(prayerTimes.get(3)),
-				TimeHelper.getMinute(prayerTimes.get(3)),
-				TimeHelper.getSecond(prayerTimes.get(3))));
-		prayerTimeInSeconds[4] = new Integer(TimeHelper.getSec(
-				TimeHelper.to24(prayerTimes.get(4)),
-				TimeHelper.getMinute(prayerTimes.get(4)),
-				TimeHelper.getSecond(prayerTimes.get(4))));
-
-		// sort descending
-		Arrays.sort(prayerTimeInSeconds, new Comparator<Integer>() {
-			@Override
-			public int compare(Integer lhs, Integer rhs) {
-				return rhs.compareTo(lhs);
-			}
-		});
-
-		// default value is the last prayer in the day ( Witch is Isha)
-		// remember , we sorted it descending
-		int previousTime = prayerTimeInSeconds[0];
-		int firstTime = prayerTimeInSeconds[4];
-		// convert current time to seconds
-		int currentTime = hour * 3600 + min * 60 + sec;
-		int i=0;
-		for (Integer prayertime : prayerTimeInSeconds) {
-			int pt = prayertime;
-			i++;
-			// return the last prayer
-			if (pt <= currentTime)
-				return pt;
-		}
-		// in case if the current time is less then all the prayers time
-
-		if(i == 5)
-			return firstTime;
-		else
-			return previousTime;
-		
-	}*/
+	/*
+	 * public static int computePreviuosPrayerTime(Context context, int hour,
+	 * int min, int sec, int year, int month, int day) throws IOException {
+	 * 
+	 * ArrayList<String> prayerTimes = getPrayerTimes(context, day, month,
+	 * year); Integer[] prayerTimeInSeconds = new Integer[5];
+	 * 
+	 * // Convert prayer times to seconds prayerTimeInSeconds[0] = new
+	 * Integer(TimeHelper.getSec( TimeHelper.to24(prayerTimes.get(0)),
+	 * TimeHelper.getMinute(prayerTimes.get(0)),
+	 * TimeHelper.getSecond(prayerTimes.get(0)))); prayerTimeInSeconds[1] = new
+	 * Integer(TimeHelper.getSec( TimeHelper.to24(prayerTimes.get(1)),
+	 * TimeHelper.getMinute(prayerTimes.get(1)),
+	 * TimeHelper.getSecond(prayerTimes.get(1)))); prayerTimeInSeconds[2] = new
+	 * Integer(TimeHelper.getSec( TimeHelper.to24(prayerTimes.get(2)),
+	 * TimeHelper.getMinute(prayerTimes.get(2)),
+	 * TimeHelper.getSecond(prayerTimes.get(2)))); prayerTimeInSeconds[3] = new
+	 * Integer(TimeHelper.getSec( TimeHelper.to24(prayerTimes.get(3)),
+	 * TimeHelper.getMinute(prayerTimes.get(3)),
+	 * TimeHelper.getSecond(prayerTimes.get(3)))); prayerTimeInSeconds[4] = new
+	 * Integer(TimeHelper.getSec( TimeHelper.to24(prayerTimes.get(4)),
+	 * TimeHelper.getMinute(prayerTimes.get(4)),
+	 * TimeHelper.getSecond(prayerTimes.get(4))));
+	 * 
+	 * // sort descending Arrays.sort(prayerTimeInSeconds, new
+	 * Comparator<Integer>() {
+	 * 
+	 * @Override public int compare(Integer lhs, Integer rhs) { return
+	 * rhs.compareTo(lhs); } });
+	 * 
+	 * // default value is the last prayer in the day ( Witch is Isha) //
+	 * remember , we sorted it descending int previousTime =
+	 * prayerTimeInSeconds[0]; int firstTime = prayerTimeInSeconds[4]; //
+	 * convert current time to seconds int currentTime = hour * 3600 + min * 60
+	 * + sec; int i=0; for (Integer prayertime : prayerTimeInSeconds) { int pt =
+	 * prayertime; i++; // return the last prayer if (pt <= currentTime) return
+	 * pt; } // in case if the current time is less then all the prayers time
+	 * 
+	 * if(i == 5) return firstTime; else return previousTime;
+	 * 
+	 * }
+	 */
 
 	// -----------set method-----------//
-	/*public void setSetting(SettingAttributes sa) {
-		azanAttribute aA = databaseHelper.getData(sa.city.cityNo);
-		sa.city.latitude = aA.latitude;
-		sa.city.longitude = aA.longitude;
-		sa.city.timeZone = aA.timeZone;
-		sa.country.countryNo = Integer.parseInt(aA.countryNo);
-		this.setSettingAttributes(sa);
-	} 
-
-	// -----------XML methods-----------//
-	public void setSettingAttributes(SettingAttributes sa) {
-		SharedPreferences pref = PreferenceManager
-				.getDefaultSharedPreferences(this.context);
-		Editor editor = pref.edit();
-		editor.putString("country", Integer.toString(sa.country.countryNo));
-		editor.putString("city", Integer.toString(sa.city.cityNo));
-		editor.putString("latitude", sa.city.latitude);
-		editor.putString("longitude", sa.city.longitude);
-		editor.putString("timeZone", sa.city.timeZone);
-		editor.putString("isCityChanged", "true");
-		editor.commit();
-	}
-
-	public static SettingAttributes getSettingAttributes(Context context) {
-		SettingAttributes sa = new SettingAttributes();
-		SharedPreferences pref = PreferenceManager
-				.getDefaultSharedPreferences(context);
-		// Mecca values
-		sa.city.timeZone = pref.getString("timeZone", "3");
-		sa.city.latitude = pref.getString("latitude", "21.43");
-		sa.city.longitude = pref.getString("longitude", "39.82");
-		sa.calender = pref.getString("calendar", "UmmAlQuraUniv");
-		sa.mazhab = pref.getString("mazhab", "Default");
-		sa.season = pref.getString("season", "Winter");
-		return sa;
-	}*/
+	/*
+	 * public void setSetting(SettingAttributes sa) { azanAttribute aA =
+	 * databaseHelper.getData(sa.city.cityNo); sa.city.latitude = aA.latitude;
+	 * sa.city.longitude = aA.longitude; sa.city.timeZone = aA.timeZone;
+	 * sa.country.countryNo = Integer.parseInt(aA.countryNo);
+	 * this.setSettingAttributes(sa); }
+	 * 
+	 * // -----------XML methods-----------// public void
+	 * setSettingAttributes(SettingAttributes sa) { SharedPreferences pref =
+	 * PreferenceManager .getDefaultSharedPreferences(this.context); Editor
+	 * editor = pref.edit(); editor.putString("country",
+	 * Integer.toString(sa.country.countryNo)); editor.putString("city",
+	 * Integer.toString(sa.city.cityNo)); editor.putString("latitude",
+	 * sa.city.latitude); editor.putString("longitude", sa.city.longitude);
+	 * editor.putString("timeZone", sa.city.timeZone);
+	 * editor.putString("isCityChanged", "true"); editor.commit(); }
+	 * 
+	 * public static SettingAttributes getSettingAttributes(Context context) {
+	 * SettingAttributes sa = new SettingAttributes(); SharedPreferences pref =
+	 * PreferenceManager .getDefaultSharedPreferences(context); // Mecca values
+	 * sa.city.timeZone = pref.getString("timeZone", "3"); sa.city.latitude =
+	 * pref.getString("latitude", "21.43"); sa.city.longitude =
+	 * pref.getString("longitude", "39.82"); sa.calender =
+	 * pref.getString("calendar", "UmmAlQuraUniv"); sa.mazhab =
+	 * pref.getString("mazhab", "Default"); sa.season = pref.getString("season",
+	 * "Winter"); return sa; }
+	 */
 
 	public static ArrayList<String> getPrayerTimes(Context context, int dd,
 			int mm, int yy) throws IOException {
@@ -281,7 +268,7 @@ public class Manager {
 		PrayerTime prayerTime = new PrayerTime(
 				Double.parseDouble(preference.city.longitude),
 				Double.parseDouble(preference.city.latitude),
-				(int)preference.city.timeZone, dd, mm, yy);
+				(int) preference.city.timeZone, dd, mm, yy);
 		prayerTime.setSeason(preference.season);
 		prayerTime.setCalender(preference.calender);
 		prayerTime.setMazhab(preference.mazhab);
@@ -336,13 +323,16 @@ public class Manager {
 				}
 				if (cityNo == -1)
 					cityNo = 1;
-				
+
 				City city = databaseHelper.getCity(cityNo);
+				databaseHelper.close();
 				return city;
-				
+
 			}
-			
+
 		} catch (Exception e) {
+		} finally {
+			databaseHelper.close();
 		}
 		return null;
 
@@ -357,13 +347,16 @@ public class Manager {
 				.getSystemService(Context.AUDIO_SERVICE);
 
 		if (azanMode.equals("full")
-				&& am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL && Manager.isPhoneIdle == true) {
+				&& am.getRingerMode() == AudioManager.RINGER_MODE_NORMAL
+				&& Manager.isPhoneIdle == true) {
 			intent = new Intent(context, AlertActivity.class);
-			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
-			context.startActivity(intent); 
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+					| Intent.FLAG_ACTIVITY_NO_HISTORY);
+			context.startActivity(intent);
 		} else if (!(azanMode.equals("disable"))
 				&& (azanMode.equals("short") || (am.getRingerMode() == AudioManager.RINGER_MODE_SILENT || am
-						.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE)) || Manager.isPhoneIdle == false) {
+						.getRingerMode() == AudioManager.RINGER_MODE_VIBRATE))
+				|| Manager.isPhoneIdle == false) {
 
 			CharSequence contentTitle = context.getString(R.string.notTitle);
 			CharSequence contentText = context.getString(R.string.notContent);
@@ -389,11 +382,11 @@ public class Manager {
 	}
 
 	public Preference getPreference() {
-		
+
 		return new Preference(this.context);
 	}
-	
-	public void updateCity(City city,Activity activity){
+
+	public void updateCity(City city, Activity activity) {
 		Preference pref = this.getPreference();
 		pref.setCityName(city.name);
 		pref.setCityNo(city.id);
@@ -407,8 +400,7 @@ public class Manager {
 
 	public void restartPrayerService(Activity activty) {
 		Intent intent = new Intent(activty, PrayerService.class);
-		context.startService(intent);		
+		context.startService(intent);
 	}
-	
 
 }
