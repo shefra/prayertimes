@@ -95,6 +95,7 @@
     <string name="seasonDlgTitle">التوقيت </string>
     <string name="autoSearch">البحث التلقائي</string>
     <string name="manualSearch">البحث اليدوي</string>
+    <string name="reSearch">المحاولة مرة أخرى</string>
     <string name="settings">الإعدادات</string>
     <string name="about">عن الفريق</string>
     <string name="close">إغلاق</string>
@@ -107,7 +108,7 @@
     <string name="notTitle">حان وقت الصلاة</string>
     <string name="notContent">حان وقت الصلاة</string>
     <string name="teamName"><a href="http://shefrah.com/">تطوير و برمجة فريق شيفرة</a></string>
-    <string name="gpsAndNetworkIsDisabled">جي-بي-إس و أبراج الشبكة غير مفعلة ، لا يمكن تشغيل البحث التلقائي ، يمكنك تشغيلها لاحقاً أو تجربة البحث اليدوي عن طريق الإعدادات</string>
+    <string name="gpsAndNetworkIsDisabled"> لا يمكن الحصول على إحداثيات موقعك الحالي.يجب تفعيل جي-بي-إس أو شبكة الاتصال أو محاولة البحث بطريقة يدوية.</string>
     <string name="pleaseWait">الرجاء الانتظار</string>
     <string name="cancel">إلغاء</string>
     <string name="ok">موافق</string>
@@ -132,5 +133,7 @@
     <string name="cityfinder_home">العودة للواجهة الرئيسية</string>
     <string name="cityfinder_research">إعادة البحث</string>
     <string name="cityfinder_correct">نعم صحيح</string>
-
+    
+    <string name="noInternet">لا يمكن الاتصال بالانترنت.حاول مرة أخرى أو استخدم خيار البحث دون اتصال بالانترنت</string>
+	<string name="noCityInDB">حصل خطأ أثناء البحث عن مدينتك.حاول مرة أخرى أو استخدم خيار البحث عن طريق الانترنت</string>
 </resources>

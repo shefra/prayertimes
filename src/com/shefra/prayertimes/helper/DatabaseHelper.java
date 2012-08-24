@@ -125,7 +125,7 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 	}
 	
 	// get country details based on country id 
-	// useful when read country id frrom xml preference
+	// useful when read country id from xml preference
 	
 	public Country getCountry(int countrId) {
 		SQLiteDatabase db;

@@ -49,7 +49,6 @@ public class CityFinderManual extends Activity {
 			countrySpinner.setSelection(Integer.valueOf(preference.city.country.id)-1);
 			this.fillCitySpinner(Long.parseLong(preference.city.country.id));
 
-			
 			countrySpinner
 					.setOnItemSelectedListener(new OnItemSelectedListener() {
 
@@ -80,6 +79,7 @@ public class CityFinderManual extends Activity {
 					City city = databaseHelper.getCity(id);
 					Manager manager = new Manager(CityFinderManual.this);
 					manager.updateCity(city, CityFinderManual.this);
+					databaseHelper.close();
 					Intent intent = new Intent(CityFinderManual.this,
 							MainActivity.class);
 					startActivity(intent);
@@ -132,6 +132,7 @@ public class CityFinderManual extends Activity {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		this.countrySpinner.setAdapter(adapter);
+		cursor.close();
 
 	}
 
@@ -149,7 +150,8 @@ public class CityFinderManual extends Activity {
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		this.citySpinner.setAdapter(adapter);
-
+		cursor.close();
 	}
 
+	
 }

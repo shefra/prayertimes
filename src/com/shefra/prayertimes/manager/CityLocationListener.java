@@ -18,88 +18,93 @@ public class CityLocationListener implements LocationListener {
 	Context context;
 	private Integer objectType;
 
-
-	public CityLocationListener(Context context,Integer objectType) {
+	public CityLocationListener(Context context, Integer objectType) {
 		this.context = context;
 		this.objectType = objectType;
 	}
+
 	public void startSearch() {
-		try{
-		locManager = (LocationManager) context
-				.getSystemService(Context.LOCATION_SERVICE);
+		try {
+			locManager = (LocationManager) context
+					.getSystemService(Context.LOCATION_SERVICE);
 
-		// If the network provider works run it , else try GPS provider
-		// TODO : what will happen if GPS and Network providers are not
-		// supported ?
+			// If the network provider works run it , else try GPS provider
+			// TODO : what will happen if GPS and Network providers are not
+			// supported ?
 
-		if (!locManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-			// the last parameter is Location Listener which is this object
-			// since we implement LocationListener Interface
-			// read more on Android
-			locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0,
-					0, this);
-		} else {
-			// the last parameter is Location Listener which is this object
-			// since we implement LocationListener Interface
-			// read more on Android
-			locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-					0, 0, this);
+			if (!locManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+				// the last parameter is Location Listener which is this object
+				// since we implement LocationListener Interface
+				// read more on Android
+				if (locManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+					locManager.requestLocationUpdates(
+							LocationManager.GPS_PROVIDER, 0, 0, this);
+				} else {
+					CityFinder finder = (CityFinder) context;
+					finder.onSearchStopped(null);
+				}
+			} else {
+				// the last parameter is Location Listener which is this object
+				// since we implement LocationListener Interface
+				// read more on Android
+				locManager.requestLocationUpdates(
+						LocationManager.NETWORK_PROVIDER, 0, 0, this);
 
-		}
-		}catch(Exception e){
+			}
+		} catch (Exception e) {
 			e = e;
 
 		}
 
 	}
 
-//	private int updateLocation(Location location) {
-//		if (location != null) {
-//			final double lat = location.getLatitude();
-//			final double lng = location.getLongitude();
-//
-//		 	 		try {
-//						Manager manager = new Manager(context);
-//						manager.findCurrentCity(lat, lng);
-//						// update main activity since the city name is changed
-//						// just update all views
-//
-//					} catch (Exception e) {
-//						return -1;
-//						
-//					}
-//			
-//		}
-//		locManager.removeUpdates(this);
-//		CityFinder cityFinder = (CityFinder) context;
-//		cityFinder.stopSearch();
-//		return 0 ; // successful 
-//	}
+	// private int updateLocation(Location location) {
+	// if (location != null) {
+	// final double lat = location.getLatitude();
+	// final double lng = location.getLongitude();
+	//
+	// try {
+	// Manager manager = new Manager(context);
+	// manager.findCurrentCity(lat, lng);
+	// // update main activity since the city name is changed
+	// // just update all views
+	//
+	// } catch (Exception e) {
+	// return -1;
+	//
+	// }
+	//
+	// }
+	// locManager.removeUpdates(this);
+	// CityFinder cityFinder = (CityFinder) context;
+	// cityFinder.stopSearch();
+	// return 0 ; // successful
+	// }
 
 	public void stopSearch() {
 		if (locManager != null)
-			locManager.removeUpdates(this);
+			locManager.removeUpdates(this); 
 	}
 
 	// Location Listener implementation
 	// read Android doc for more info
-	// this methods is triggered when new location ( latitiude and longitude ) is found by the system
-	private void updateWithNewLocation(Location location) {
+	// this methods is triggered when new location ( latitiude and longitude )
+	// is found by the system
+	public void updateWithNewLocation(Location location) {
 		String latLongString = "";
 
 		if (location != null) {
-			double lat = location.getLatitude();
+			double lat = location.getLatitude(); 
 			double lng = location.getLongitude();
-
 
 		}
 
-		// ok , we don't need this listener anymore :) 
-		locManager.removeUpdates(this);
+		// ok , we don't need this listener anymore :)
+		this.stopSearch();
 		// and hide the waiting dialog
-		CityFinder finder= (CityFinder) context;
-		finder.stopSearch(location);
-			
+		CityFinder finder = (CityFinder) context;
+		finder.onSearchStopped(location);
+
 	}
 
 	// read Android Docs
@@ -113,9 +118,11 @@ public class CityLocationListener implements LocationListener {
 	}
 
 	public void onProviderEnabled(String provider) {
+		provider = provider ;
 	}
 
 	public void onStatusChanged(String provider, int status, Bundle extras) {
+		provider = provider ;
 	}
 
 }
