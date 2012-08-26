@@ -1,5 +1,6 @@
 package com.shefra.prayertimes.helper;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,30 +42,35 @@ public class DatabaseHelper  extends SQLiteOpenHelper {
 		return DB_NAME;
 	}
 
-	// used to know if the database is installed or not
+//	// used to know if the database is installed or not
+//	private boolean checkDataBase() {
+//		SQLiteDatabase checkDB = null;
+//		try{
+//				
+//			try{
+//				String myPath = DB_PATH + DB_NAME;
+//				checkDB = SQLiteDatabase.openDatabase(myPath, null,
+//						SQLiteDatabase.OPEN_READONLY);
+//			} catch (SQLiteException e) {
+//				// database does't exist yet.
+//			}
+//		
+//			if (checkDB != null) {
+//				checkDB.close();
+//			}
+//		
+//		}catch(Exception e){
+//			Log.e("Tomaanina", e.getMessage(),e.getCause());
+//		}
+//		return checkDB != null ? true : false;
+//
+//	}
+	// suggested by sultan
 	private boolean checkDataBase() {
-		SQLiteDatabase checkDB = null;
-		try{
-				
-			try{
-				String myPath = DB_PATH + DB_NAME;
-				checkDB = SQLiteDatabase.openDatabase(myPath, null,
-						SQLiteDatabase.OPEN_READONLY);
-			} catch (SQLiteException e) {
-				// database does't exist yet.
-			}
-		
-			if (checkDB != null) {
-				checkDB.close();
-			}
-		
-		}catch(Exception e){
-			Log.e("Tomaanina", e.getMessage(),e.getCause());
-		}
-		return checkDB != null ? true : false;
-
+	    File checkDB = new File(DB_PATH + DB_NAME);
+	    return checkDB.exists();
 	}
-
+	
 	// copy the database from assets folder to data folder (system folder)
 	// Android system does not allow to access the database from assets folder
 
