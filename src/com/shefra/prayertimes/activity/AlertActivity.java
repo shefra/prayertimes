@@ -8,6 +8,7 @@ package com.shefra.prayertimes.activity;
 //import com.AzizHuss.ArabicRehaper.ArabicReshape;
 import com.shefra.prayertimes.R;
 import com.shefra.prayertimes.activity.*;
+import com.shefra.prayertimes.helper.Typefaces;
 import com.shefra.prayertimes.manager.Manager;
 
 import android.app.Activity;
@@ -47,6 +48,7 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 		String ardroid = getString(R.string.azandoaa);
 
 		TextView azanDoaa = (TextView) findViewById(R.id.azandoaa);
+		azanDoaa.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/DroidNaskh-Regular.ttf"));
 		azanDoaa.setText(ardroid);
 
 		try {

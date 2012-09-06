@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="hello">Hello World, PreferenceActivityActivity!</string>
     <string name="app_name">طمأنينة</string>
 
     <string name="am">ص</string>
@@ -43,7 +42,7 @@
         <item name="minutes20">20 دقيقة</item>
     </string-array>
     <string-array name="silentStartEntryValues">
-        <item name="immediately">0</item>
+        <item name="immediately">2</item>
         <item name="minutes10">10</item>
         <item name="minutes20">20</item>
     </string-array>
@@ -124,7 +123,7 @@
     <string name="ishatxt">العشاء</string>
     <string name="remaintxt">الصلاة القادمة بعد</string>
     <string name="citytxt">المدينة</string>
-    <string name="azandoaa">اللهم ربَّ هذه الدعوة ، والصلاة القائمة ، آت محمداً الوسيلة والفضيلة ، وابعثه اللهم مقاماً محموداً الذي وعدته.</string>
+    <string name="azandoaa">اللهم ربَّ هذه الدعوة التامة ، والصلاة القائمة ، آت محمداً الوسيلة والفضيلة ، وابعثه اللهم مقاماً محموداً الذي وعدته.</string>
     <string name="cityfinder_desc">الإعدادات تظهر أن مدينتك الحالية هي:</string>
     <string name="cityfinder_desc2">نتيجة البحث تظهر أن موقعك في مدينة:</string>
     <string name="cityfinder_searchInternet"> البحث عن طريق الانترنت</string>
@@ -136,4 +135,7 @@
     
     <string name="noInternet">لا يمكن الاتصال بالانترنت.حاول مرة أخرى أو استخدم خيار البحث دون اتصال بالانترنت</string>
 	<string name="noCityInDB">حصل خطأ أثناء البحث عن مدينتك.حاول مرة أخرى أو استخدم خيار البحث عن طريق الانترنت</string>
+	<string name="manualSearchDesc">اختر الدولة ثم المدينة التي تتواجد بها الآن ، سيتم حفظ المدينة وتحديث إعدادات التطبيق. إذا لم تجد المدينة في القائمة ولم تستطع إيجادها عن طريق البحث التلقائي ، قم بمراسلتنا لنضيف مدينتك لقائمة المدن.</string>
+	<string name="cityUpdated">لقد تم تحديث موقعك الحالي بنجاح</string>
+	<string name="manualSearchSave">تحديث المدينة</string>
 </resources>

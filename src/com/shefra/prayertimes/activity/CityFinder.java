@@ -35,6 +35,7 @@ import org.xml.sax.SAXException;
 
 import com.shefra.prayertimes.R;
 import com.shefra.prayertimes.R.id;
+import com.shefra.prayertimes.helper.Typefaces;
 import com.shefra.prayertimes.manager.City;
 import com.shefra.prayertimes.manager.CityLocationListener;
 import com.shefra.prayertimes.manager.Manager;
@@ -91,6 +92,9 @@ public class CityFinder extends Activity {
 		try {
 			descTextView = (TextView) findViewById(R.id.dlgMsg);
 			resultTextView = (TextView) findViewById(R.id.resultTextView);
+			descTextView.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/DroidNaskh-Regular.ttf"));
+			resultTextView.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/DroidNaskh-Regular.ttf"));
+			
 			findCityNoInternet = (Button) findViewById(R.id.findCityNoInternet);
 			findCityUsingInternet = (Button) findViewById(R.id.findCityUsingInternet);
 			noSearchButton = (Button) findViewById(R.id.nosearch);
@@ -98,7 +102,10 @@ public class CityFinder extends Activity {
 			homeButton = (Button) findViewById(R.id.findCityHome);
 			correctButton = (Button) findViewById(R.id.findCityCorrect);
 			researchButton = (Button) findViewById(R.id.findCityResearcht);
-
+			homeButton.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/DroidNaskh-Regular.ttf"));
+			correctButton.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/DroidNaskh-Regular.ttf"));
+			researchButton.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/DroidNaskh-Regular.ttf"));
+			
 			progressDialog = (ProgressBar) findViewById(R.id.progressBar1);
 			progressDialog.setVisibility(View.GONE);
 			Manager m = new Manager(this);

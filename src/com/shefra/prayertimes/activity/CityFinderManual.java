@@ -4,6 +4,7 @@ import com.shefra.prayertimes.R;
 import com.shefra.prayertimes.R.id;
 import com.shefra.prayertimes.R.layout;
 import com.shefra.prayertimes.helper.DatabaseHelper;
+import com.shefra.prayertimes.helper.Typefaces;
 import com.shefra.prayertimes.manager.City;
 import com.shefra.prayertimes.manager.Manager;
 import com.shefra.prayertimes.manager.Preference;
@@ -23,6 +24,8 @@ import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class CityFinderManual extends Activity {
 
@@ -42,9 +45,13 @@ public class CityFinderManual extends Activity {
 			this.setContentView(R.layout.cityfindermanual);
 
 			databaseHelper = new DatabaseHelper(getApplicationContext());
+			TextView textView = (TextView)findViewById(R.id.textView1);
+			textView.setTypeface(Typefaces.get(this.getBaseContext(), "fonts/DroidNaskh-Regular.ttf"));
+			
 
 			citySpinner = (Spinner) findViewById(R.id.citySpinner);
 			countrySpinner = (Spinner) findViewById(R.id.countrySpinner);
+			
 			Manager manager = new Manager(this);
 			preference = manager.getPreference();
 			preference.fetchCurrentPreferences();
@@ -71,11 +78,10 @@ public class CityFinderManual extends Activity {
 						}
 
 					});
-
-			saveButton = (Button) findViewById(R.id.save);
-			caneclButton = (Button) findViewById(R.id.cancel);
-
-			saveButton.setOnClickListener(new OnClickListener() {
+		
+			
+			this.saveButton = (Button)findViewById(R.id.saveButton);
+			this.saveButton.setOnClickListener(new OnClickListener(){
 
 				public void onClick(View arg0) {
 					try {
@@ -83,26 +89,16 @@ public class CityFinderManual extends Activity {
 						City city = databaseHelper.getCity(id);
 						Manager manager = new Manager(CityFinderManual.this);
 						manager.updateCity(city, CityFinderManual.this);
+						Toast.makeText(CityFinderManual.this, CityFinderManual.this.getString(R.string.cityUpdated), Toast.LENGTH_SHORT).show();
 						Intent intent = new Intent(CityFinderManual.this,
 								MainActivity.class);
 						startActivity(intent);
 					} catch (Exception e) {
 						Log.e("tomaanina", e.getMessage(), e.getCause());
-					}
+					}					
 				}
-
+				
 			});
-
-			caneclButton.setOnClickListener(new OnClickListener() {
-
-				public void onClick(View arg0) {
-					Intent intent = new Intent(CityFinderManual.this,
-							MainActivity.class);
-					startActivity(intent);
-				}
-
-			});
-
 		} catch (Exception e) {
 			Log.e("tomaanina", e.getMessage(), e.getCause());
 		}
@@ -110,10 +106,10 @@ public class CityFinderManual extends Activity {
 
 	public void onStart() {
 		super.onStart();
-		if (databaseHelper != null) {
-			databaseHelper.close();
-		}
-		databaseHelper = new DatabaseHelper(getApplicationContext());
+//		if (databaseHelper != null) {
+//			databaseHelper.close();
+//		}
+//		databaseHelper = new DatabaseHelper(getApplicationContext());
 	}
 
 	private int getItemPosition(Spinner spinner, String name) {
@@ -158,18 +154,19 @@ public class CityFinderManual extends Activity {
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
 		this.citySpinner.setAdapter(cityAdapter);
+		
 	}
 
 	public void onStop() {
-		super.onStop();
-		SimpleCursorAdapter a = (SimpleCursorAdapter) this.countrySpinner
-				.getAdapter();
-		a.getCursor().close();
-		SimpleCursorAdapter b = (SimpleCursorAdapter) this.citySpinner
-				.getAdapter();
-		b.getCursor().close();
-
-		databaseHelper.close();
+	super.onStop();
+//		SimpleCursorAdapter a = (SimpleCursorAdapter) this.countrySpinner
+//				.getAdapter();
+//		a.getCursor().close();
+//		SimpleCursorAdapter b = (SimpleCursorAdapter) this.citySpinner
+//				.getAdapter();
+//		b.getCursor().close();
+//
+//		databaseHelper.close();
 
 	}
 

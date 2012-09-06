@@ -62,7 +62,7 @@ public class MainActivity extends Activity {
 		// in the user device.
 		
 		Preference pref = m.getPreference();
-        if(!pref.isFirstStart())
+        if(pref.isFirstStart())
         {
         	// run some stuff at first time
         	// e.g. search for the use city 

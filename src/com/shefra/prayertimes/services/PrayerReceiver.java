@@ -43,7 +43,7 @@ public class PrayerReceiver extends BroadcastReceiver {
 	private SharedPreferences pref;
 	private Editor editor;
 	private int silentDuration;
-	private int soundTrackDuration = 60 * 1000; // Azan sound track duration
+	private int silentStart ;
 	private int delayMilliSeconds = 1000 * 60;  // one minute by default.
 	private Object obj;
 
@@ -56,6 +56,7 @@ public class PrayerReceiver extends BroadcastReceiver {
 		Manager m = new Manager(context);
 		Preference p = m.getPreference();
 		this.silentDuration = p.getSilentDuration();
+		this.silentStart = p.getSilentStart();
 		Log.i("com.shefrah.prayertimes","SilentDuration:"+ this.silentDuration);
 		editor = pref.edit();
 		try {
@@ -144,7 +145,7 @@ public class PrayerReceiver extends BroadcastReceiver {
 		
 
 		prayerState.setNextState(PrayerState.WAITING_PRAYER);
-		this.delayMilliSeconds = soundTrackDuration;
+		this.delayMilliSeconds = this.silentStart;
 		Manager.playAzanNotification(context);
 		//this.postDelayed((Runnable)obj, delayMilliSeconds );
 		Manager.updatePrayerAlarm(delayMilliSeconds);

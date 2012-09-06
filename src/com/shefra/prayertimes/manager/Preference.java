@@ -26,6 +26,7 @@ public class Preference {
 	public static String  DEFAULT_MAZHAB = "Default"; 
 	public static String  DEFAULT_SEASON = "Winter"; 
 	public static Integer DEFAULT_SILENT_DURATION = 20 * 60 * 1000;
+	public static Integer DEFAULT_SILENT_START= 2 * 60 * 1000;
 	public Preference(Context context) {
 		this.context = context;
 	}
@@ -127,6 +128,11 @@ public class Preference {
 		return pref.getBoolean("disable",false);
 	}
 	
+	public int getSilentStart(){
+		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
+		return Integer.parseInt(pref.getString("silentStart",Integer.toString(DEFAULT_SILENT_START))) * 60 * 1000;		
+	}
+
 	public Map<String, ?> getAll(){
 		SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context);
 		return pref.getAll();
