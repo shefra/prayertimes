@@ -352,6 +352,7 @@ public class Manager {
 			intent = new Intent(context, AlertActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 					| Intent.FLAG_ACTIVITY_NO_HISTORY);
+			intent.putExtra("runFromService", true);
 			context.startActivity(intent);
 		} else if (!(azanMode.equals("disable"))
 				&& (azanMode.equals("short") || (am.getRingerMode() == AudioManager.RINGER_MODE_SILENT || am

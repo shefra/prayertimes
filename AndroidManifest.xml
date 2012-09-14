@@ -21,19 +21,22 @@
         android:label="@string/app_name" >
         <activity
             android:name=".activity.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.SettingsActivity" >
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activity.AlertActivity"
             android:noHistory="true"
-            android:screenOrientation="nosensor" >
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.Alert" />
 
@@ -42,9 +45,11 @@
         </activity>
         <activity
             android:name=".activity.About"
-            android:screenOrientation="nosensor" >
+            android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="android.intent.action.About" />
+                <action
+                    android:name="android.intent.action.About"
+                    android:excludeFromRecents="true" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -65,9 +70,13 @@
         <service android:name=".services.PrayerService" >
         </service>
 
-        <activity android:name=".activity.CityFinder" >
+        <activity
+            android:name=".activity.CityFinder"
+            android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".activity.CityFinderManual" >
+        <activity
+            android:name=".activity.CityFinderManual"
+            android:screenOrientation="portrait" >
         </activity>
     </application>
 

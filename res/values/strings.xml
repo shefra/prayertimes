@@ -2,10 +2,9 @@
 <resources>
 
     <string name="app_name">طمأنينة</string>
-
     <string name="am">ص</string>
     <string name="pm">م</string>
-    
+
     <string-array name="mazhab">
         <item name="1">حنفي</item>
         <item name="2">شافعي...</item>
@@ -113,7 +112,8 @@
     <string name="ok">موافق</string>
     <string name="noLocationFound">لم يتم العثور على مدينة في موقعك الحالي</string>
     <string name="dialogAutoSearchMessage">سيتم البحث بإستخدام أبراج الشبكة أو خدمة جي-بي-إس ، تأكد من تفعيل إحدى الخدمتين ليتم العثور على المدينة</string>
-    <string name="version">1.0.2 Beta</string>
+    <string name="version">1.1 Final Release</string>
+    <string name="website">http://www.shefrah.com</string>
     <string name="calcMethodTitle">طريقة الحساب</string>
     <string name="calcMethodDlgTitle">طريقة الحساب</string>
     <string name="fajrtxt">الفجر</string>
@@ -132,10 +132,21 @@
     <string name="cityfinder_home">العودة للواجهة الرئيسية</string>
     <string name="cityfinder_research">إعادة البحث</string>
     <string name="cityfinder_correct">نعم صحيح</string>
-    
     <string name="noInternet">لا يمكن الاتصال بالانترنت.حاول مرة أخرى أو استخدم خيار البحث دون اتصال بالانترنت</string>
-	<string name="noCityInDB">حصل خطأ أثناء البحث عن مدينتك.حاول مرة أخرى أو استخدم خيار البحث عن طريق الانترنت</string>
-	<string name="manualSearchDesc">اختر الدولة ثم المدينة التي تتواجد بها الآن ، سيتم حفظ المدينة وتحديث إعدادات التطبيق. إذا لم تجد المدينة في القائمة ولم تستطع إيجادها عن طريق البحث التلقائي ، قم بمراسلتنا لنضيف مدينتك لقائمة المدن.</string>
-	<string name="cityUpdated">لقد تم تحديث موقعك الحالي بنجاح</string>
-	<string name="manualSearchSave">تحديث المدينة</string>
+    <string name="noCityInDB">حصل خطأ أثناء البحث عن مدينتك.حاول مرة أخرى أو استخدم خيار البحث عن طريق الانترنت</string>
+    <string name="manualSearchDesc">اختر الدولة ثم المدينة التي تتواجد بها الآن ، سيتم حفظ المدينة وتحديث إعدادات التطبيق. إذا لم تجد المدينة في القائمة ولم تستطع إيجادها عن طريق البحث التلقائي ، قم بمراسلتنا لنضيف مدينتك لقائمة المدن.</string>
+    <string name="cityUpdated">لقد تم تحديث موقعك الحالي بنجاح</string>
+    <string name="manualSearchSave">تحديث المدينة</string>
+    <string name="contact_us">تواصل معنا</string>
+    <string name="feedback">أبلغ عن مشكلة</string>
+    <string name="feedbackEmail">shefrahteam@gmail.com</string>
+    <string name="feedbackSubject">[طمأنينة][feedback]</string>
+    <string name="feedbackBody">لا تنسى إضافة معلومات عن نوع جهازك و النظام الذي يعمل عليه</string>
+    <string name="feedbackChooserString">اختر تطبيق الإيميل</string>
+	<string name="feedbackFailed">لا يمكن العثور على تطبيق  للبريد الإلكتروني على جهازك</string>
+    <string name="contactusEmail">shefrahteam@gmail.com</string>
+    <string name="contactusSubject">[طمأنينة][general]</string>
+    <string name="contactusBody">لا تنسى إضافة معلومات عن نوع جهازك و النظام الذي يعمل عليه</string>
+    <string name="contactusChooserString">اختر تطبيق الإيميل</string>
+	<string name="contactusFailed">لا يمكن العثور على تطبيق  للبريد الإلكتروني على جهازك</string>
 </resources>

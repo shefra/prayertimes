@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:layout_marginBottom="40dp"
-    android:background="@drawable/background"
+    android:background="@drawable/secondary_background"
     android:orientation="vertical" >
 
     <Button
@@ -43,6 +42,7 @@
         android:id="@+id/findCityUsingInternet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/resultTextView"
@@ -78,7 +78,7 @@
         android:layout_marginBottom="20dp"
         android:gravity="center"
         android:text="@string/cityfinder_desc"
-        android:textColor="#fff" />
+        android:textColor="#444" />
 
     <TextView
         android:id="@+id/resultTextView"
@@ -88,7 +88,7 @@
         android:layout_centerVertical="true"
         android:gravity="center"
         android:text="  "
-        android:textColor="#fff" />
+        android:textColor="#444" />
 
     <ProgressBar
         android:id="@+id/progressBar1"

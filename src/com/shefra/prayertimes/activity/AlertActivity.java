@@ -13,6 +13,7 @@ import com.shefra.prayertimes.manager.Manager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Bundle;
@@ -35,8 +36,18 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 
 		/*
 		 * This code together with the one in onDestroy() will make the screen
-		 * be always on until this Activity gets destroyed.
+		 * be always on until this Activity destroyed.
 		 */
+		
+		Intent intent = this.getIntent();
+		if(intent.getBooleanExtra("runFromService", false) == false)
+		{
+			Intent intent2 = new Intent(this,MainActivity.class);
+			this.startActivity(intent2);
+			this.finish();
+		}else{
+			intent.putExtra("runFromService", true);
+		}
 		 PowerManager pm = (PowerManager) this.getApplicationContext().getSystemService(Context.POWER_SERVICE);
 	        wakeLock = pm.newWakeLock((PowerManager.SCREEN_BRIGHT_WAKE_LOCK | PowerManager.FULL_WAKE_LOCK | PowerManager.ACQUIRE_CAUSES_WAKEUP), "TAG");
 	       wakeLock.acquire();
@@ -84,4 +95,9 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 		finish();
 	}
 
+	public void onStop(){
+		super.onStop();
+		// TODO :
+		// we might need to finish() this activity and set a flag runFromService from here.. ?
+	}
 }
