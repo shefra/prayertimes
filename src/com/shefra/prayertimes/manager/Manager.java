@@ -396,9 +396,14 @@ public class Manager {
 		pref.setLongitude(city.longitude);
 		pref.setLatitude(city.latitude);
 		pref.setTimeZone(city.timeZone);
-		this.restartPrayerService(activity);
-	}
 
+    	Manager.cancelPrayerAlarm();
+    	Manager.initPrayerState(Manager.prayerService);
+		Manager.initPrayerAlarm(Manager.prayerService,PrayerReceiver.class);
+    	
+	}
+	
+	// it does not work ? 
 	public void restartPrayerService(Activity activty) {
 		Intent intent = new Intent(activty, PrayerService.class);
 		context.startService(intent);
