@@ -62,7 +62,7 @@ public class CityFinder extends Activity {
 
 	protected static final int SEARCH_TYPE_DATABASE = 1;
 	protected static final int SEARCH_TYPE_INTERNET = 2;
-	public static final int SEARCH_TIME = 12000;
+	public static final int SEARCH_TIME = 1000 * 120;
 	private CityLocationListener cityLoc;
 	private com.shefra.prayertimes.activity.CityFinder.CityFinderTask cityFinderTask;
 	public City city;
