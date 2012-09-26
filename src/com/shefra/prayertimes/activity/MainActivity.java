@@ -49,7 +49,7 @@ public class MainActivity extends Activity {
 			databaseHelper.createDatabase();
 			databaseHelper.close();
 		} catch (IOException e) {
-			Log.e("tomaanina",e.getCause() + ":" + e.getMessage());
+			//Log.e("tomaanina",e.getCause() + ":" + e.getMessage());
 		}
 		
 		// initialize the view objects with the data
@@ -171,7 +171,7 @@ public class MainActivity extends Activity {
 				
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			Log.e("tomaanina",e.getCause() + " : " + e.getMessage());
+			//Log.e("tomaanina",e.getCause() + " : " + e.getMessage());
 		}
 
 		

@@ -42,7 +42,7 @@ public class PrayerService extends Service {
 			//prayerHandler.postDelayed(mUpdateTimeTask, 10000); // as soon as possible ( 10 seconds )
 
 		} catch (Exception e) {
-			Log.e("onCreateService", e.getMessage(), e.getCause());
+			//Log.e("onCreateService", e.getMessage(), e.getCause());
 		}
 
 	}

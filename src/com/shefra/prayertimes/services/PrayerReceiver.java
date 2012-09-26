@@ -57,7 +57,7 @@ public class PrayerReceiver extends BroadcastReceiver {
 		Preference p = m.getPreference();
 		this.silentDuration = p.getSilentDuration();
 		this.silentStart = p.getSilentStart();
-		Log.i("com.shefrah.prayertimes","SilentDuration:"+ this.silentDuration);
+		//Log.i("com.shefrah.prayertimes","SilentDuration:"+ this.silentDuration);
 		editor = pref.edit();
 		try {
 			
@@ -82,7 +82,7 @@ public class PrayerReceiver extends BroadcastReceiver {
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			Log.e("com.shefrah.prayertimes", e.getMessage());
+			//Log.e("com.shefrah.prayertimes", e.getMessage());
 		}
 		
 	}
@@ -98,8 +98,8 @@ public class PrayerReceiver extends BroadcastReceiver {
 
 	private void onWaitingAzan() {
 		try {
-			Log.i("com.shefrah.prayertimes",
-					"WAITING_AZAN:" + Long.toString(System.currentTimeMillis()));
+			//Log.i("com.shefrah.prayertimes",
+			//"WAITING_AZAN:" + Long.toString(System.currentTimeMillis()));
 
 			// change it to normal mode only if you are not waiting the prayer (
 			// out of the prayer time)
@@ -130,22 +130,24 @@ public class PrayerReceiver extends BroadcastReceiver {
 			// ok , come back after X seconds to do the Azan
 			prayerState.setNextState(PrayerState.DOING_AZAN);
 			this.delayMilliSeconds = deffTime;
-			Log.i("com.shefrah.prayertimes","AZAN_AFTER:" + deffTime);
+			//Log.i("com.shefrah.prayertimes","AZAN_AFTER:" + deffTime);
 			//this.postDelayed((Runnable)obj, delayMilliSeconds );
 			Manager.updatePrayerAlarm(delayMilliSeconds);
 
 		} catch (Exception e) {
-			Log.e("com.shefrah.prayertimes", e.getMessage());
+			//Log.e("com.shefrah.prayertimes", e.getMessage());
 		}
 	}
 
 	private void onDoingAzan() {
-		Log.i("com.shefrah.prayertimes",
-				"DOING_AZAN:" + Long.toString(System.currentTimeMillis()));
+		//Log.i("com.shefrah.prayertimes",
+		//		"DOING_AZAN:" + Long.toString(System.currentTimeMillis()));
 		
 
 		prayerState.setNextState(PrayerState.WAITING_PRAYER);
 		this.delayMilliSeconds = this.silentStart;
+		if(this.delayMilliSeconds < 2000*60)
+			this.delayMilliSeconds =2000*60; // two minutes  - at lease  
 		Manager.playAzanNotification(context);
 		//this.postDelayed((Runnable)obj, delayMilliSeconds );
 		Manager.updatePrayerAlarm(delayMilliSeconds);
@@ -154,7 +156,7 @@ public class PrayerReceiver extends BroadcastReceiver {
 	}
 
 	private void onWaitingPrayer() {
-		Log.i("com.shefrah.prayertimes","WAITING_PRAYER:" + Long.toString(System.currentTimeMillis()));
+		//Log.i("com.shefrah.prayertimes","WAITING_PRAYER:" + Long.toString(System.currentTimeMillis()));
 		Manager manager = new Manager(this.context);
 		Preference preference = manager.getPreference();
 		AudioManager am = (AudioManager)context.getSystemService(Context.AUDIO_SERVICE);

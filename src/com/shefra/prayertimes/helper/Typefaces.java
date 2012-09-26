@@ -22,8 +22,8 @@ public class Typefaces {
 							assetPath);
 					cache.put(assetPath, t);
 				} catch (Exception e) {
-					Log.e(TAG, "Could not get typeface '" + assetPath
-							+ "' because " + e.getMessage());
+					//Log.e(TAG, "Could not get typeface '" + assetPath
+					//		+ "' because " + e.getMessage());
 					return null;
 				}
 			}

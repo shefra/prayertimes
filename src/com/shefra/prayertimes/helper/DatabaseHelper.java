@@ -271,7 +271,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			cur.close();
 			db.close();
 		} catch (Exception e) {
-			Log.e("tomaanina", e.getMessage(), e.getCause());
+			//Log.e("tomaanina", e.getMessage(), e.getCause());
 		}
 		return city;
 	}

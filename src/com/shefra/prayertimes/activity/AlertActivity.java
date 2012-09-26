@@ -92,8 +92,10 @@ public class AlertActivity extends Activity implements OnCompletionListener {
 	}
 
 	public void onCompletion(MediaPlayer mp) {
-		finish();
-	}
+		Intent intent2 = new Intent(this,MainActivity.class);
+		this.startActivity(intent2);
+		this.finish();
+		}
 
 	public void onStop(){
 		super.onStop();

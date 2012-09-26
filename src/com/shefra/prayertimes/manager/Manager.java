@@ -342,7 +342,7 @@ public class Manager {
 		Intent intent;
 		SharedPreferences pref = PreferenceManager
 				.getDefaultSharedPreferences(context);
-		String azanMode = pref.getString("notSound", "full");
+		String azanMode = pref.getString("notSound", "short");
 		AudioManager am = (AudioManager) context
 				.getSystemService(Context.AUDIO_SERVICE);
 

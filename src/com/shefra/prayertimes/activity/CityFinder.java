@@ -64,7 +64,7 @@ public class CityFinder extends Activity {
 	protected static final int SEARCH_TYPE_INTERNET = 2;
 	public static final int SEARCH_TIME = 12000;
 	private CityLocationListener cityLoc;
-	private com.shefra.prayertimes.activity.CityFinder.CityFinderDatabaseTask cityFinderDatabaseTask;
+	private com.shefra.prayertimes.activity.CityFinder.CityFinderTask cityFinderTask;
 	public City city;
 	protected int searchType;
 	int TIME_ZONE = 0, CITY_DATA = 1;
@@ -124,7 +124,7 @@ public class CityFinder extends Activity {
 						CityFinder.this.waitSearch(SEARCH_TIME);
 
 					} catch (Exception e) {
-						Log.e("tomaanina", e.getMessage(), e.getCause());
+						//Log.e("tomaanina", e.getMessage(), e.getCause());
 					}
 				}
 
@@ -142,7 +142,7 @@ public class CityFinder extends Activity {
 						CityFinder.this.waitSearch(SEARCH_TIME);
 
 					} catch (Exception e) {
-						Log.e("tomaanina", e.getMessage(), e.getCause());
+						//Log.e("tomaanina", e.getMessage(), e.getCause());
 					}
 				}
 
@@ -197,7 +197,7 @@ public class CityFinder extends Activity {
 				}
 			});
 		} catch (Exception e) {
-			Log.e("tomaanina", e.getMessage(), e.getCause());
+			//Log.e("tomaanina", e.getMessage(), e.getCause());
 		}
 	}
 
@@ -234,12 +234,12 @@ public class CityFinder extends Activity {
 
 		// }
 		this.myTimer.cancel();
-		cityFinderDatabaseTask = new CityFinderDatabaseTask();
-		this.cityFinderDatabaseTask.execute(new Location[] { location });
+		cityFinderTask = new CityFinderTask();
+		this.cityFinderTask.execute(new Location[] { location });
 
 	}
 
-	private class CityFinderDatabaseTask extends
+	private class CityFinderTask extends
 			AsyncTask<Location, String, String> {
 		private Location loc;
 
@@ -248,7 +248,7 @@ public class CityFinder extends Activity {
 			try {
 				super.onPreExecute();
 			} catch (Exception e) {
-				Log.e("", e.getMessage(), e.getCause());
+				//Log.e("", e.getMessage(), e.getCause());
 			}
 		}
 
@@ -283,7 +283,7 @@ public class CityFinder extends Activity {
 					}
 				}
 			} catch (Exception e) {
-				Log.e("", e.getMessage(), e.getCause());
+				//Log.e("", e.getMessage(), e.getCause());
 			}
 			return null;
 		}
@@ -346,7 +346,7 @@ public class CityFinder extends Activity {
 									null);
 					AlertDialog alert = builder.create();
 					alert.show();
-					Log.e("tomaanina", e.getMessage(), e.getCause());
+					//Log.e("tomaanina", e.getMessage(), e.getCause());
 				}
 			} else {
 				try {
@@ -373,7 +373,7 @@ public class CityFinder extends Activity {
 									null);
 					AlertDialog alert = builder.create();
 					alert.show();
-					Log.e("tomaanina", e.getMessage(), e.getCause());
+					//Log.e("tomaanina", e.getMessage(), e.getCause());
 				}
 
 			}
@@ -490,7 +490,7 @@ public class CityFinder extends Activity {
 						.getStatusCode();
 
 				if (statusCode != HttpStatus.SC_OK) {
-					Log.e("tomaanina", "Time Out");
+					//Log.e("tomaanina", "Time Out");
 				}
 
 				HttpEntity httpEntity = httpResponse.getEntity();

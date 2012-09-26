@@ -17,7 +17,7 @@ import android.util.Log;
 				 Intent serviceIntent = new Intent(context, PrayerService.class);
 			     context.startService(serviceIntent);
 			 }else{
-				 Log.e("OnBootService", "Received unexpected intent " + intent.toString());
+				 //Log.e("OnBootService", "Received unexpected intent " + intent.toString());
 			 }
 		 }
 	}

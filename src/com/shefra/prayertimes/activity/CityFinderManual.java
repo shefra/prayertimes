@@ -98,13 +98,13 @@ public class CityFinderManual extends Activity {
 								MainActivity.class);
 						startActivity(intent);
 					} catch (Exception e) {
-						Log.e("tomaanina", e.getMessage(), e.getCause());
+						//Log.e("tomaanina", e.getMessage(), e.getCause());
 					}
 				}
 
 			});
 		} catch (Exception e) {
-			Log.e("tomaanina", e.getMessage(), e.getCause());
+			//Log.e("tomaanina", e.getMessage(), e.getCause());
 		}
 	}
 
